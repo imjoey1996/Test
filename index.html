@@ -42,22 +42,28 @@
         .fit-btn:hover { box-shadow: 0 0 15px var(--btn-active-glow); }
         .cancel-btn { background: rgba(255,255,255,0.1); color: var(--text-main); border: 1px solid var(--glass-border); }
 
+        /* --- تصميم التابات الداخلية (Navigation) --- */
+        .server-tabs { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px; width: 100%; }
+        .server-tab { 
+            background: transparent; border: 1px solid rgba(255, 255, 255, 0.2); color: rgba(255, 255, 255, 0.7); 
+            padding: 8px 20px; border-radius: 30px; cursor: pointer; font-weight: 700; font-family: 'Cairo', sans-serif; transition: 0.3s;
+        }
+        .server-tab.active { background: #fff; color: #000; border-color: #fff; box-shadow: 0 0 15px rgba(255,255,255,0.4); }
+
         /* --- تصميم القائمة الرئيسية (Hub) --- */
         #sim-hub {
-            display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; width: 100%; max-width: 600px;
+            display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; width: 100%; max-width: 600px;
         }
         .sim-card {
-            flex: 1; min-width: 240px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--glass-border);
-            border-radius: 16px; padding: 30px 20px; text-align: center; cursor: pointer; transition: 0.3s;
+            flex: 1; min-width: 220px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--glass-border);
+            border-radius: 16px; padding: 25px 15px; text-align: center; cursor: pointer; transition: 0.3s;
         }
-        .sim-card:hover { background: rgba(255, 255, 255, 0.08); transform: translateY(-5px); border-color: rgba(255, 255, 255, 0.3); }
-        .sim-card i { font-size: 40px; color: var(--primary); margin-bottom: 15px; }
-        .sim-card h3 { margin: 0; font-size: 1.2rem; font-weight: 900; }
-        
-        .back-btn { margin-bottom: 20px; align-self: flex-start; }
+        .sim-card:hover { background: rgba(255, 255, 255, 0.08); transform: translateY(-3px); border-color: rgba(255, 255, 255, 0.3); }
+        .sim-card i { font-size: 35px; color: var(--primary); margin-bottom: 12px; }
+        .sim-card h3 { margin: 0; font-size: 1.1rem; font-weight: 900; }
 
         /* --- تصميم الروليت --- */
-        .roulette-container { display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 500px; padding: 25px 20px; gap: 15px; }
+        .roulette-container { display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 500px; padding: 20px; gap: 15px; }
         .roulette-canvas-wrapper { position: relative; margin-bottom: 10px; }
         #rouletteCanvas { border-radius: 50%; box-shadow: 0 0 30px rgba(0,0,0,0.5); border: 4px solid #fff; max-width: 100%; height: auto;}
         .roulette-pointer {
@@ -67,7 +73,7 @@
         }
         .names-input {
             width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); color: #fff;
-            padding: 12px; border-radius: 10px; font-family: 'Cairo', sans-serif; resize: vertical; min-height: 80px; outline: none;
+            padding: 12px; border-radius: 10px; font-family: 'Cairo', sans-serif; resize: vertical; min-height: 70px; outline: none;
         }
         .names-input:focus { border-color: var(--primary); }
         .winner-popup {
@@ -96,106 +102,123 @@
         }
         #billiardsCanvas {
             width: 100%; 
-            max-width: 290px; /* تم تصغير الطاولة */
-            height: auto; aspect-ratio: 400 / 750; border-radius: 12px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.8), inset 0 0 25px rgba(0,0,0,0.9);
+            max-width: 260px; /* تم تصغير الطاولة بشكل ملحوظ */
+            height: auto; aspect-ratio: 300 / 550; border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.8), inset 0 0 15px rgba(0,0,0,0.9);
             touch-action: none; cursor: grab; background: #4a2c11;
         }
         #billiardsCanvas:active { cursor: grabbing; }
         .billiards-status-bar {
             display: flex; justify-content: space-between; align-items: center;
-            width: 100%; max-width: 290px; margin-top: 15px; padding: 0 5px; font-size: 13.5px; color: var(--primary); font-weight: 900;
+            width: 100%; max-width: 260px; margin-top: 10px; padding: 0 5px; font-size: 13.5px; color: var(--primary); font-weight: 900;
         }
 
-        /* حاويات العرض */
-        .view-section { display: none; width: 100%; max-width: 800px; flex-direction: column; align-items: center; }
+        /* حاويات العرض مع تأثير انتقال ناعم */
+        .view-section { display: none; width: 100%; max-width: 800px; flex-direction: column; align-items: center; animation: fadeIn 0.3s ease; }
         .view-section.active { display: flex; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
-    <!-- 1. القائمة الرئيسية (Hub) -->
-    <div id="view-hub" class="view-section active">
-        <h2 class="section-title">مركز المحاكيات</h2>
-        <div id="sim-hub">
-            <div class="sim-card glass-panel" onclick="openSim('roulette')">
-                <i class="fa-solid fa-dharmachakra"></i>
-                <h3>روليت الأسماء</h3>
-                <p style="font-size: 12px; color: var(--text-muted); margin-top: 8px;">عجلة حظ لتدوير واختيار الأسماء العشوائية لترتيب اللاعبين أو توزيعهم.</p>
-            </div>
-            <div class="sim-card glass-panel" onclick="openSim('billiards')">
-                <i class="fa-solid fa-bowling-ball"></i>
-                <h3>محاكي البلياردو</h3>
-                <p style="font-size: 12px; color: var(--text-muted); margin-top: 8px;">محاكي وزنية احترافي لكرات 8-Ball مع مسار التصويب.</p>
+    <section style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+        <h2 class="section-title">قسم المحاكيات | Simulators</h2>
+
+        <!-- التابات العلوية للتبديل داخل نفس السكشن -->
+        <div class="server-tabs" dir="ltr">
+            <button type="button" class="server-tab active" onclick="switchSim('hub', this)"><i class="fa-solid fa-layer-group"></i> القائمة</button>
+            <button type="button" class="server-tab" onclick="switchSim('roulette', this)"><i class="fa-solid fa-dharmachakra"></i> الروليت</button>
+            <button type="button" class="server-tab" onclick="switchSim('billiards', this)"><i class="fa-solid fa-bowling-ball"></i> بلياردو</button>
+        </div>
+
+        <!-- 1. القائمة الرئيسية (Hub) -->
+        <div id="view-hub" class="view-section active">
+            <div id="sim-hub">
+                <div class="sim-card glass-panel" onclick="document.querySelectorAll('.server-tab')[1].click()">
+                    <i class="fa-solid fa-dharmachakra"></i>
+                    <h3>روليت الأسماء</h3>
+                    <p style="font-size: 12px; color: var(--text-muted); margin-top: 8px;">عجلة حظ لتدوير واختيار الأسماء العشوائية.</p>
+                </div>
+                <div class="sim-card glass-panel" onclick="document.querySelectorAll('.server-tab')[2].click()">
+                    <i class="fa-solid fa-bowling-ball"></i>
+                    <h3>محاكي البلياردو</h3>
+                    <p style="font-size: 12px; color: var(--text-muted); margin-top: 8px;">محاكي وزنية احترافي لكرات 8-Ball مع مسار التصويب.</p>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- 2. محاكي الروليت (Roulette) -->
-    <div id="view-roulette" class="view-section">
-        <button class="cancel-btn back-btn" onclick="openSim('hub')"><i class="fa-solid fa-arrow-right"></i> رجوع</button>
-        
-        <div class="glass-panel roulette-container">
-            <div class="roulette-canvas-wrapper">
-                <div class="roulette-pointer"></div>
-                <canvas id="rouletteCanvas" width="320" height="320"></canvas>
-                <div id="winnerPopup" class="winner-popup">الفائز!</div>
-            </div>
-
-            <div style="width: 100%; display: flex; gap: 10px;">
-                <button class="fit-btn" style="flex: 1; height: 42px;" onclick="spinRoulette()"><i class="fa-solid fa-rotate-right"></i> فر العجلة</button>
-            </div>
-            
-            <textarea id="rouletteNames" class="names-input" placeholder="أدخل الأسماء هنا، افصل بينها بفاصلة أو سطر جديد">أحمد, محمد, علي, عمر, سارة, فاطمة</textarea>
-            
-            <div style="width: 100%; display: flex; gap: 10px;">
-                <button class="cancel-btn" style="flex: 1;" onclick="updateRouletteWheel()"><i class="fa-solid fa-check"></i> تحديث الأسماء</button>
-                <button class="cancel-btn" style="flex: 1; color: #ef4444;" onclick="clearRouletteNames()"><i class="fa-solid fa-trash"></i> مسح</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- 3. محاكي البلياردو (Billiards) -->
-    <div id="view-billiards" class="view-section">
-        <button class="cancel-btn back-btn" onclick="openSim('hub')"><i class="fa-solid fa-arrow-right"></i> رجوع</button>
-        
-        <div class="glass-panel billiards-card">
-            <p style="text-align: center; color: var(--text-muted); max-width: 500px; font-size: 13.5px; margin: 0; font-weight: 700;">
-                اسحب الكرة البيضاء للتسديد، أو اسحب أي كرة لتغيير مكانها، مع مسار احترافي.
-            </p>
-
-            <div class="billiards-controls-bar">
-                <div class="billiards-input-box">
-                    <label>الكرات:</label>
-                    <input type="number" id="ballCountInput" min="1" max="15" value="15">
+        <!-- 2. محاكي الروليت (Roulette) -->
+        <div id="view-roulette" class="view-section">
+            <div class="glass-panel roulette-container">
+                <div class="roulette-canvas-wrapper">
+                    <div class="roulette-pointer"></div>
+                    <canvas id="rouletteCanvas" width="300" height="300"></canvas>
+                    <div id="winnerPopup" class="winner-popup">الفائز!</div>
                 </div>
 
-                <button type="button" class="fit-btn" onclick="initPoolBalls('triangle')" style="height: 36px; padding: 0 12px;">
-                    <i class="fa-solid fa-play"></i> مثلث نظامي
-                </button>
+                <div style="width: 100%; display: flex; gap: 10px;">
+                    <button class="fit-btn" style="flex: 1; height: 42px;" onclick="spinRoulette()"><i class="fa-solid fa-rotate-right"></i> فر العجلة</button>
+                </div>
                 
-                <button type="button" class="cancel-btn" onclick="initPoolBalls('clear')" style="height: 36px; padding: 0 12px; color: #ef4444;">
-                    <i class="fa-solid fa-trash"></i> مسح
-                </button>
-            </div>
-
-            <div class="billiards-canvas-container">
-                <canvas id="billiardsCanvas" width="400" height="750"></canvas>
-                <div class="billiards-status-bar">
-                    <span id="billiards-power-text"><i class="fa-solid fa-bolt"></i> القوة: 0%</span>
-                    <span id="billiards-active-balls"><i class="fa-solid fa-circle"></i> الكرات: 15</span>
+                <textarea id="rouletteNames" class="names-input" placeholder="أدخل الأسماء هنا...">YYY, YYY, YYY</textarea>
+                
+                <div style="width: 100%; display: flex; gap: 8px;">
+                    <button class="cancel-btn" style="flex: 1;" onclick="updateRouletteWheel()"><i class="fa-solid fa-check"></i> تحديث</button>
+                    <button class="cancel-btn" style="flex: 1; color: #eab308;" onclick="resetRouletteNames()"><i class="fa-solid fa-rotate-left"></i> إعادة ضبط</button>
+                    <button class="cancel-btn" style="flex: 1; color: #ef4444;" onclick="clearRouletteNames()"><i class="fa-solid fa-trash"></i> مسح</button>
                 </div>
             </div>
         </div>
-    </div>
+
+        <!-- 3. محاكي البلياردو (Billiards) -->
+        <div id="view-billiards" class="view-section">
+            <div class="glass-panel billiards-card">
+                <p style="text-align: center; color: var(--text-muted); max-width: 500px; font-size: 13px; margin: 0; font-weight: 700;">
+                    اسحب الكرة البيضاء للتسديد، أو اسحب أي كرة لتغيير مكانها، مع مسار احترافي.
+                </p>
+
+                <div class="billiards-controls-bar">
+                    <div class="billiards-input-box">
+                        <label>الكرات:</label>
+                        <input type="number" id="ballCountInput" min="1" max="15" value="15">
+                    </div>
+
+                    <button type="button" class="fit-btn" onclick="initPoolBalls('triangle')" style="height: 36px; padding: 0 12px;">
+                        <i class="fa-solid fa-play"></i> مثلث
+                    </button>
+                    
+                    <button type="button" class="cancel-btn" onclick="initPoolBalls('clear')" style="height: 36px; padding: 0 12px; color: #ef4444;">
+                        <i class="fa-solid fa-trash"></i> مسح
+                    </button>
+                </div>
+
+                <div class="billiards-canvas-container">
+                    <!-- الطاولة بأبعاد أصغر وأكثر تناسقاً -->
+                    <canvas id="billiardsCanvas" width="300" height="550"></canvas>
+                    <div class="billiards-status-bar">
+                        <span id="billiards-power-text"><i class="fa-solid fa-bolt"></i> القوة: 0%</span>
+                        <span id="billiards-active-balls"><i class="fa-solid fa-circle"></i> الكرات: 15</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <script>
-        // --- دالة التنقل بين المحاكيات ---
-        function openSim(viewId) {
+        // --- دالة التبديل بين الأقسام (Tabs) ---
+        function switchSim(viewId, btnEl) {
+            // إخفاء كل الأقسام
             document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+            // إظهار القسم المطلوب
             document.getElementById('view-' + viewId).classList.add('active');
             
-            // إعادة رسم الكانفاس لتجنب أخطاء الأبعاد عند الفتح
+            // تغيير لون التاب الفعال
+            if (btnEl) {
+                document.querySelectorAll('.server-tab').forEach(el => el.classList.remove('active'));
+                btnEl.classList.add('active');
+            }
+            
+            // إعادة رسم لتجنب مشاكل الأبعاد
             if(viewId === 'roulette') drawRouletteWheel();
             if(viewId === 'billiards') drawPoolTable();
         }
@@ -218,7 +241,6 @@
         
         function updateRouletteWheel() {
             const text = document.getElementById('rouletteNames').value;
-            // تقسيم الأسماء بناءً على الفاصلة أو النزول لسطر جديد
             rNames = text.split(/[\n,]+/).map(n => n.trim()).filter(n => n.length > 0);
             if(rNames.length === 0) rNames = ["فارغ"];
             arc = Math.PI / (rNames.length / 2);
@@ -231,10 +253,15 @@
             updateRouletteWheel();
         }
 
+        function resetRouletteNames() {
+            document.getElementById('rouletteNames').value = 'YYY, YYY, YYY';
+            updateRouletteWheel();
+        }
+
         function drawRouletteWheel() {
             rCtx.clearRect(0, 0, rCanvas.width, rCanvas.height);
-            let outsideRadius = 150;
-            let textRadius = 105;
+            let outsideRadius = 140;
+            let textRadius = 95;
             let insideRadius = 25;
             const cx = rCanvas.width / 2;
             const cy = rCanvas.height / 2;
@@ -258,7 +285,6 @@
                 rCtx.fillText(rNames[i], 30, 5);
                 rCtx.restore();
             }
-            // الدائرة المركزية
             rCtx.beginPath(); rCtx.arc(cx, cy, insideRadius, 0, Math.PI * 2); rCtx.fillStyle = "#111"; rCtx.fill();
         }
 
@@ -267,16 +293,13 @@
             winnerPopup.classList.remove('show');
             spinAngleStart = Math.random() * 10 + 10;
             spinTime = 0;
-            spinTimeTotal = Math.random() * 3 + 4 * 1000; // مدة الدوران
+            spinTimeTotal = Math.random() * 3 + 4 * 1000;
             rotateWheel();
         }
 
         function rotateWheel() {
             spinTime += 30;
-            if(spinTime >= spinTimeTotal) {
-                stopRotateWheel();
-                return;
-            }
+            if(spinTime >= spinTimeTotal) { stopRotateWheel(); return; }
             let spinAngle = spinAngleStart - easeOut(spinTime, 0, spinAngleStart, spinTimeTotal);
             startAngle += (spinAngle * Math.PI / 180);
             drawRouletteWheel();
@@ -294,30 +317,28 @@
         }
 
         function easeOut(t, b, c, d) {
-            let ts = (t/=d)*t;
-            let tc = ts*t;
-            return b+c*(tc + -3*ts + 3*t);
+            let ts = (t/=d)*t; let tc = ts*t; return b+c*(tc + -3*ts + 3*t);
         }
         
-        // التهيئة الأولية للروليت
         updateRouletteWheel();
 
 
         /* =========================================================================
-           2. محاكي البلياردو (Billiards Simulator)
+           2. محاكي البلياردو (Billiards Simulator - الأصغر)
            ========================================================================= */
         const poolCanvas = document.getElementById('billiardsCanvas');
         const poolCtx = poolCanvas.getContext('2d');
 
-        const TABLE_WIDTH = 400;
-        const TABLE_HEIGHT = 750;
-        const CUSHION = 32; 
+        // أبعاد جديدة أصغر للطاولة
+        const TABLE_WIDTH = 300;
+        const TABLE_HEIGHT = 550;
+        const CUSHION = 25; 
         const PLAY_LEFT = CUSHION;
         const PLAY_RIGHT = TABLE_WIDTH - CUSHION;
         const PLAY_TOP = CUSHION;
         const PLAY_BOTTOM = TABLE_HEIGHT - CUSHION;
-        const BALL_RADIUS = 11.5;
-        const POCKET_RADIUS = 23;
+        const BALL_RADIUS = 9.5; // تصغير الكرة
+        const POCKET_RADIUS = 18; // تصغير الحفرة
         const FRICTION = 0.985; 
 
         const POCKETS = [
@@ -347,7 +368,7 @@
                 poolCtx.save();
                 poolCtx.translate(this.x, this.y);
                 
-                poolCtx.beginPath(); poolCtx.arc(1.5, 2, this.radius, 0, Math.PI * 2);
+                poolCtx.beginPath(); poolCtx.arc(1, 1.5, this.radius, 0, Math.PI * 2);
                 poolCtx.fillStyle = 'rgba(0, 0, 0, 0.4)'; poolCtx.fill();
 
                 const grad = poolCtx.createRadialGradient(-this.radius*0.3, -this.radius*0.3, 1, 0, 0, this.radius);
@@ -358,7 +379,7 @@
                 if (!this.isCue && this.number > 0) {
                     poolCtx.beginPath(); poolCtx.arc(0, 0, this.radius * 0.5, 0, Math.PI * 2);
                     poolCtx.fillStyle = '#fff'; poolCtx.fill();
-                    poolCtx.fillStyle = '#000'; poolCtx.font = 'bold 10px Rajdhani';
+                    poolCtx.fillStyle = '#000'; poolCtx.font = 'bold 9px Rajdhani';
                     poolCtx.textAlign = 'center'; poolCtx.textBaseline = 'middle';
                     poolCtx.fillText(this.number, 0, 0.5);
                 }
@@ -396,7 +417,7 @@
 
             if (mode === 'triangle') {
                 const apexX = TABLE_WIDTH / 2;
-                const apexY = PLAY_TOP + 100;
+                const apexY = PLAY_TOP + 80;
                 let bIdx = 0;
                 for (let row = 0; row < 5; row++) {
                     for (let col = 0; col <= row; col++) {
@@ -407,8 +428,7 @@
                         bIdx++;
                     }
                 }
-            } // وضع الـ clear يترك الكرة البيضاء فقط
-            
+            }
             updateBilliardsCounters();
         }
 
@@ -447,7 +467,7 @@
 
             poolCtx.strokeStyle = 'rgba(255,255,255,0.2)'; poolCtx.lineWidth = 1.5;
             poolCtx.beginPath(); poolCtx.moveTo(PLAY_LEFT, TABLE_HEIGHT * 0.75); poolCtx.lineTo(PLAY_RIGHT, TABLE_HEIGHT * 0.75); poolCtx.stroke();
-            poolCtx.beginPath(); poolCtx.arc(TABLE_WIDTH/2, TABLE_HEIGHT*0.75, 45, Math.PI, 0); poolCtx.stroke();
+            poolCtx.beginPath(); poolCtx.arc(TABLE_WIDTH/2, TABLE_HEIGHT*0.75, 35, Math.PI, 0); poolCtx.stroke();
 
             POCKETS.forEach(p => {
                 poolCtx.beginPath(); poolCtx.arc(p.x, p.y, POCKET_RADIUS, 0, Math.PI*2);
@@ -461,7 +481,7 @@
                 let pullY = aimStartPos.y - aimCurrentPos.y;
                 let dist = Math.hypot(pullX, pullY);
 
-                if (dist > 15) { // تعديل الحساسية
+                if (dist > 15) {
                     let angle = Math.atan2(pullY, pullX);
                     let pred = getAimPrediction(poolCueBall, angle);
                     
@@ -478,12 +498,12 @@
                         let nx = pred.target.x - ghostX, ny = pred.target.y - ghostY;
                         let nLen = Math.hypot(nx, ny); nx /= nLen; ny /= nLen;
                         poolCtx.beginPath(); poolCtx.moveTo(pred.target.x, pred.target.y);
-                        poolCtx.lineTo(pred.target.x + nx * 180, pred.target.y + ny * 180);
+                        poolCtx.lineTo(pred.target.x + nx * 140, pred.target.y + ny * 140);
                         poolCtx.strokeStyle = '#ff3333'; poolCtx.lineWidth = 2.5; poolCtx.stroke();
 
                         let tx = -ny, ty = nx;
                         if (pred.dx * tx + pred.dy * ty < 0) { tx = -tx; ty = -ty; }
-                        poolCtx.beginPath(); poolCtx.moveTo(ghostX, ghostY); poolCtx.lineTo(ghostX + tx * 50, ghostY + ty * 50);
+                        poolCtx.beginPath(); poolCtx.moveTo(ghostX, ghostY); poolCtx.lineTo(ghostX + tx * 40, ghostY + ty * 40);
                         poolCtx.strokeStyle = 'rgba(255,255,255,0.8)'; poolCtx.lineWidth = 1.5; poolCtx.stroke();
                     }
                 }
@@ -557,8 +577,7 @@
             let pullY = aimStartPos.y - aimCurrentPos.y;
             let dist = Math.hypot(pullX, pullY);
 
-            // تم حل مشكلة الحساسية (الكرة لن تضرب إلا إذا تم سحبها مسافة واضحة أكثر من 20 بيكسل)
-            if (dist > 20) {
+            if (dist > 15) {
                 let angle = Math.atan2(pullY, pullX);
                 let power = Math.min(27, dist * 0.17);
                 poolCueBall.vx = Math.cos(angle) * power;
