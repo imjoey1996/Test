@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>PlatoX - Explore</title>
+    <title>PlatoX - Smart Calculator</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Rajdhani:wght@600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root {
             --bg-main: #07070a;
-            --bg-card: rgba(18, 18, 24, 0.85);
-            --bg-card-sub: rgba(26, 26, 36, 0.7);
+            --bg-card: rgba(20, 20, 28, 0.6);
+            --bg-card-sub: rgba(30, 30, 40, 0.4);
             --primary: #ffffff;
             --border: rgba(255, 255, 255, 0.08);
             --border-glow: rgba(255, 255, 255, 0.2);
@@ -34,302 +34,198 @@
             align-items: center;
         }
 
-        /* شبكة الموقع الداكنة */
+        /* --- تأثيرات الخلفية الزجاجية (Glassmorphism & Grid) --- */
         .site-grid {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none;
             background-image: 
-                linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
-            background-size: 26px 26px;
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 35px 35px;
+        }
+        .bg-blobs {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; overflow: hidden; pointer-events: none;
+        }
+        .blob {
+            position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.35; animation: float 12s infinite ease-in-out alternate;
+        }
+        .blob-1 { width: 350px; height: 350px; background: #9c88ff; top: -100px; left: -100px; }
+        .blob-2 { width: 400px; height: 400px; background: #fbc531; bottom: -100px; right: -50px; animation-delay: -4s; }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(30px, 60px) scale(1.1); }
         }
 
-        /* الهيدر العلوي */
+        /* --- الهيدر العلوي --- */
         .app-header {
-            width: 100%; max-width: 460px; padding: 22px 20px;
+            width: 100%; max-width: 500px; padding: 20px 24px;
             display: flex; justify-content: space-between; align-items: center;
+            z-index: 10;
         }
         .app-brand {
-            font-size: 1.6rem; font-weight: 900; letter-spacing: 0.5px;
-            text-shadow: 0 0 16px rgba(255, 255, 255, 0.7);
+            font-size: 1.8rem; font-weight: 900; letter-spacing: 0.5px; font-family: 'Rajdhani', sans-serif;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.5); display: flex; align-items: center;
         }
-        .header-actions { display: flex; align-items: center; gap: 14px; }
+        .app-brand span { color: #fff; text-shadow: 0 0 20px #fff, 0 0 40px rgba(255,255,255,0.8); margin-left: 2px;}
+        
         .lang-btn {
-            background: rgba(255,255,255,0.06); border: 1px solid var(--border);
-            color: var(--primary); font-family: inherit; font-weight: 700; font-size: 12px;
-            padding: 5px 10px; border-radius: 8px; cursor: pointer; transition: 0.2s;
+            background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+            color: var(--primary); font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 14px;
+            padding: 6px 14px; border-radius: 10px; cursor: pointer; transition: 0.3s;
+            backdrop-filter: blur(10px);
         }
-        .lang-btn:hover { border-color: var(--border-glow); }
+        .lang-btn:hover { border-color: var(--border-glow); background: rgba(255,255,255,0.1); }
 
-        /* عناوين الأقسام */
+        /* --- حاوية التطبيق --- */
+        .main-container { 
+            width: 100%; max-width: 460px; padding: 10px 20px 40px 20px; 
+            display: flex; flex-direction: column; align-items: center; 
+            animation: fadeIn 0.4s ease-out;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- ستايل العناوين (مطابق للصورة) --- */
         .section-tag {
-            display: flex; align-items: center; justify-content: center; gap: 8px;
-            font-size: 0.85rem; font-weight: 900; letter-spacing: 1.5px; text-transform: uppercase;
-            color: #fff; margin: 18px 0; text-align: center;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            font-size: 1rem; font-weight: 900; letter-spacing: 1.5px; text-transform: uppercase;
+            color: #fff; margin: 10px 0 25px 0; text-align: center; font-family: 'Rajdhani', sans-serif;
         }
         .section-tag::before {
-            content: ''; width: 4px; height: 16px; background: #fff;
-            border-radius: 3px; box-shadow: 0 0 10px #fff;
+            content: ''; width: 4px; height: 18px; background: #fff;
+            border-radius: 4px; box-shadow: 0 0 12px #fff;
         }
 
-        /* حاوية العرض */
-        .main-container { width: 100%; max-width: 440px; padding: 0 16px 40px 16px; }
-        .view-panel { display: none; flex-direction: column; width: 100%; animation: fadeIn 0.25s ease-out; }
-        .view-panel.active { display: flex; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* بطاقات القائمة والخيارات */
+        /* --- تصميم الكارد الزجاجي --- */
         .platox-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 18px;
-            padding: 18px 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
-            margin-bottom: 12px;
+            width: 100%; background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 24px; padding: 25px; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(255,255,255,0.02);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            display: flex; flex-direction: column; gap: 20px;
         }
-        .interactive-card {
-            display: flex; align-items: center; justify-content: space-between;
-            cursor: pointer; transition: transform 0.2s, border-color 0.2s;
-        }
-        .interactive-card:active { transform: scale(0.985); }
-        .interactive-card:hover { border-color: var(--border-glow); }
-        .card-lead { display: flex; align-items: center; gap: 14px; }
-        .card-icon { font-size: 24px; width: 32px; text-align: center; }
-        .card-texts h4 { font-size: 1.1rem; font-weight: 900; margin-bottom: 2px; }
-        .card-texts p { font-size: 0.8rem; color: var(--text-muted); font-weight: 600; }
 
-        /* أزرار الإجراءات */
-        .glow-btn {
-            background: #fff; color: #000; border: none; border-radius: 12px;
-            padding: 13px; font-weight: 900; font-size: 15px; font-family: inherit;
-            cursor: pointer; width: 100%; transition: 0.2s; display: flex; justify-content: center; align-items: center; gap: 8px;
-        }
-        .glow-btn:hover { box-shadow: 0 0 16px rgba(255,255,255,0.4); }
-        .sub-btn {
-            background: var(--bg-card-sub); color: #fff; border: 1px solid var(--border);
-            border-radius: 10px; padding: 10px; font-family: inherit; font-size: 13px; font-weight: 700;
-            cursor: pointer; transition: 0.2s;
-        }
-        .sub-btn:hover { border-color: var(--border-glow); }
-
-        /* الحاسبة */
+        /* --- أزرار التبديل --- */
         .currency-switch {
-            display: flex; background: rgba(0,0,0,0.4); border: 1px solid var(--border);
-            border-radius: 12px; padding: 3px; margin-bottom: 14px;
+            display: flex; background: rgba(0,0,0,0.5); border: 1px solid var(--border);
+            border-radius: 16px; padding: 5px; box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
         }
         .switch-opt {
-            flex: 1; padding: 9px; text-align: center; font-weight: 800; font-size: 14px;
-            border-radius: 9px; cursor: pointer; color: var(--text-muted); transition: 0.2s;
+            flex: 1; padding: 12px; text-align: center; font-weight: 800; font-size: 15px;
+            border-radius: 12px; cursor: pointer; color: var(--text-muted); transition: 0.3s;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            font-family: inherit;
         }
-        .switch-opt.active { background: rgba(255,255,255,0.08); color: #fff; }
+        .switch-opt.active { background: rgba(255,255,255,0.08); color: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
 
-        .input-wrapper { position: relative; margin-bottom: 14px; }
+        /* --- حقل الإدخال الاحترافي --- */
+        .input-wrapper { position: relative; width: 100%; }
         .input-wrapper input {
-            width: 100%; background: rgba(0,0,0,0.5); border: 1px solid var(--border);
-            border-radius: 12px; padding: 14px 44px 14px 14px; color: #fff;
-            font-size: 20px; font-weight: 800; font-family: 'Rajdhani', sans-serif; outline: none; transition: 0.2s;
+            width: 100%; background: rgba(0,0,0,0.4); border: 1px solid var(--border);
+            border-radius: 16px; padding: 18px 50px 18px 20px; color: #fff;
+            font-size: 26px; font-weight: 900; font-family: 'Rajdhani', sans-serif; 
+            outline: none; transition: 0.3s; box-shadow: inset 0 0 15px rgba(0,0,0,0.5);
         }
-        html[dir="rtl"] .input-wrapper input { padding: 14px 14px 14px 44px; text-align: right; }
-        .input-wrapper input:focus { border-color: var(--border-glow); }
+        html[dir="rtl"] .input-wrapper input { padding: 18px 20px 18px 50px; text-align: right; }
+        .input-wrapper input:focus { border-color: rgba(255,255,255,0.3); background: rgba(0,0,0,0.6); }
+        .input-wrapper input::placeholder { font-size: 16px; font-weight: 600; color: rgba(255,255,255,0.2); font-family: 'Cairo', sans-serif; }
+        
         .input-wrapper i {
             position: absolute; top: 50%; transform: translateY(-50%);
-            right: 15px; font-size: 18px; color: var(--text-muted);
+            right: 20px; font-size: 22px; color: var(--text-muted); transition: 0.3s;
         }
-        html[dir="rtl"] .input-wrapper i { right: auto; left: 15px; }
+        html[dir="rtl"] .input-wrapper i { right: auto; left: 20px; }
+        .input-wrapper input:focus + i { filter: drop-shadow(0 0 8px currentColor); }
 
+        /* --- مربع النتيجة --- */
         .calc-display {
-            background: rgba(0,0,0,0.3); border: 1px solid var(--border);
-            border-radius: 14px; padding: 18px; text-align: center;
+            background: linear-gradient(145deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01)); 
+            border: 1px solid var(--border); border-radius: 18px; padding: 30px 20px; 
+            text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3); min-height: 160px;
         }
-        .calc-value { font-size: 2.8rem; font-weight: 900; line-height: 1; margin: 4px 0 6px 0; }
+        .calc-label { font-size: 14px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+        .calc-value { font-size: 3.5rem; font-weight: 900; line-height: 1; margin: 5px 0; transition: 0.3s; }
+        .calc-currency { font-size: 16px; font-weight: 800; color: #fff; text-transform: uppercase; letter-spacing: 1px;}
 
-        /* الروليت */
-        .roulette-box {
-            display: flex; flex-direction: column; align-items: center; position: relative;
-            margin-bottom: 15px;
-        }
-        .r-frame {
-            position: relative; border-radius: 50%; padding: 4px;
-            background: linear-gradient(180deg, rgba(255,255,255,0.15), rgba(255,255,255,0.02));
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-        }
-        #rCanvas { border-radius: 50%; width: 280px; height: 280px; display: block; }
-        .r-needle {
-            position: absolute; top: -8px; left: 50%; transform: translateX(-50%);
-            width: 22px; height: 26px; background: #e84118;
-            clip-path: polygon(50% 100%, 0 0, 100% 0); z-index: 10;
-            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.6));
-        }
+        /* ألوان القيم */
+        .text-coins { color: var(--coin-color); text-shadow: 0 0 25px rgba(251, 197, 49, 0.4); }
+        .text-pips { color: var(--pip-color); text-shadow: 0 0 25px rgba(156, 136, 255, 0.4); }
+        .text-none { color: rgba(255,255,255,0.1); }
 
-        .names-area {
-            width: 100%; background: rgba(0,0,0,0.4); border: 1px solid var(--border);
-            color: #fff; font-family: inherit; font-size: 13px; font-weight: 700;
-            border-radius: 12px; padding: 10px; resize: none; min-height: 65px;
-            outline: none; margin-bottom: 12px; text-align: center;
-        }
-
-        /* نافذة الفائز */
-        .winner-modal {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0);
-            width: 85%; background: rgba(14, 14, 18, 0.96); border: 1px solid var(--border-glow);
-            border-radius: 18px; padding: 22px 16px; text-align: center; z-index: 20;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.9); transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            display: flex; flex-direction: column; gap: 10px; pointer-events: none; opacity: 0;
-        }
-        .winner-modal.show { transform: translate(-50%, -50%) scale(1); pointer-events: auto; opacity: 1; }
-        .win-title { font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; }
-        .win-name { font-size: 1.8rem; font-weight: 900; color: var(--coin-color); text-shadow: 0 0 15px rgba(251, 197, 49, 0.4); }
     </style>
 </head>
 <body>
 
+    <div class="bg-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
     <div class="site-grid"></div>
 
     <header class="app-header">
-        <div class="app-brand">Plato<span style="color: #fff; text-shadow: 0 0 10px #fff;">X</span></div>
-        <div class="header-actions">
-            <button class="lang-btn" onclick="toggleLanguage()" id="langSwitch">AR</button>
-        </div>
+        <div class="app-brand">Plato<span>X</span></div>
+        <button class="lang-btn" onclick="toggleLanguage()" id="langSwitch">AR</button>
     </header>
 
     <main class="main-container">
+        
+        <div class="section-tag" id="sectionTitle">SMART CALCULATOR</div>
 
-        <!-- واجهة الاستكشاف الرئيسية -->
-        <div id="panel-hub" class="view-panel active">
-            <div class="section-tag" id="tagExplore">EXPLORE</div>
+        <div class="platox-card">
             
-            <div class="platox-card interactive-card" onclick="switchView('calculator')">
-                <div class="card-lead">
-                    <i class="fa-solid fa-calculator card-icon" style="color: var(--pip-color);"></i>
-                    <div class="card-texts">
-                        <h4 id="hubCalcTitle">Calculator</h4>
-                        <p id="hubCalcDesc">Coins & Pips instant value convert</p>
-                    </div>
+            <div class="currency-switch">
+                <div class="switch-opt active" id="modeCoins" onclick="setMode('coins')">
+                    <i class="fa-solid fa-coins" style="color: var(--coin-color);"></i> <span id="tabCoins">Coins</span>
                 </div>
-                <i class="fa-solid fa-chevron-right" style="color: var(--text-muted); font-size: 12px;"></i>
-            </div>
-
-            <div class="platox-card interactive-card" onclick="switchView('roulette')">
-                <div class="card-lead">
-                    <i class="fa-solid fa-dharmachakra card-icon" style="color: var(--coin-color);"></i>
-                    <div class="card-texts">
-                        <h4 id="hubRouletteTitle">Roulette</h4>
-                        <p id="hubRouletteDesc">Giveaways & random picker</p>
-                    </div>
-                </div>
-                <i class="fa-solid fa-chevron-right" style="color: var(--text-muted); font-size: 12px;"></i>
-            </div>
-        </div>
-
-        <!-- واجهة الحاسبة -->
-        <div id="panel-calculator" class="view-panel">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                <div class="section-tag" style="margin: 0;" id="tagCalcHeader">CALCULATOR</div>
-                <button class="sub-btn" onclick="switchView('hub')"><i class="fa-solid fa-arrow-left"></i></button>
-            </div>
-
-            <div class="platox-card">
-                <div class="currency-switch">
-                    <div class="switch-opt active" id="modeCoins" onclick="setCurrencyMode('coins')">Coins</div>
-                    <div class="switch-opt" id="modePips" onclick="setCurrencyMode('pips')">Pips</div>
-                </div>
-
-                <div class="input-wrapper">
-                    <input type="number" id="calcInputField" placeholder="Enter Coins..." oninput="calculateRate()">
-                    <i class="fa-solid fa-coins" id="currencyIcon" style="color: var(--coin-color);"></i>
-                </div>
-
-                <div class="calc-display">
-                    <div style="font-size: 12px; font-weight: 700; color: var(--text-muted);" id="calcResultLabel">ESTIMATED VALUE</div>
-                    <div class="calc-value" id="calcValueOutput" style="color: var(--pip-color);">0</div>
-                    <div style="font-size: 13px; font-weight: 800; color: #fff;" id="currencyOutputName">Pips</div>
+                <div class="switch-opt" id="modePips" onclick="setMode('pips')">
+                    <i class="fa-solid fa-gem" style="color: var(--pip-color);"></i> <span id="tabPips">Pips</span>
                 </div>
             </div>
-        </div>
 
-        <!-- واجهة الروليت -->
-        <div id="panel-roulette" class="view-panel">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                <div class="section-tag" style="margin: 0;" id="tagRouletteHeader">ROULETTE</div>
-                <button class="sub-btn" onclick="switchView('hub')"><i class="fa-solid fa-arrow-left"></i></button>
+            <div class="input-wrapper">
+                <!-- inputmode="numeric" يظهر الكيبورد الرقمي في الجوال -->
+                <input type="text" inputmode="numeric" id="calcInput" placeholder="Enter Coins..." oninput="handleInput(event)">
+                <i class="fa-solid fa-coins" id="inputIcon" style="color: var(--coin-color);"></i>
             </div>
 
-            <div class="platox-card" style="padding: 20px 14px;">
-                <div class="roulette-box">
-                    <div class="r-needle"></div>
-                    <div class="r-frame">
-                        <canvas id="rCanvas" width="280" height="280"></canvas>
-                    </div>
-
-                    <div class="winner-modal" id="winnerBox">
-                        <div class="win-title" id="winTitleText">WINNER</div>
-                        <div class="win-name" id="winnerDisplay">NAME</div>
-                        <div style="display: flex; gap: 8px; margin-top: 5px;">
-                            <button class="glow-btn" style="padding: 8px; font-size: 12px;" onclick="closeWinner()">Continue</button>
-                            <button class="sub-btn" style="flex: 1; padding: 8px; font-size: 12px; color: #ff5252;" onclick="removeWinnerName()" id="btnRemoveWin">Remove</button>
-                        </div>
-                    </div>
-                </div>
-
-                <button class="glow-btn" style="margin-bottom: 12px;" onclick="startRouletteSpin()" id="btnSpin">
-                    <i class="fa-solid fa-rotate-right"></i> <span id="spinBtnText">Spin</span>
-                </button>
-
-                <textarea id="nameList" class="names-area" placeholder="Names separated by commas..."></textarea>
-
-                <div style="display: flex; gap: 8px;">
-                    <button class="sub-btn" style="flex: 1;" onclick="applyNameList()" id="btnUpdateNames">Update</button>
-                    <button class="sub-btn" style="flex: 1; color: #ff5252;" onclick="resetDefaultNames()" id="btnResetNames">Reset</button>
-                </div>
+            <div class="calc-display">
+                <div class="calc-label" id="resultTitle">ESTIMATED VALUE</div>
+                <div class="calc-value text-none" id="resultValue">0</div>
+                <div class="calc-currency" id="resultCurrency">PIPS</div>
             </div>
+
         </div>
 
     </main>
 
     <script>
-        // إعدادات اللغات
+        /* =========================================================================
+           نظام اللغات والترجمة الفورية
+           ========================================================================= */
         let currentLang = 'en';
         const i18n = {
             en: {
                 langBtn: 'AR',
                 dir: 'ltr',
-                explore: 'EXPLORE',
-                hubCalcTitle: 'Calculator',
-                hubCalcDesc: 'Coins & Pips instant value convert',
-                hubRouletteTitle: 'Roulette',
-                hubRouletteDesc: 'Giveaways & random picker',
-                calcHeader: 'CALCULATOR',
-                rouletteHeader: 'ROULETTE',
-                calcEstimated: 'ESTIMATED VALUE',
-                enterCoins: 'Enter Coins...',
-                enterPips: 'Enter Pips...',
-                spin: 'Spin',
-                update: 'Update',
-                reset: 'Reset',
-                placeholderNames: 'Names separated by commas (e.g. Alex, Sam)...',
-                winnerTitle: 'WINNER',
-                remove: 'Remove'
+                sectionTitle: 'SMART CALCULATOR',
+                tabCoins: 'Coins',
+                tabPips: 'Pips',
+                placeholderCoins: 'Enter Coins...',
+                placeholderPips: 'Enter Pips...',
+                resultTitle: 'ESTIMATED VALUE',
+                currCoins: 'COINS',
+                currPips: 'PIPS'
             },
             ar: {
                 langBtn: 'EN',
                 dir: 'rtl',
-                explore: 'استكشف',
-                hubCalcTitle: 'الحاسبة',
-                hubCalcDesc: 'تحويل فوري ودقيق بين Coins و Pips',
-                hubRouletteTitle: 'الروليت',
-                hubRouletteDesc: 'سحب أسماء واختيار عشوائي للفعاليات',
-                calcHeader: 'الحاسبة',
-                rouletteHeader: 'الروليت',
-                calcEstimated: 'القيمة التقديرية',
-                enterCoins: 'أدخل Coins...',
-                enterPips: 'أدخل Pips...',
-                spin: 'فر العجلة',
-                update: 'تحديث',
-                reset: 'إعادة تعيين',
-                placeholderNames: 'الأسماء مفصولة بفاصلة (مثال: أحمد, علي)...',
-                winnerTitle: 'الفائز',
-                remove: 'إزالة'
+                sectionTitle: 'الحاسبة الذكية',
+                tabCoins: 'كوينز',
+                tabPips: 'بيبس',
+                placeholderCoins: 'أدخل عدد الكوينز...',
+                placeholderPips: 'أدخل عدد البيبس...',
+                resultTitle: 'القيمة التقديرية العادلة',
+                currCoins: 'COINS',
+                currPips: 'PIPS'
             }
         };
 
@@ -339,235 +235,120 @@
             
             document.documentElement.setAttribute('dir', t.dir);
             document.documentElement.setAttribute('lang', currentLang);
-            document.getElementById('langSwitch').innerText = t.langBtn;
-
-            document.getElementById('tagExplore').innerText = t.explore;
-            document.getElementById('hubCalcTitle').innerText = t.hubCalcTitle;
-            document.getElementById('hubCalcDesc').innerText = t.hubCalcDesc;
-            document.getElementById('hubRouletteTitle').innerText = t.hubRouletteTitle;
-            document.getElementById('hubRouletteDesc').innerText = t.hubRouletteDesc;
-
-            document.getElementById('tagCalcHeader').innerText = t.calcHeader;
-            document.getElementById('tagRouletteHeader').innerText = t.rouletteHeader;
-            document.getElementById('calcResultLabel').innerText = t.calcEstimated;
             
-            document.getElementById('spinBtnText').innerText = t.spin;
-            document.getElementById('btnUpdateNames').innerText = t.update;
-            document.getElementById('btnResetNames').innerText = t.reset;
-            document.getElementById('nameList').placeholder = t.placeholderNames;
-            document.getElementById('winTitleText').innerText = t.winnerTitle;
-            document.getElementById('btnRemoveWin').innerText = t.remove;
-
-            const input = document.getElementById('calcInputField');
-            input.placeholder = currentMode === 'coins' ? t.enterCoins : t.enterPips;
-
-            drawRoulette();
+            document.getElementById('langSwitch').innerText = t.langBtn;
+            document.getElementById('sectionTitle').innerText = t.sectionTitle;
+            document.getElementById('tabCoins').innerText = t.tabCoins;
+            document.getElementById('tabPips').innerText = t.tabPips;
+            document.getElementById('resultTitle').innerText = t.resultTitle;
+            
+            document.getElementById('calcInput').placeholder = (currentMode === 'coins') ? t.placeholderCoins : t.placeholderPips;
+            document.getElementById('resultCurrency').innerText = (currentMode === 'coins') ? t.currPips : t.currCoins;
         }
 
-        // التنقل بين الأقسام
-        function switchView(viewName) {
-            document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
-            document.getElementById('panel-' + viewName).classList.add('active');
-            if(viewName === 'roulette') drawRoulette();
-            if(viewName === 'calculator') calculateRate();
-            window.scrollTo(0,0);
-        }
+        /* =========================================================================
+           نظام الحاسبة والذكاء الاصطناعي
+           ========================================================================= */
+        let currentMode = 'coins'; 
 
-        /* --- 1. الحاسبة الذكية --- */
-        let currentMode = 'coins';
-
-        function setCurrencyMode(mode) {
+        function setMode(mode) {
             currentMode = mode;
+            const t = i18n[currentLang];
+            
             document.getElementById('modeCoins').classList.toggle('active', mode === 'coins');
             document.getElementById('modePips').classList.toggle('active', mode === 'pips');
 
-            const input = document.getElementById('calcInputField');
-            const icon = document.getElementById('currencyIcon');
-            const outName = document.getElementById('currencyOutputName');
-            const outVal = document.getElementById('calcValueOutput');
-
-            const t = i18n[currentLang];
+            const input = document.getElementById('calcInput');
+            const icon = document.getElementById('inputIcon');
+            const resultCurr = document.getElementById('resultCurrency');
+            
             if (mode === 'coins') {
-                input.placeholder = t.enterCoins;
+                input.placeholder = t.placeholderCoins;
                 icon.className = 'fa-solid fa-coins';
                 icon.style.color = 'var(--coin-color)';
-                outVal.style.color = 'var(--pip-color)';
-                outName.innerText = 'Pips';
+                resultCurr.innerText = t.currPips;
             } else {
-                input.placeholder = t.enterPips;
+                input.placeholder = t.placeholderPips;
                 icon.className = 'fa-solid fa-gem';
                 icon.style.color = 'var(--pip-color)';
-                outVal.style.color = 'var(--coin-color)';
-                outName.innerText = 'Coins';
+                resultCurr.innerText = t.currCoins;
             }
-            input.value = '';
-            calculateRate();
+            
+            // تصفير الحقل عند التبديل
+            input.value = ''; 
+            calculate();
         }
 
+        // تحويل الأرقام العربية إلى إنجليزية
+        const convertArabicNumerals = (str) => {
+            return str.replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d));
+        };
+
+        // معالجة الإدخال (تصفية، تحويل، وضع الفواصل)
+        function handleInput(e) {
+            let val = e.target.value;
+            
+            // 1. تحويل الأرقام العربية (١٢٣) إلى إنجليزية (123)
+            val = convertArabicNumerals(val);
+            
+            // 2. مسح أي أحرف أو مسافات (الإبقاء على الأرقام فقط)
+            val = val.replace(/\D/g, '');
+            
+            // 3. وضع الفواصل للألوف (مثال: 31,000)
+            if(val !== '') {
+                val = parseInt(val, 10).toLocaleString('en-US');
+            }
+            
+            e.target.value = val;
+            calculate();
+        }
+
+        // الخوارزمية الذكية لتقييم السعر العادل بناءً على الكمية
         function getDynamicRate(pips) {
             if (pips <= 0) return 500;
+            // المعادلة: الكمية القليلة تقترب من 550 كوينز للبيبس، والكميات الضخمة تستقر عند 400
             return 400 + 150 * Math.exp(-pips / 15);
         }
 
-        function calculateRate() {
-            const val = parseFloat(document.getElementById('calcInputField').value);
-            const output = document.getElementById('calcValueOutput');
+        function calculate() {
+            // أخذ القيمة من الحقل وإزالة الفواصل لتحويلها إلى رقم برمجي
+            let rawValue = document.getElementById('calcInput').value.replace(/,/g, '');
+            let val = parseFloat(rawValue);
+            
+            const outVal = document.getElementById('resultValue');
 
+            // في حال كان الحقل فارغاً
             if (isNaN(val) || val <= 0) {
-                output.innerText = '0';
+                outVal.innerText = '0';
+                outVal.className = 'calc-value text-none';
                 return;
             }
 
             if (currentMode === 'coins') {
-                let estimatedPips = val / 450;
-                let finalPips = val / getDynamicRate(estimatedPips);
-                output.innerText = (finalPips % 1 !== 0) ? finalPips.toFixed(1) : finalPips.toString();
+                // إدخال كوينز -> إخراج بيبس
+                let estimatedPips = val / 450; 
+                let actualRate = getDynamicRate(estimatedPips);
+                let finalPips = val / actualRate;
+                
+                // تنسيق الرقم (رقم عشري واحد إذا كان هناك كسر)
+                let displayValue = (finalPips % 1 !== 0) ? finalPips.toFixed(1) : finalPips.toString();
+                
+                // إضافة فواصل للألوف للناتج أيضاً
+                let parts = displayValue.split('.');
+                parts[0] = parseInt(parts[0]).toLocaleString('en-US');
+                
+                outVal.innerText = parts.join('.');
+                outVal.className = 'calc-value text-pips';
+                
             } else {
-                let finalCoins = Math.round(val * getDynamicRate(val));
-                output.innerText = finalCoins.toLocaleString();
+                // إدخال بيبس -> إخراج كوينز
+                let rate = getDynamicRate(val);
+                let finalCoins = Math.round(val * rate);
+                
+                outVal.innerText = finalCoins.toLocaleString('en-US');
+                outVal.className = 'calc-value text-coins';
             }
         }
-
-        /* --- 2. الروليت --- */
-        const canvas = document.getElementById("rCanvas");
-        const ctx = canvas.getContext("2d");
-        const winnerBox = document.getElementById("winnerBox");
-
-        let names = ["YYY", "YYY", "YYY"];
-        const colors = ['#2ed573', '#1e90ff', '#ff4757', '#ffa502', '#9c88ff', '#5352ed', '#2ed573', '#e84118'];
-        let currentAngle = 0;
-        let isSpinning = false;
-        let winIndex = -1;
-
-        document.getElementById('nameList').value = names.join(', ');
-
-        function applyNameList() {
-            const text = document.getElementById('nameList').value;
-            names = text.split(/[\n,]+/).map(n => n.trim()).filter(n => n.length > 0);
-            winnerBox.classList.remove('show');
-            currentAngle = 0;
-            drawRoulette();
-        }
-
-        function resetDefaultNames() {
-            document.getElementById('nameList').value = 'YYY, YYY, YYY';
-            applyNameList();
-        }
-
-        function drawRoulette() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            const cx = canvas.width / 2;
-            const cy = canvas.height / 2;
-            const radius = 135;
-
-            if (names.length === 0) {
-                ctx.beginPath(); ctx.arc(cx, cy, radius, 0, Math.PI*2);
-                ctx.fillStyle = "rgba(255,255,255,0.04)"; ctx.fill();
-                return;
-            }
-
-            const arc = (Math.PI * 2) / names.length;
-
-            for(let i = 0; i < names.length; i++) {
-                const angle = currentAngle + i * arc;
-
-                ctx.beginPath();
-                ctx.moveTo(cx, cy);
-                ctx.arc(cx, cy, radius, angle, angle + arc);
-                ctx.lineTo(cx, cy);
-                ctx.fillStyle = colors[i % colors.length];
-                ctx.fill();
-
-                ctx.strokeStyle = "rgba(0,0,0,0.4)";
-                ctx.lineWidth = 1;
-                ctx.stroke();
-
-                ctx.save();
-                ctx.fillStyle = "#fff";
-                ctx.shadowColor = "rgba(0,0,0,0.8)";
-                ctx.shadowBlur = 4;
-                ctx.translate(cx + Math.cos(angle + arc / 2) * 85, cy + Math.sin(angle + arc / 2) * 85);
-                ctx.rotate(angle + arc / 2);
-                ctx.textAlign = "right";
-                ctx.textBaseline = "middle";
-                ctx.font = "bold 13px 'Cairo', sans-serif";
-                ctx.fillText(names[i], 38, 0);
-                ctx.restore();
-            }
-
-            // المركز المعدني
-            ctx.beginPath();
-            ctx.arc(cx, cy, 18, 0, Math.PI * 2);
-            ctx.fillStyle = "#161622";
-            ctx.fill();
-            ctx.strokeStyle = "rgba(255,255,255,0.3)";
-            ctx.lineWidth = 2;
-            ctx.stroke();
-
-            ctx.beginPath();
-            ctx.arc(cx, cy, 5, 0, Math.PI * 2);
-            ctx.fillStyle = "#fff";
-            ctx.fill();
-        }
-
-        let spinStart = 0;
-        let spinDuration = 0;
-        let startRotation = 0;
-        let targetRotation = 0;
-
-        function startRouletteSpin() {
-            if (names.length === 0 || isSpinning) return;
-            isSpinning = true;
-            winnerBox.classList.remove('show');
-
-            spinDuration = 4500 + Math.random() * 1500;
-            startRotation = currentAngle;
-            targetRotation = currentAngle + (Math.PI * 2 * (6 + Math.random() * 4));
-
-            spinStart = performance.now();
-            requestAnimationFrame(spinAnimationLoop);
-        }
-
-        function spinAnimationLoop(timestamp) {
-            const elapsed = timestamp - spinStart;
-
-            if (elapsed < spinDuration) {
-                const t = elapsed / spinDuration;
-                const ease = 1 - Math.pow(1 - t, 4);
-                currentAngle = startRotation + (targetRotation - startRotation) * ease;
-                drawRoulette();
-                requestAnimationFrame(spinAnimationLoop);
-            } else {
-                currentAngle = targetRotation % (Math.PI * 2);
-                isSpinning = false;
-                drawRoulette();
-                announceWinner();
-            }
-        }
-
-        function announceWinner() {
-            const arc = (Math.PI * 2) / names.length;
-            const degrees = (currentAngle * 180 / Math.PI) % 360;
-            const pointerAngle = (270 - degrees + 360) % 360;
-            winIndex = Math.floor(pointerAngle / (arc * 180 / Math.PI));
-
-            document.getElementById("winnerDisplay").innerText = names[winIndex];
-            winnerBox.classList.add('show');
-        }
-
-        function closeWinner() { winnerBox.classList.remove('show'); }
-
-        function removeWinnerName() {
-            if (winIndex > -1 && winIndex < names.length) {
-                names.splice(winIndex, 1);
-                document.getElementById('nameList').value = names.join(', ');
-                applyNameList();
-            }
-            closeWinner();
-        }
-
-        // تهيئة مبدئية
-        drawRoulette();
     </script>
 </body>
 </html>
