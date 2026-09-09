@@ -49,20 +49,16 @@
         .view-section.active { display: flex; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .section-title { font-size: 1.7rem; font-weight: 900; margin-bottom: 25px; text-align: center; position: relative; }
+        .section-title { font-size: 1.7rem; font-weight: 900; margin-bottom: 25px; text-align: center; }
         .top-bar { width: 100%; max-width: 600px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
 
-        /* --- تصميم القائمة الرئيسية (مطابق لتصميم موقعك الأصلي) --- */
-        #sim-hub { display: flex; flex-direction: column; gap: 15px; width: 100%; max-width: 500px; }
-        .sim-card { 
-            display: flex; align-items: center; gap: 15px; padding: 20px; text-decoration: none; 
-            color: var(--text-main); border-radius: 16px; position: relative; overflow: hidden; cursor: pointer; transition: 0.2s;
-        }
-        .sim-card:hover { background: rgba(255, 255, 255, 0.08); transform: translateY(-3px); }
-        .sim-card i { font-size: 38px; color: var(--primary); width: 45px; text-align: center; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.3)); }
-        .sim-card-info { display: flex; flex-direction: column; gap: 4px; text-align: right; }
-        .sim-card-info h3 { font-weight: 900; font-size: 1.1rem; margin: 0; }
-        .sim-card-info p { color: var(--text-muted); font-weight: bold; line-height: 1.4; font-size: 0.85rem; margin: 0; }
+        /* --- تصميم القائمة الرئيسية --- */
+        #sim-hub { display: flex; flex-direction: column; gap: 15px; width: 100%; max-width: 400px; }
+        .sim-card { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--glass-border); border-radius: 16px; padding: 25px 20px; display: flex; align-items: center; gap: 20px; cursor: pointer; transition: 0.3s; }
+        .sim-card:hover { background: rgba(255, 255, 255, 0.08); transform: translateY(-3px); border-color: rgba(255, 255, 255, 0.3); }
+        .sim-card i { font-size: 40px; color: var(--primary); width: 45px; text-align: center; }
+        .sim-card-info h3 { margin: 0 0 5px 0; font-size: 1.2rem; font-weight: 900; }
+        .sim-card-info p { margin: 0; font-size: 12.5px; color: var(--text-muted); }
 
         /* --- تصميم الروليت --- */
         .roulette-wrapper { width: 100%; max-width: 400px; padding: 25px 20px; display: flex; flex-direction: column; align-items: center; gap: 15px; position: relative;}
@@ -134,29 +130,28 @@
 
     <div class="static-gaming-bg"></div>
 
-    <!-- القائمة الافتراضية (Hub) تفتح أولاً -->
-    <div id="view-hub" class="view-section active">
-        <h2 class="section-title">مركز المحاكيات</h2>
+    <div id="view-hub" class="view-section">
+        <h2 class="section-title">مركز المحاكيات التعليمي</h2>
         <div id="sim-hub">
             <div class="sim-card glass-panel" onclick="openSim('roulette')">
                 <i class="fa-solid fa-dharmachakra"></i>
                 <div class="sim-card-info">
-                    <h3 class="num-font">روليت الأسماء</h3>
-                    <p>عجلة حظ لتدوير واختيار الأسماء بشكل عشوائي تماماً للمسابقات والفعاليات.</p>
+                    <h3>روليت الأسماء</h3>
+                    <p>عجلة حظ لتدوير واختيار الأسماء بشكل عشوائي تماماً.</p>
                 </div>
             </div>
             <div class="sim-card glass-panel" onclick="openSim('billiards')">
                 <i class="fa-solid fa-bowling-ball"></i>
                 <div class="sim-card-info">
-                    <h3 class="num-font">محاكي البلياردو</h3>
-                    <p>تدريب احترافي على وزنية ومسار كرات 8-Ball مع تحكم بالسبين والمضرب.</p>
+                    <h3>محاكي البلياردو</h3>
+                    <p>تدريب على وزنية ومسار كرات 8-Ball مع خط توجيه كامل.</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- الروليت -->
-    <div id="view-roulette" class="view-section">
+    <!-- الروليت يفتح كواجهة افتراضية -->
+    <div id="view-roulette" class="view-section active">
         <div class="top-bar">
             <h2 class="section-title" style="margin: 0;">الروليت</h2>
             <button class="cancel-btn" onclick="openSim('hub')"><i class="fa-solid fa-arrow-right"></i> القائمة</button>
@@ -175,7 +170,7 @@
                 </div>
             </div>
             <button class="fit-btn" style="width: 100%; height: 42px;" onclick="spinRoulette()"><i class="fa-solid fa-rotate-right"></i> فر العجلة</button>
-            <textarea id="rouletteNames" class="names-input" placeholder="أدخل الأسماء هنا، افصل بينها بفاصلة (مثال: أحمد, علي, سارة)"></textarea>
+            <textarea id="rouletteNames" class="names-input" placeholder="أدخل الأسماء هنا، افصل بينها بفاصلة (مثال: YYY, YYY, YYY)"></textarea>
             <div style="width: 100%; display: flex; gap: 8px;">
                 <button class="cancel-btn" style="flex: 1;" onclick="updateRouletteWheel()"><i class="fa-solid fa-check"></i> تحديث</button>
                 <button class="cancel-btn" style="flex: 1; color: #ef4444;" onclick="resetRouletteNames()"><i class="fa-solid fa-rotate-left"></i> إعادة تعيين</button>
@@ -235,7 +230,6 @@
     </div>
 
     <script>
-        // دالة التنقل
         function openSim(viewId) {
             document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
             document.getElementById('view-' + viewId).classList.add('active');
@@ -337,7 +331,7 @@
 
 
         /* =========================================================================
-           2. محاكي البلياردو (Pro Simulator)
+           2. محاكي البلياردو الاحترافي 8-Ball
            ========================================================================= */
         const poolCanvas = document.getElementById('billiardsCanvas');
         const poolCtx = poolCanvas.getContext('2d');
@@ -350,8 +344,10 @@
         const PLAY_LEFT = CUSHION; const PLAY_RIGHT = TABLE_WIDTH - CUSHION;
         const PLAY_TOP = CUSHION; const PLAY_BOTTOM = TABLE_HEIGHT - CUSHION;
         
-        const BALL_RADIUS = 7.5;  
-        const POCKET_RADIUS = 15.5; 
+        // تصغير الكرات لتناسب الحفر والمساحة بشكل مثالي
+        const BALL_RADIUS = 6.8;  
+        // تكبير مساحة الجذب بقليل لتسهيل دخول الكرات بنعومة
+        const POCKET_RADIUS = 16.5; 
         const FRICTION = 0.988; 
 
         const POCKETS = [
@@ -411,7 +407,7 @@
                 if (!this.isCue && this.number > 0) {
                     poolCtx.beginPath(); poolCtx.arc(0, 0, this.radius * 0.55, 0, Math.PI * 2);
                     poolCtx.fillStyle = '#fff'; poolCtx.fill();
-                    poolCtx.fillStyle = '#000'; poolCtx.font = 'bold 7px Arial';
+                    poolCtx.fillStyle = '#000'; poolCtx.font = 'bold 6.5px Arial';
                     poolCtx.textAlign = 'center'; poolCtx.textBaseline = 'middle';
                     poolCtx.fillText(this.number, 0, 0.5);
                 }
@@ -441,7 +437,7 @@
                     for (let col = 0; col <= row; col++) {
                         if (bIdx >= count) break;
                         let bx = apexX + (col * BALL_RADIUS * 2.05) - (row * BALL_RADIUS * 1.025);
-                        let by = apexY - (row * BALL_RADIUS * 1.75); // مثلث للأعلى
+                        let by = apexY - (row * BALL_RADIUS * 1.75);
                         poolBalls.push(new PoolBall(bx, by, RACK_ORDER[bIdx]));
                         bIdx++;
                     }
@@ -598,6 +594,7 @@
                     if (Math.hypot(b.vx, b.vy) < 0.05) { b.vx = 0; b.vy = 0; }
                     
                     for (let p of POCKETS) {
+                        // الكرات تدخل بسلاسة وبدون تعليق بفضل تصغير قطر الكرة
                         if (Math.hypot(b.x - p.x, b.y - p.y) < POCKET_RADIUS) {
                             b.inPocket = true; b.vx = 0; b.vy = 0;
                             if (b.isCue) setTimeout(() => { b.inPocket = false; b.x = TABLE_WIDTH/2; b.y = TABLE_HEIGHT*0.75; }, 1000);
@@ -612,12 +609,14 @@
 
         function getCanvasCoordinates(e) {
             const rect = poolCanvas.getBoundingClientRect();
-            const scaleX = TABLE_WIDTH / rect.width; const scaleY = TABLE_HEIGHT / rect.height;
-            const clientX = e.touches ? e.touches[0].clientX : e.clientX; const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            const scaleX = TABLE_WIDTH / rect.width;
+            const scaleY = TABLE_HEIGHT / rect.height;
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
             return { x: (clientX - rect.left) * scaleX, y: (clientY - rect.top) * scaleY };
         }
 
-        // --- التوجيه الحر ---
+        // --- التوجيه الحر المباشر والمريح ---
         let lastTouchX = 0; let isAimingDrag = false;
 
         function handlePointerDownTable(e) {
@@ -640,7 +639,7 @@
                 draggedBall.vx = 0; draggedBall.vy = 0;
             } else if (isAimingDrag) {
                 const pos = getCanvasCoordinates(e);
-                if(poolCueBall && !poolCueBall.inPocket) {
+                if (poolCueBall && !poolCueBall.inPocket) {
                     aimAngle = Math.atan2(pos.y - poolCueBall.y, pos.x - poolCueBall.x);
                 }
             }
@@ -655,7 +654,7 @@
         window.addEventListener('touchmove', e => { if (draggedBall || isAimingDrag) { e.preventDefault(); handlePointerMoveTable(e); } }, { passive: false });
         window.addEventListener('touchend', e => { if (draggedBall || isAimingDrag) handlePointerUpTable(); }, { passive: false });
 
-        // --- شريط القوة (Power Bar) ---
+        // --- شريط القوة وطريقة الضرب المريحة ---
         const powerBar = document.getElementById('powerBar');
         const powerCue = document.getElementById('powerCue');
         let powerDragging = false; let powerStartY = 0; let powerValue = 0;
