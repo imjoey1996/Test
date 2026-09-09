@@ -306,6 +306,11 @@
         .hidden-player { display: none !important; }
 
         /* --- Custom Styles for Calculator --- */
+        .custom-calc-icon {
+            width: 22px; height: 22px; object-fit: contain;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        }
+        
         .calc-input-wrapper { position: relative; width: 100%; }
         .calc-input-wrapper input {
             width: 100%; background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border);
@@ -319,12 +324,17 @@
         .calc-input-wrapper input:focus { border-color: var(--primary); background: rgba(0,0,0,0.6); }
         .calc-input-wrapper input::placeholder { font-size: 15px; font-weight: 600; color: rgba(255,255,255,0.2); font-family: 'Cairo', sans-serif; }
         
-        .calc-input-wrapper i {
+        .calc-input-wrapper i, .calc-input-wrapper img.custom-input-icon {
             position: absolute; top: 50%; transform: translateY(-50%);
-            font-size: 20px; transition: 0.3s;
+            transition: 0.3s;
         }
-        html[dir="rtl"] .calc-input-wrapper i { left: 15px; right: auto; }
-        html[dir="ltr"] .calc-input-wrapper i { right: 15px; left: auto; }
+        .calc-input-wrapper img.custom-input-icon {
+            width: 24px; height: 24px; object-fit: contain;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        }
+        
+        html[dir="rtl"] .calc-input-wrapper i, html[dir="rtl"] .calc-input-wrapper img.custom-input-icon { left: 15px; right: auto; }
+        html[dir="ltr"] .calc-input-wrapper i, html[dir="ltr"] .calc-input-wrapper img.custom-input-icon { right: 15px; left: auto; }
         [data-theme="light"] .calc-input-wrapper input { background: rgba(255,255,255,0.5); color: #000; box-shadow: inset 0 0 5px rgba(0,0,0,0.1); border-color: rgba(0,0,0,0.1); }
         [data-theme="light"] .calc-input-wrapper input:focus { background: #fff; border-color: var(--primary); }
         [data-theme="light"] .calc-input-wrapper input::placeholder { color: rgba(0,0,0,0.4); }
@@ -728,16 +738,16 @@
                 
                 <div class="calc-toggle" style="display: flex; background: rgba(0,0,0,0.3); border-radius: 12px; border: 1px solid var(--glass-border); padding: 4px;">
                     <button class="calc-mode-btn active" id="btnModeCoins" onclick="setCalcMode('coins')" style="flex: 1; padding: 10px; border: none; background: rgba(255,255,255,0.1); border-radius: 8px; color: var(--primary); font-weight: 900; font-family: inherit; cursor: pointer; transition: 0.3s; display: flex; justify-content: center; align-items: center; gap: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
-                        <i class="fa-solid fa-coins" style="color: #fbc531;"></i> <span data-i18n="tabCoins">كوينز</span>
+                        <img src="IMG_0571.png" alt="Coins" class="custom-calc-icon"> <span data-i18n="tabCoins">كوينز</span>
                     </button>
                     <button class="calc-mode-btn" id="btnModePips" onclick="setCalcMode('pips')" style="flex: 1; padding: 10px; border: none; background: transparent; border-radius: 8px; color: var(--text-muted); font-weight: 900; font-family: inherit; cursor: pointer; transition: 0.3s; display: flex; justify-content: center; align-items: center; gap: 8px;">
-                        <i class="fa-solid fa-gem" style="color: #9c88ff;"></i> <span data-i18n="tabPips">بيبس</span>
+                        <img src="IMG_0569.png" alt="Pips" class="custom-calc-icon"> <span data-i18n="tabPips">بيبس</span>
                     </button>
                 </div>
 
                 <div class="calc-input-wrapper">
                     <input type="text" inputmode="numeric" id="calcInput" class="num-font" placeholder="أدخل عدد الكوينز..." oninput="handleCalcInput(event)">
-                    <i class="fa-solid fa-coins" id="calcInputIcon" style="color: #fbc531;"></i>
+                    <img src="IMG_0571.png" id="calcInputIcon" class="custom-input-icon" alt="icon">
                 </div>
 
                 <div class="calc-display" style="background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01)); border: 1px solid var(--glass-border); border-radius: 14px; padding: 25px 15px; text-align: center; box-shadow: inset 0 0 10px rgba(0,0,0,0.2); min-height: 130px; display: flex; flex-direction: column; justify-content: center;">
@@ -1951,8 +1961,7 @@
                 btnPips.style.color = 'var(--text-muted)';
                 
                 input.placeholder = t.placeholderCoins;
-                icon.className = 'fa-solid fa-coins';
-                icon.style.color = '#fbc531';
+                icon.src = 'IMG_0571.png';
                 resultCurr.innerText = t.currPips;
             } else {
                 btnPips.classList.add('active');
@@ -1963,8 +1972,7 @@
                 btnCoins.style.color = 'var(--text-muted)';
                 
                 input.placeholder = t.placeholderPips;
-                icon.className = 'fa-solid fa-gem';
-                icon.style.color = '#9c88ff';
+                icon.src = 'IMG_0569.png';
                 resultCurr.innerText = t.currCoins;
             }
             
