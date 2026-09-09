@@ -88,10 +88,10 @@
 
         .controls-left { 
             position: absolute; left: 8px; bottom: 25px; 
-            display: flex; flex-direction: column; align-items: center; gap: 10px; z-index: 10;
+            display: flex; flex-direction: column; align-items: center; gap: 8px; z-index: 10;
         }
 
-        .spin-toggle { width: 30px; height: 30px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, #fff, #ccc); border: 2px solid #333; box-shadow: 0 4px 10px rgba(0,0,0,0.6); cursor: pointer; display: flex; justify-content: center; align-items: center; position: relative; }
+        .spin-toggle { width: 32px; height: 32px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, #fff, #ccc); border: 2px solid #333; box-shadow: 0 4px 10px rgba(0,0,0,0.6); cursor: pointer; display: flex; justify-content: center; align-items: center; position: relative; }
         .spin-dot-indicator { width: 6px; height: 6px; background: #ef4444; border-radius: 50%; position: absolute; }
         
         .spin-modal { display: none; position: absolute; left: 45px; bottom: 250px; background: rgba(20,20,25,0.98); padding: 15px; border-radius: 12px; border: 1px solid var(--glass-border); box-shadow: 0 10px 30px rgba(0,0,0,0.9); z-index: 20; flex-direction: column; align-items: center; gap: 12px; }
@@ -104,42 +104,25 @@
         .spin-crosshair.vert { top: 0; left: 50%; width: 1px; height: 100%; }
         .spin-dot-main { position: absolute; width: 14px; height: 14px; background: #ef4444; border-radius: 50%; border: 2px solid #fff; top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; box-shadow: 0 2px 5px rgba(0,0,0,0.5); }
 
-        /* --- شريط القوة (Power Bar) الاحترافي --- */
+        /* شريط القوة (Power Bar) */
         .power-bar-wrapper {
-            width: 24px; /* حجم أنيق ومتناسق */
-            height: 240px; 
-            border-radius: 12px; border: 3px solid #1a1a1a; 
-            /* التدرج اللوني الدقيق لبلاتو */
-            background: linear-gradient(to bottom, #7bed9f 0%, #eccc68 35%, #ffa502 65%, #ff4757 100%);
-            position: relative; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.8), inset 0 0 8px rgba(0,0,0,0.6); 
+            width: 26px; height: 230px; border-radius: 13px; border: 2px solid #111;
+            background: linear-gradient(to top, #ff3333 0%, #ff9933 30%, #ffcc00 60%, #99cc33 100%);
+            position: relative; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.8), inset 0 0 10px rgba(0,0,0,0.5); 
             touch-action: none; cursor: grab; 
         }
         .power-bar-wrapper:active { cursor: grabbing; }
-        
-        /* 4 خطوط سوداء تفصل الشريط بوضوح لـ 5 أجزاء */
         .power-lines {
             position: absolute; width: 100%; height: 100%; top: 0; left: 0;
-            background: linear-gradient(to bottom, 
-                transparent calc(20% - 1.5px), #111 calc(20% - 1.5px), #111 calc(20% + 1.5px), 
-                transparent calc(20% + 1.5px), transparent calc(40% - 1.5px), #111 calc(40% - 1.5px), #111 calc(40% + 1.5px), 
-                transparent calc(40% + 1.5px), transparent calc(60% - 1.5px), #111 calc(60% - 1.5px), #111 calc(60% + 1.5px), 
-                transparent calc(60% + 1.5px), transparent calc(80% - 1.5px), #111 calc(80% - 1.5px), #111 calc(80% + 1.5px), 
-                transparent calc(80% + 1.5px));
+            background: repeating-linear-gradient(to bottom, transparent, transparent 19.5%, rgba(0,0,0,0.8) 20%);
             pointer-events: none; z-index: 2;
         }
-        /* الخط الرفيع بالمنتصف */
-        .power-lines::after {
-            content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-            width: 1px; height: 100%; background: rgba(0,0,0,0.2); 
-        }
-        
-        /* شكل عصا البلياردو الاحترافي */
         .power-cue {
             position: absolute; left: 50%; transform: translateX(-50%); top: -5px; 
-            width: 5px; height: 260px; pointer-events: none; z-index: 3; border-radius: 2px;
-            /* تصميم رأس العصا: أبيض -> خط أسود -> لون الخشب */
-            background: linear-gradient(to bottom, #f5f6fa 0%, #f5f6fa 2%, #2f3542 2%, #2f3542 3%, #c49a6c 3%, #8b5a33 100%);
-            box-shadow: 2px 0 3px rgba(0,0,0,0.5);
+            width: 7px; height: 240px; border-radius: 3.5px; pointer-events: none; z-index: 3;
+            background: linear-gradient(to right, #a07855, #f5f6fa, #a07855);
+            border-bottom: 6px solid #222; 
+            box-shadow: 0 5px 10px rgba(0,0,0,0.6);
         }
     </style>
 </head>
@@ -348,7 +331,7 @@
 
 
         /* =========================================================================
-           2. محاكي البلياردو الاحترافي
+           2. محاكي البلياردو الاحترافي 8-Ball
            ========================================================================= */
         const poolCanvas = document.getElementById('billiardsCanvas');
         const poolCtx = poolCanvas.getContext('2d');
@@ -363,7 +346,12 @@
         
         const BALL_RADIUS = 7.5;  
         const POCKET_RADIUS = 15.5; 
-        const FRICTION = 0.988; 
+        
+        // تعديل مهم: تم تقليل الاحتكاك الطبيعي لتصبح الكرات واقعية 100% ولا تستمر بالانزلاق
+        const FRICTION = 0.978; 
+
+        // تحديد مساحة السقوط الفعلية للحفرة (أوسع بقليل من الرسم لتسهيل الدخول بواقعية)
+        const POCKET_DROP_RADIUS = 20;
 
         const POCKETS = [
             { x: PLAY_LEFT - 2, y: PLAY_TOP - 2 }, { x: PLAY_RIGHT + 2, y: PLAY_TOP - 2 },
@@ -382,6 +370,7 @@
         let poolBalls = []; let poolCueBall = null;
         let aimAngle = -Math.PI / 2; 
         let spinX = 0; let spinY = 0;
+        let activeSpinX = 0; let activeSpinY = 0; // لضمان تطبيق السبين أثناء الضربة فقط
         let draggedBall = null; 
 
         class PoolBall {
@@ -559,6 +548,7 @@
             }
         }
 
+        // Sub-stepping مع فيزياء السبين الحقيقية
         function poolGameLoop() {
             const SUB_STEPS = 5; 
             for(let step=0; step<SUB_STEPS; step++) {
@@ -566,10 +556,22 @@
                     if(!b.inPocket) {
                         b.x += b.vx / SUB_STEPS; b.y += b.vy / SUB_STEPS;
                         
-                        if (b.x - b.radius < PLAY_LEFT) { b.x = PLAY_LEFT + b.radius; b.vx = -b.vx * 0.85; if(b.isCue) b.vy += spinX * 0.6; } 
-                        else if (b.x + b.radius > PLAY_RIGHT) { b.x = PLAY_RIGHT - b.radius; b.vx = -b.vx * 0.85; if(b.isCue) b.vy -= spinX * 0.6; }
-                        if (b.y - b.radius < PLAY_TOP) { b.y = PLAY_TOP + b.radius; b.vy = -b.vy * 0.85; if(b.isCue) b.vx += spinX * 0.6; } 
-                        else if (b.y + b.radius > PLAY_BOTTOM) { b.y = PLAY_BOTTOM - b.radius; b.vy = -b.vy * 0.85; if(b.isCue) b.vx -= spinX * 0.6; }
+                        if (b.x - b.radius < PLAY_LEFT) { 
+                            b.x = PLAY_LEFT + b.radius; b.vx = -b.vx * 0.85; 
+                            if(b.isCue) { b.vy -= activeSpinX * 1.5; activeSpinX *= 0.5; } 
+                        } 
+                        else if (b.x + b.radius > PLAY_RIGHT) { 
+                            b.x = PLAY_RIGHT - b.radius; b.vx = -b.vx * 0.85; 
+                            if(b.isCue) { b.vy += activeSpinX * 1.5; activeSpinX *= 0.5; } 
+                        }
+                        if (b.y - b.radius < PLAY_TOP) { 
+                            b.y = PLAY_TOP + b.radius; b.vy = -b.vy * 0.85; 
+                            if(b.isCue) { b.vx += activeSpinX * 1.5; activeSpinX *= 0.5; } 
+                        } 
+                        else if (b.y + b.radius > PLAY_BOTTOM) { 
+                            b.y = PLAY_BOTTOM - b.radius; b.vy = -b.vy * 0.85; 
+                            if(b.isCue) { b.vx -= activeSpinX * 1.5; activeSpinX *= 0.5; } 
+                        }
                     }
                 });
 
@@ -588,15 +590,20 @@
                             let kx = b1.vx - b2.vx, ky = b1.vy - b2.vy;
                             let p = (nx * kx + ny * ky);
                             
-                            b1.vx -= p * nx; b1.vy -= p * ny;
-                            b2.vx += p * nx; b2.vy += p * ny;
+                            if (p > 0) {
+                                b1.vx -= p * nx; b1.vy -= p * ny;
+                                b2.vx += p * nx; b2.vy += p * ny;
 
-                            if (b1.isCue) {
-                                b1.vx += Math.cos(aimAngle) * (-spinY) * 0.5; 
-                                b1.vy += Math.sin(aimAngle) * (-spinY) * 0.5;
-                            } else if (b2.isCue) {
-                                b2.vx += Math.cos(aimAngle) * (-spinY) * 0.5;
-                                b2.vy += Math.sin(aimAngle) * (-spinY) * 0.5;
+                                // تأثير السبين (Draw/Follow) المباشر والحقيقي عند الاصطدام بالكرات
+                                if (b1.isCue) {
+                                    b1.vx += Math.cos(aimAngle) * (-activeSpinY) * 2.0; 
+                                    b1.vy += Math.sin(aimAngle) * (-activeSpinY) * 2.0;
+                                    activeSpinY *= 0.4; activeSpinX *= 0.4;
+                                } else if (b2.isCue) {
+                                    b2.vx += Math.cos(aimAngle) * (-activeSpinY) * 2.0;
+                                    b2.vy += Math.sin(aimAngle) * (-activeSpinY) * 2.0;
+                                    activeSpinY *= 0.4; activeSpinX *= 0.4;
+                                }
                             }
                         }
                     }
@@ -609,7 +616,8 @@
                     if (Math.hypot(b.vx, b.vy) < 0.05) { b.vx = 0; b.vy = 0; }
                     
                     for (let p of POCKETS) {
-                        if (Math.hypot(b.x - p.x, b.y - p.y) < POCKET_RADIUS) {
+                        // الحفر أصبحت واسعة الاستيعاب كما طلبت لسقوط الكرات بنعومة
+                        if (Math.hypot(b.x - p.x, b.y - p.y) < POCKET_DROP_RADIUS) {
                             b.inPocket = true; b.vx = 0; b.vy = 0;
                             if (b.isCue) setTimeout(() => { b.inPocket = false; b.x = TABLE_WIDTH/2; b.y = TABLE_HEIGHT*0.75; }, 1000);
                             break;
@@ -667,7 +675,6 @@
         window.addEventListener('touchmove', e => { if (draggedBall || isAimingDrag) { e.preventDefault(); handlePointerMoveTable(e); } }, { passive: false });
         window.addEventListener('touchend', e => { if (draggedBall || isAimingDrag) handlePointerUpTable(); }, { passive: false });
 
-        // --- شريط القوة بمعامل الضربة القياسي (Plato Break Shot Power) ---
         const powerBar = document.getElementById('powerBar');
         const powerCue = document.getElementById('powerCue');
         let powerDragging = false; let powerStartY = 0; let powerValue = 0;
@@ -687,19 +694,25 @@
             let isMoving = poolBalls.some(b => !b.inPocket && (Math.abs(b.vx) > 0.05 || Math.abs(b.vy) > 0.05));
             if (isMoving || powerValue < 0.05) return; 
 
-            // قوة الضربة مضبوطة هنا لتكون واقعية 100% (تطابق الفيديو تماماً)
-            let power = powerValue * 19; 
+            // حفظ قيمة السبين المحددة حالياً لتطبيقها على الضربة
+            activeSpinX = spinX;
+            activeSpinY = spinY;
+
+            let power = powerValue * 22; 
             poolCueBall.vx = Math.cos(aimAngle) * power;
             poolCueBall.vy = Math.sin(aimAngle) * power;
         }
 
         powerBar.addEventListener('mousedown', e => { handlePowerDown(e.clientY); });
         window.addEventListener('mousemove', e => { if(powerDragging) updatePowerUI(e.clientY); });
-        window.addEventListener('mouseup', () => { if(powerDragging) { powerDragging = false; shootCueBall(); powerValue = 0; powerCue.style.top = '-5px'; } });
+        window.addEventListener('mouseup', () => { 
+            if(powerDragging) { powerDragging = false; shootCueBall(); powerValue = 0; powerCue.style.top = '-5px'; }
+        });
         powerBar.addEventListener('touchstart', e => { e.preventDefault(); handlePowerDown(e.touches[0].clientY); }, { passive: false });
         window.addEventListener('touchmove', e => { if(powerDragging) { e.preventDefault(); updatePowerUI(e.touches[0].clientY); } }, { passive: false });
-        window.addEventListener('touchmove', e => { if(powerDragging) { e.preventDefault(); updatePowerUI(e.touches[0].clientY); } }, { passive: false });
-        window.addEventListener('touchend', () => { if(powerDragging) { powerDragging = false; shootCueBall(); powerValue = 0; powerCue.style.top = '-5px'; } });
+        window.addEventListener('touchend', () => { 
+            if(powerDragging) { powerDragging = false; shootCueBall(); powerValue = 0; powerCue.style.top = '-5px'; }
+        });
 
         /* --- تحكم السبين --- */
         function toggleSpinModal() { document.getElementById('spinModal').classList.toggle('active'); }
