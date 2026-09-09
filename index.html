@@ -104,24 +104,33 @@
         .spin-crosshair.vert { top: 0; left: 50%; width: 1px; height: 100%; }
         .spin-dot-main { position: absolute; width: 14px; height: 14px; background: #ef4444; border-radius: 50%; border: 2px solid #fff; top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; box-shadow: 0 2px 5px rgba(0,0,0,0.5); }
 
-        /* شريط القوة (Power Bar) */
+        /* --- شريط القوة (مطابق لـ image_16.png) --- */
         .power-bar-wrapper {
-            width: 26px; height: 230px; border-radius: 13px; border: 2px solid #111;
-            background: linear-gradient(to top, #ff3333 0%, #ff9933 30%, #ffcc00 60%, #99cc33 100%);
+            width: 26px; height: 230px; border-radius: 13px; border: 2.5px solid #111;
+            /* التدرج اللوني المطابق للصورة: من الأخضر للأصفر للبرتقالي للأحمر */
+            background: linear-gradient(to bottom, #a2e02e 0%, #facc15 35%, #f97316 70%, #ea580c 100%);
             position: relative; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.8), inset 0 0 10px rgba(0,0,0,0.5); 
             touch-action: none; cursor: grab; 
         }
         .power-bar-wrapper:active { cursor: grabbing; }
+        /* 4 خطوط سوداء تفصل الشريط إلى 5 أجزاء */
         .power-lines {
             position: absolute; width: 100%; height: 100%; top: 0; left: 0;
-            background: repeating-linear-gradient(to bottom, transparent, transparent 19.5%, rgba(0,0,0,0.8) 20%);
+            background: linear-gradient(to bottom, 
+                transparent calc(20% - 1.5px), #111 calc(20% - 1.5px), #111 calc(20% + 1.5px), 
+                transparent calc(20% + 1.5px), transparent calc(40% - 1.5px), #111 calc(40% - 1.5px), #111 calc(40% + 1.5px), 
+                transparent calc(40% + 1.5px), transparent calc(60% - 1.5px), #111 calc(60% - 1.5px), #111 calc(60% + 1.5px), 
+                transparent calc(60% + 1.5px), transparent calc(80% - 1.5px), #111 calc(80% - 1.5px), #111 calc(80% + 1.5px), 
+                transparent calc(80% + 1.5px));
             pointer-events: none; z-index: 2;
         }
+        /* تصميم العصا الداخلي (مثل الصورة) */
         .power-cue {
             position: absolute; left: 50%; transform: translateX(-50%); top: -5px; 
-            width: 7px; height: 240px; border-radius: 3.5px; pointer-events: none; z-index: 3;
-            background: linear-gradient(to right, #a07855, #f5f6fa, #a07855);
-            border-bottom: 6px solid #222; 
+            width: 7px; height: 240px; pointer-events: none; z-index: 3;
+            /* لون خشبي مع رأس أبيض وخط أسود */
+            background: linear-gradient(to bottom, #f5f6fa 1%, #333 1%, #333 3%, #c49a6c 3%, #8a5a3a 100%);
+            border-radius: 3px;
             box-shadow: 0 5px 10px rgba(0,0,0,0.6);
         }
     </style>
@@ -130,16 +139,10 @@
 
     <div class="static-gaming-bg"></div>
 
-    <div id="view-hub" class="view-section">
+    <!-- القائمة الرئيسية تفتح أولاً -->
+    <div id="view-hub" class="view-section active">
         <h2 class="section-title">مركز المحاكيات التعليمي</h2>
         <div id="sim-hub">
-            <div class="sim-card glass-panel" onclick="openSim('roulette')">
-                <i class="fa-solid fa-dharmachakra"></i>
-                <div class="sim-card-info">
-                    <h3>روليت الأسماء</h3>
-                    <p>عجلة حظ لتدوير واختيار الأسماء بشكل عشوائي تماماً.</p>
-                </div>
-            </div>
             <div class="sim-card glass-panel" onclick="openSim('billiards')">
                 <i class="fa-solid fa-bowling-ball"></i>
                 <div class="sim-card-info">
@@ -147,11 +150,18 @@
                     <p>تدريب على وزنية ومسار كرات 8-Ball مع خط توجيه كامل.</p>
                 </div>
             </div>
+            <div class="sim-card glass-panel" onclick="openSim('roulette')">
+                <i class="fa-solid fa-dharmachakra"></i>
+                <div class="sim-card-info">
+                    <h3>روليت الأسماء</h3>
+                    <p>عجلة حظ لتدوير واختيار الأسماء بشكل عشوائي تماماً.</p>
+                </div>
+            </div>
         </div>
     </div>
 
     <!-- الروليت -->
-    <div id="view-roulette" class="view-section active">
+    <div id="view-roulette" class="view-section">
         <div class="top-bar">
             <h2 class="section-title" style="margin: 0;">الروليت</h2>
             <button class="cancel-btn" onclick="openSim('hub')"><i class="fa-solid fa-arrow-right"></i> القائمة</button>
@@ -331,7 +341,7 @@
 
 
         /* =========================================================================
-           2. محاكي البلياردو الاحترافي 8-Ball
+           2. محاكي البلياردو الاحترافي
            ========================================================================= */
         const poolCanvas = document.getElementById('billiardsCanvas');
         const poolCtx = poolCanvas.getContext('2d');
@@ -667,10 +677,9 @@
         function shootCueBall() {
             if (!poolCueBall || poolCueBall.inPocket) return;
             let isMoving = poolBalls.some(b => !b.inPocket && (Math.abs(b.vx) > 0.05 || Math.abs(b.vy) > 0.05));
-            if (isMoving || powerValue < 0.02) return; // السماح بضربات خفيفة
+            if (isMoving || powerValue < 0.05) return; 
 
-            // تم ضبط القوة هنا لتطابق الفيديوهات (ضربة قياسية)
-            let power = powerValue * 21; 
+            let power = powerValue * 15; 
             poolCueBall.vx = Math.cos(aimAngle) * power;
             poolCueBall.vy = Math.sin(aimAngle) * power;
         }
