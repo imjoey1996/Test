@@ -2055,19 +2055,21 @@
             let targetColor = '';
             let targetShadow = '';
 
+            // تم التحديث هنا: عندما يكون الوضع 'coins' تكون النتيجة بالأسفل 'بيبس' فيأخذ اللون #6AA8EB
+            // وعندما يكون الوضع 'pips' تكون النتيجة بالأسفل 'كوينز' فتأخذ اللون #fdd74e
             if (calcMode === 'coins') {
                 let estimatedPips = val / 450; 
                 currentActualRate = getDynamicRate(estimatedPips);
                 targetValue = val / currentActualRate;
                 isResultFloat = true;
-                targetColor = '#9c88ff';
-                targetShadow = '0 0 25px rgba(156, 136, 255, 0.4)';
+                targetColor = '#6AA8EB';
+                targetShadow = '0 0 25px rgba(106, 168, 235, 0.4)';
             } else {
                 currentActualRate = getDynamicRate(val);
                 targetValue = Math.round(val * currentActualRate);
                 isResultFloat = false;
-                targetColor = '#fbc531';
-                targetShadow = '0 0 25px rgba(251, 197, 49, 0.4)';
+                targetColor = '#fdd74e';
+                targetShadow = '0 0 25px rgba(253, 215, 78, 0.4)';
             }
 
             let currentDisplay = parseFloat(outVal.innerText.replace(/,/g, '')) || 0;
