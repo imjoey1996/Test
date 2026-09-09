@@ -306,6 +306,83 @@
 
         .hidden-player { display: none !important; }
 
+        /* ستايل محاكي البلياردو الاحترافي */
+        .billiards-card {
+            width: 100%;
+            max-width: 820px;
+            padding: 25px 20px;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        .billiards-controls-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            width: 100%;
+        }
+        .billiards-input-box {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 5px 14px;
+            border-radius: 10px;
+            border: 1px solid var(--glass-border);
+        }
+        .billiards-input-box label {
+            font-size: 13.5px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+        .billiards-input-box input {
+            width: 55px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--glass-border);
+            color: var(--primary);
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            font-weight: 900;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 16px;
+            outline: none;
+        }
+        .billiards-canvas-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+        #billiardsCanvas {
+            width: 100%;
+            max-width: 760px;
+            height: auto;
+            aspect-ratio: 2 / 1;
+            border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6), inset 0 0 25px rgba(0,0,0,0.9);
+            touch-action: none;
+            cursor: crosshair;
+            background: #0d4a2b;
+        }
+        .billiards-status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 760px;
+            margin-top: 8px;
+            padding: 0 8px;
+            font-size: 12.5px;
+            color: var(--text-muted);
+            font-weight: 700;
+        }
+
         @media (max-width: 600px) {
             .main-lang-switch { margin-top: calc(85px + env(safe-area-inset-top)); margin-bottom: 10px; } 
             .main-lang-switch .lang-btn { padding: 6px 15px; }
@@ -376,8 +453,8 @@
     </nav>
 
     <div class="main-lang-switch" dir="rtl">
-        <button type="button" class="lang-btn" onclick="changeLang('ar')" id="btn-ar" style="font-size: 18px;">🇦🇪</button>
-        <button type="button" class="lang-btn" onclick="changeLang('en')" id="btn-en" style="font-size: 18px;">🇺🇸</button>
+        <button type="button" class="lang-btn" onclick="changeLang('ar')" id="btn-ar">العربية</button>
+        <button type="button" class="lang-btn" onclick="changeLang('en')" id="btn-en">English</button>
     </div>
 
     <main id="view-home" class="tab-view active-view">
@@ -718,32 +795,12 @@
 
         <div class="cyber-divider"><div class="center-node"></div></div>
 
-        <!-- قسم النصائح الجديد -->
+        <!-- قسم النصائح -->
         <section id="daily-tips">
             <h2 class="section-title" data-i18n="tips_title">نصائح</h2>
             <div class="glass-panel" style="width: 100%; max-width: 750px; padding: 30px; border-radius: 16px; text-align: center; position: relative;">
                 <i class="fa-solid fa-quote-right" style="position: absolute; top: 15px; right: 20px; font-size: 25px; color: var(--glass-border);"></i>
                 <p id="tip-content" class="glass-desc-text" style="font-weight: 700; font-size: 1.1rem; line-height: 1.8; margin-top: 10px;" data-i18n="tips_loading">جاري تحميل النصيحة...</p>
-            </div>
-        </section>
-
-        <!-- محاكي البلياردو -->
-        <div class="cyber-divider"><div class="center-node"></div></div>
-
-        <section id="billiards-sim">
-            <h2 class="section-title" data-i18n="sim_billiards">محاكي البلياردو (الوزنيات)</h2>
-            <div class="glass-panel" style="width: 100%; max-width: 750px; padding: 20px; border-radius: 16px; text-align: center;">
-                <p class="glass-desc-text" style="margin-bottom: 15px; font-weight: 600;">
-                    اسحب بإصبعك أو بالماوس حول الكرة البيضاء لتحديد زاوية التسديد وحساب مسار الارتداد.
-                </p>
-                
-                <div style="position: relative; width: 100%; max-width: 600px; margin: 0 auto; background: #1a472a; border: 12px solid #5c4033; border-radius: 12px; box-shadow: inset 0 0 20px rgba(0,0,0,0.5), 0 10px 30px rgba(0,0,0,0.5);">
-                    <canvas id="billiardCanvas" width="600" height="300" style="width: 100%; aspect-ratio: 2/1; display: block; touch-action: none; cursor: crosshair;"></canvas>
-                </div>
-                
-                <button type="button" class="cancel-btn" onclick="resetBilliard()" style="margin-top: 20px; width: auto; padding: 8px 20px;">
-                    <i class="fa-solid fa-rotate-right"></i> إعادة ضبط الكرة
-                </button>
             </div>
         </section>
 
@@ -759,6 +816,46 @@
                 <a href="https://discord.com/channels/1476420629698711778/1476603091095916738" target="_blank" rel="noopener noreferrer" class="fit-btn" style="background-color: var(--text-main); color: var(--bg-main);">
                     <i class="fa-brands fa-discord"></i> <span data-i18n="join_us_btn">تواصل معنا</span>
                 </a>
+            </div>
+        </section>
+
+        <div class="cyber-divider"><div class="center-node"></div></div>
+
+        <!-- قسم محاكي البلياردو الاحترافي | Billiards Simulator Section -->
+        <section id="billiards-sim">
+            <h2 class="section-title" data-i18n="billiards_sim_title">محاكي البلياردو | Billiards Simulator</h2>
+            
+            <div class="glass-panel billiards-card">
+                <p class="glass-desc-text" style="text-align: center; max-width: 650px;" data-i18n="billiards_sim_desc">
+                    محاكي تدريبي احترافي لوزنية ومسار كرات بلاتو. اسحب الكرة البيضاء للخلف لتحديد قوة واتجاه الضربة ثم أفلت للتسديد.
+                </p>
+
+                <div class="billiards-controls-bar">
+                    <div class="billiards-input-box">
+                        <label for="ballCountInput" data-i18n="billiards_balls_count">عدد الكرات:</label>
+                        <input type="number" id="ballCountInput" min="1" max="15" value="7">
+                    </div>
+
+                    <button type="button" class="fit-btn" onclick="initPoolBalls(true)" style="height: 36px; padding: 0 16px;">
+                        <i class="fa-solid fa-arrows-left-right"></i> <span data-i18n="billiards_line_setup">ترتيب طولي</span>
+                    </button>
+
+                    <button type="button" class="cancel-btn" onclick="initPoolBalls(false)" style="height: 36px; max-width: 130px; flex: none;">
+                        <i class="fa-solid fa-shapes"></i> <span data-i18n="billiards_triangle_setup">مثلث نظامي</span>
+                    </button>
+
+                    <button type="button" class="cancel-btn" onclick="resetCueBallOnly()" style="height: 36px; max-width: 140px; flex: none;">
+                        <i class="fa-solid fa-rotate-left"></i> <span data-i18n="billiards_reset_cue">إعادة البيضاء</span>
+                    </button>
+                </div>
+
+                <div class="billiards-canvas-container">
+                    <canvas id="billiardsCanvas" width="900" height="450"></canvas>
+                    <div class="billiards-status-bar">
+                        <span id="billiards-power-text"><i class="fa-solid fa-bolt"></i> <span data-i18n="billiards_power_label">القوة:</span> 0%</span>
+                        <span id="billiards-active-balls"><i class="fa-solid fa-circle"></i> <span data-i18n="billiards_remaining_label">الكرات المتبقية:</span> 7</span>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -843,6 +940,9 @@
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
             if (viewName === 'home') setTimeout(updateCarouselButtons, 80);
+            if (viewName === 'leaderboard') {
+                setTimeout(() => { if (typeof updateCanvasGeometry === 'function') updateCanvasGeometry(); }, 120);
+            }
         }
 
         function toggleNotif() {
@@ -990,6 +1090,7 @@
             document.getElementById('char-counter').innerText = '1499';
         }
 
+        // تم تحسين دالة التنظيف للحماية من XSS
         function escapeHTML(str) {
             if (!str) return "";
             return String(str).replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag) );
@@ -998,6 +1099,7 @@
         async function submitBugReport() {
             const isAr = document.documentElement.lang === 'ar';
             
+            // حماية مضاعفة من السبام
             const lastReportTime = safeGetStorage('last_bug_report') || safeGetSession('last_bug_report_session');
             if (lastReportTime) {
                 const elapsed = Date.now() - parseInt(lastReportTime);
@@ -1054,6 +1156,7 @@
             submitBtn.disabled = true;
 
             try {
+                // تأمين الإرسال: استخدام طريقة POST لإخفاء البيانات من الرابط
                 const formData = new URLSearchParams();
                 formData.append("plato_id", platoId);
                 formData.append("issue_type", bugType);
@@ -1266,7 +1369,14 @@
                 link_werepedia_desc: "موقع متخصص في لعبة الذئب، يقدّم شرحًا مفصلًا للبطاقات والأدوار، بالإضافة إلى استراتيجيات ونصائح تساعد على تطوير أسلوب اللعب.",
                 link_monsterpedia_desc: "موسوعة متخصصة في لعبة الوحوش، تشرح محتوى اللعبة بالتفصيل.",
                 no_tournaments: "لا بطولات في الوقت الحالي.",
-                sim_billiards: "محاكي البلياردو (الوزنيات)"
+                billiards_sim_title: "محاكي البلياردو | Billiards Simulator",
+                billiards_sim_desc: "محاكي تدريبي احترافي لوزنية ومسار كرات بلاتو. اسحب الكرة البيضاء للخلف لتحديد قوة واتجاه الضربة ثم أفلت للتسديد.",
+                billiards_balls_count: "عدد الكرات:",
+                billiards_line_setup: "ترتيب طولي",
+                billiards_triangle_setup: "مثلث نظامي",
+                billiards_reset_cue: "إعادة البيضاء",
+                billiards_power_label: "القوة:",
+                billiards_remaining_label: "الكرات المتبقية:"
             },
             en: {
                 nav_home: "Home", nav_leaders: "About Leaders", nav_leaderboard: "Explore",
@@ -1319,7 +1429,14 @@
                 link_werepedia_desc: "A Werewolf guide covering cards, roles, and gameplay strategies.",
                 link_monsterpedia_desc: "A Monster guide covering the game's content in detail.",
                 no_tournaments: "No tournaments at the moment.",
-                sim_billiards: "Billiards Simulator (Aiming)"
+                billiards_sim_title: "Billiards Simulator | محاكي البلياردو",
+                billiards_sim_desc: "Professional practice simulator for Plato pool physics and aiming lines. Drag back the cue ball to aim and control shot power.",
+                billiards_balls_count: "Balls Count:",
+                billiards_line_setup: "Line Setup",
+                billiards_triangle_setup: "Triangle Setup",
+                billiards_reset_cue: "Reset Cue Ball",
+                billiards_power_label: "Power:",
+                billiards_remaining_label: "Remaining Balls:"
             }
         };
 
@@ -1876,6 +1993,462 @@
             });
         }
 
+        /* =========================================================================
+           محاكي البلياردو الاحترافي (Plato Physics & Table Simulator)
+           ========================================================================= */
+        const poolCanvas = document.getElementById('billiardsCanvas');
+        const poolCtx = poolCanvas.getContext('2d');
+
+        const TABLE_WIDTH = 900;
+        const TABLE_HEIGHT = 450;
+        const CUSHION = 38; 
+        const PLAY_LEFT = CUSHION;
+        const PLAY_RIGHT = TABLE_WIDTH - CUSHION;
+        const PLAY_TOP = CUSHION;
+        const PLAY_BOTTOM = TABLE_HEIGHT - CUSHION;
+        const BALL_RADIUS = 11.5;
+        const POCKET_RADIUS = 23;
+        const FRICTION = 0.988; // احتكاك وزنية بلاتو
+
+        const POCKETS = [
+            { x: PLAY_LEFT + 2, y: PLAY_TOP + 2 },
+            { x: TABLE_WIDTH / 2, y: PLAY_TOP - 2 },
+            { x: PLAY_RIGHT - 2, y: PLAY_TOP + 2 },
+            { x: PLAY_LEFT + 2, y: PLAY_BOTTOM - 2 },
+            { x: TABLE_WIDTH / 2, y: PLAY_BOTTOM + 2 },
+            { x: PLAY_RIGHT - 2, y: PLAY_BOTTOM - 2 }
+        ];
+
+        const BALL_COLORS = [
+            '#F9CA24', '#0984E3', '#D63031', '#6C5CE7',
+            '#E17055', '#00B894', '#B53471', '#2D3436',
+            '#F9CA24', '#0984E3', '#D63031', '#6C5CE7',
+            '#E17055', '#00B894', '#B53471'
+        ];
+
+        let poolBalls = [];
+        let poolCueBall = null;
+        let isAiming = false;
+        let aimStartPos = { x: 0, y: 0 };
+        let aimCurrentPos = { x: 0, y: 0 };
+        let currentShotPower = 0;
+
+        class PoolBall {
+            constructor(x, y, color = '#ffffff', number = 0, isCue = false) {
+                this.x = x;
+                this.y = y;
+                this.vx = 0;
+                this.vy = 0;
+                this.radius = BALL_RADIUS;
+                this.color = color;
+                this.number = number;
+                this.isCue = isCue;
+                this.inPocket = false;
+                this.scale = 1;
+            }
+
+            draw() {
+                if (this.inPocket) return;
+                poolCtx.save();
+                poolCtx.translate(this.x, this.y);
+                poolCtx.scale(this.scale, this.scale);
+
+                // ظل كروي
+                poolCtx.beginPath();
+                poolCtx.arc(1.5, 2, this.radius, 0, Math.PI * 2);
+                poolCtx.fillStyle = 'rgba(0, 0, 0, 0.45)';
+                poolCtx.fill();
+
+                // جسم الكرة وتدرج الضوء
+                const grad = poolCtx.createRadialGradient(-this.radius * 0.35, -this.radius * 0.35, 1, 0, 0, this.radius);
+                if (this.isCue) {
+                    grad.addColorStop(0, '#ffffff');
+                    grad.addColorStop(0.8, '#f1f2f6');
+                    grad.addColorStop(1, '#ced6e0');
+                } else {
+                    grad.addColorStop(0, '#ffffff');
+                    grad.addColorStop(0.3, this.color);
+                    grad.addColorStop(1, '#111111');
+                }
+
+                poolCtx.beginPath();
+                poolCtx.arc(0, 0, this.radius, 0, Math.PI * 2);
+                poolCtx.fillStyle = grad;
+                poolCtx.fill();
+
+                // رقم الكرة
+                if (!this.isCue && this.number > 0) {
+                    poolCtx.beginPath();
+                    poolCtx.arc(0, 0, this.radius * 0.48, 0, Math.PI * 2);
+                    poolCtx.fillStyle = '#ffffff';
+                    poolCtx.fill();
+
+                    poolCtx.fillStyle = '#111111';
+                    poolCtx.font = 'bold 8px Rajdhani, sans-serif';
+                    poolCtx.textAlign = 'center';
+                    poolCtx.textBaseline = 'middle';
+                    poolCtx.fillText(this.number, 0, 0.5);
+                }
+
+                poolCtx.restore();
+            }
+
+            update() {
+                if (this.inPocket) return;
+
+                this.x += this.vx;
+                this.y += this.vy;
+
+                this.vx *= FRICTION;
+                this.vy *= FRICTION;
+
+                if (Math.hypot(this.vx, this.vy) < 0.05) {
+                    this.vx = 0;
+                    this.vy = 0;
+                }
+
+                // ارتداد الوسائد مع امتصاص طاقة بسيط
+                if (this.x - this.radius < PLAY_LEFT) {
+                    this.x = PLAY_LEFT + this.radius;
+                    this.vx = -this.vx * 0.95;
+                } else if (this.x + this.radius > PLAY_RIGHT) {
+                    this.x = PLAY_RIGHT - this.radius;
+                    this.vx = -this.vx * 0.95;
+                }
+
+                if (this.y - this.radius < PLAY_TOP) {
+                    this.y = PLAY_TOP + this.radius;
+                    this.vy = -this.vy * 0.95;
+                } else if (this.y + this.radius > PLAY_BOTTOM) {
+                    this.y = PLAY_BOTTOM - this.radius;
+                    this.vy = -this.vy * 0.95;
+                }
+
+                // كشف السقوط في الحفر
+                for (let p of POCKETS) {
+                    const dist = Math.hypot(this.x - p.x, this.y - p.y);
+                    if (dist < POCKET_RADIUS - 4) {
+                        this.inPocket = true;
+                        this.vx = 0;
+                        this.vy = 0;
+                        if (this.isCue) {
+                            setTimeout(() => { resetCueBallOnly(); }, 700);
+                        }
+                        updateBilliardsCounters();
+                        break;
+                    }
+                }
+            }
+        }
+
+        function areBallsStationary() {
+            return poolBalls.every(b => b.inPocket || (Math.abs(b.vx) < 0.05 && Math.abs(b.vy) < 0.05));
+        }
+
+        function resetCueBallOnly() {
+            if (!poolCueBall) return;
+            poolCueBall.inPocket = false;
+            poolCueBall.x = 220;
+            poolCueBall.y = TABLE_HEIGHT / 2;
+            poolCueBall.vx = 0;
+            poolCueBall.vy = 0;
+        }
+
+        function initPoolBalls(isLineSetup = true) {
+            poolBalls = [];
+            const countInput = document.getElementById('ballCountInput');
+            let count = parseInt(countInput ? countInput.value : "7", 10);
+            if (isNaN(count) || count < 1) count = 1;
+            if (count > 15) count = 15;
+
+            // الكرة البيضاء (Cue Ball)
+            poolCueBall = new PoolBall(220, TABLE_HEIGHT / 2, '#ffffff', 0, true);
+            poolBalls.push(poolCueBall);
+
+            if (isLineSetup) {
+                // ترتيب طولي احترافي على امتداد منتصف الطاولة
+                const startX = 460;
+                const gap = 26;
+                for (let i = 0; i < count; i++) {
+                    const bx = startX + (i * gap);
+                    const by = TABLE_HEIGHT / 2;
+                    poolBalls.push(new PoolBall(bx, by, BALL_COLORS[i % BALL_COLORS.length], i + 1));
+                }
+            } else {
+                // ترتيب مثلثي كلاسيكي
+                const apexX = 580;
+                const apexY = TABLE_HEIGHT / 2;
+                let bIndex = 0;
+                let rows = 5;
+                for (let r = 0; r < rows; r++) {
+                    for (let c = 0; c <= r; c++) {
+                        if (bIndex >= count) break;
+                        const bx = apexX + (r * (BALL_RADIUS * 1.85));
+                        const by = apexY - (r * (BALL_RADIUS + 0.8)) + (c * (BALL_RADIUS * 2 + 1.6));
+                        poolBalls.push(new PoolBall(bx, by, BALL_COLORS[bIndex % BALL_COLORS.length], bIndex + 1));
+                        bIndex++;
+                    }
+                    if (bIndex >= count) break;
+                }
+            }
+
+            updateBilliardsCounters();
+        }
+
+        function updateBilliardsCounters() {
+            const activeCount = poolBalls.filter(b => !b.isCue && !b.inPocket).length;
+            const countEl = document.getElementById('billiards-active-balls');
+            const isAr = document.documentElement.getAttribute('lang') === 'ar';
+            if (countEl) {
+                countEl.innerHTML = `<i class="fa-solid fa-circle"></i> <span data-i18n="billiards_remaining_label">${isAr ? 'الكرات المتبقية:' : 'Remaining Balls:'}</span> ${activeCount}`;
+            }
+        }
+
+        function handleBallCollisions() {
+            for (let i = 0; i < poolBalls.length; i++) {
+                for (let j = i + 1; j < poolBalls.length; j++) {
+                    const b1 = poolBalls[i];
+                    const b2 = poolBalls[j];
+                    if (b1.inPocket || b2.inPocket) continue;
+
+                    const dx = b2.x - b1.x;
+                    const dy = b2.y - b1.y;
+                    const dist = Math.hypot(dx, dy);
+
+                    if (dist < b1.radius + b2.radius) {
+                        // تفادي التداخل الهندسي
+                        const overlap = (b1.radius + b2.radius) - dist;
+                        const nx = dx / (dist || 1);
+                        const ny = dy / (dist || 1);
+
+                        b1.x -= nx * (overlap / 2);
+                        b1.y -= ny * (overlap / 2);
+                        b2.x += nx * (overlap / 2);
+                        b2.y += ny * (overlap / 2);
+
+                        // سرعات الزوايا المرنة (Elastic Collisions)
+                        const kx = b1.vx - b2.vx;
+                        const ky = b1.vy - b2.vy;
+                        const p = 2 * (nx * kx + ny * ky) / 2;
+
+                        b1.vx -= p * nx * 0.98;
+                        b1.vy -= p * ny * 0.98;
+                        b2.vx += p * nx * 0.98;
+                        b2.vy += p * ny * 0.98;
+                    }
+                }
+            }
+        }
+
+        function drawPoolTable() {
+            poolCtx.clearRect(0, 0, TABLE_WIDTH, TABLE_HEIGHT);
+
+            // الإطار الخشبي الخارجي
+            poolCtx.fillStyle = '#1c130d';
+            poolCtx.beginPath();
+            poolCtx.roundRect(0, 0, TABLE_WIDTH, TABLE_HEIGHT, 16);
+            poolCtx.fill();
+
+            // وسائد الطاولة الخضراء
+            poolCtx.fillStyle = '#175c36';
+            poolCtx.fillRect(CUSHION - 8, CUSHION - 8, TABLE_WIDTH - 2 * (CUSHION - 8), TABLE_HEIGHT - 2 * (CUSHION - 8));
+
+            // قماش الطاولة (Baize Felt)
+            const feltGrad = poolCtx.createRadialGradient(TABLE_WIDTH / 2, TABLE_HEIGHT / 2, 80, TABLE_WIDTH / 2, TABLE_HEIGHT / 2, TABLE_WIDTH / 2);
+            feltGrad.addColorStop(0, '#1c7844');
+            feltGrad.addColorStop(1, '#0e4a28');
+            poolCtx.fillStyle = feltGrad;
+            poolCtx.fillRect(PLAY_LEFT, PLAY_TOP, PLAY_RIGHT - PLAY_LEFT, PLAY_BOTTOM - PLAY_TOP);
+
+            // خط البداية ومنطقة الـ D (Baulk Line & D-Zone)
+            poolCtx.save();
+            poolCtx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+            poolCtx.lineWidth = 1.8;
+            poolCtx.beginPath();
+            poolCtx.moveTo(220, PLAY_TOP);
+            poolCtx.lineTo(220, PLAY_BOTTOM);
+            poolCtx.stroke();
+
+            poolCtx.beginPath();
+            poolCtx.arc(220, TABLE_HEIGHT / 2, 60, Math.PI * 0.5, Math.PI * 1.5);
+            poolCtx.stroke();
+            poolCtx.restore();
+
+            // علامات التوجيه الماسية على الإطار (Sight Diamonds)
+            poolCtx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+            for (let i = 1; i <= 7; i++) {
+                const px = PLAY_LEFT + ((PLAY_RIGHT - PLAY_LEFT) / 8) * i;
+                poolCtx.beginPath();
+                poolCtx.arc(px, CUSHION / 2, 2.5, 0, Math.PI * 2);
+                poolCtx.arc(px, TABLE_HEIGHT - CUSHION / 2, 2.5, 0, Math.PI * 2);
+                poolCtx.fill();
+            }
+            for (let j = 1; j <= 3; j++) {
+                const py = PLAY_TOP + ((PLAY_BOTTOM - PLAY_TOP) / 4) * j;
+                poolCtx.beginPath();
+                poolCtx.arc(CUSHION / 2, py, 2.5, 0, Math.PI * 2);
+                poolCtx.arc(TABLE_WIDTH - CUSHION / 2, py, 2.5, 0, Math.PI * 2);
+                poolCtx.fill();
+            }
+
+            // رسم الجيوب الستة (Pockets)
+            POCKETS.forEach(p => {
+                poolCtx.beginPath();
+                poolCtx.arc(p.x, p.y, POCKET_RADIUS, 0, Math.PI * 2);
+                poolCtx.fillStyle = '#060608';
+                poolCtx.fill();
+                poolCtx.strokeStyle = '#2b2c30';
+                poolCtx.lineWidth = 3;
+                poolCtx.stroke();
+            });
+
+            // رسم الكرات
+            poolBalls.forEach(b => b.draw());
+
+            // رسم خط التصويب والعصا وقوة الضربة
+            if (isAiming && poolCueBall && !poolCueBall.inPocket) {
+                const pullX = aimStartPos.x - aimCurrentPos.x;
+                const pullY = aimStartPos.y - aimCurrentPos.y;
+                const pullDist = Math.hypot(pullX, pullY);
+
+                if (pullDist > 4) {
+                    const angle = Math.atan2(pullY, pullX);
+                    const aimLength = 280;
+
+                    // خط المسار الأمامي (Guide Aiming Line)
+                    poolCtx.save();
+                    poolCtx.beginPath();
+                    poolCtx.moveTo(poolCueBall.x, poolCueBall.y);
+                    poolCtx.lineTo(poolCueBall.x + Math.cos(angle) * aimLength, poolCueBall.y + Math.sin(angle) * aimLength);
+                    poolCtx.strokeStyle = 'rgba(255, 255, 255, 0.7)';
+                    poolCtx.lineWidth = 2;
+                    poolCtx.setLineDash([6, 6]);
+                    poolCtx.stroke();
+                    poolCtx.restore();
+
+                    // دائرة موضع الهدف الافتراضي
+                    poolCtx.beginPath();
+                    poolCtx.arc(poolCueBall.x + Math.cos(angle) * 70, poolCueBall.y + Math.sin(angle) * 70, BALL_RADIUS, 0, Math.PI * 2);
+                    poolCtx.strokeStyle = 'rgba(255, 255, 255, 0.25)';
+                    poolCtx.lineWidth = 1.5;
+                    poolCtx.stroke();
+
+                    // رسم عصا البلياردو في الخلف
+                    const cueDistance = Math.min(100, pullDist) * 0.7 + BALL_RADIUS + 8;
+                    const cueX = poolCueBall.x - Math.cos(angle) * cueDistance;
+                    const cueY = poolCueBall.y - Math.sin(angle) * cueDistance;
+                    const cueEndX = cueX - Math.cos(angle) * 190;
+                    const cueEndY = cueY - Math.sin(angle) * 190;
+
+                    poolCtx.save();
+                    poolCtx.beginPath();
+                    poolCtx.moveTo(cueX, cueY);
+                    poolCtx.lineTo(cueEndX, cueEndY);
+                    poolCtx.strokeStyle = '#d2b48c';
+                    poolCtx.lineWidth = 5.5;
+                    poolCtx.lineCap = 'round';
+                    poolCtx.stroke();
+
+                    poolCtx.beginPath();
+                    poolCtx.moveTo(cueX, cueY);
+                    poolCtx.lineTo(cueX - Math.cos(angle) * 16, cueY - Math.sin(angle) * 16);
+                    poolCtx.strokeStyle = '#3867d6';
+                    poolCtx.lineWidth = 5.5;
+                    poolCtx.stroke();
+                    poolCtx.restore();
+                }
+            }
+        }
+
+        function poolGameLoop() {
+            handleBallCollisions();
+            poolBalls.forEach(b => b.update());
+            drawPoolTable();
+            requestAnimationFrame(poolGameLoop);
+        }
+
+        function getCanvasCoordinates(e) {
+            const rect = poolCanvas.getBoundingClientRect();
+            const scaleX = TABLE_WIDTH / rect.width;
+            const scaleY = TABLE_HEIGHT / rect.height;
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            return {
+                x: (clientX - rect.left) * scaleX,
+                y: (clientY - rect.top) * scaleY
+            };
+        }
+
+        function handlePointerDown(e) {
+            if (!poolCueBall || poolCueBall.inPocket) return;
+            if (!areBallsStationary()) return;
+
+            const pos = getCanvasCoordinates(e);
+            const dist = Math.hypot(pos.x - poolCueBall.x, pos.y - poolCueBall.y);
+
+            // بدء التصويب من الكرة البيضاء أو أي مكان عند التوقف
+            if (dist < 110) {
+                isAiming = true;
+                aimStartPos = { x: poolCueBall.x, y: poolCueBall.y };
+                aimCurrentPos = pos;
+            }
+        }
+
+        function handlePointerMove(e) {
+            if (!isAiming) return;
+            const pos = getCanvasCoordinates(e);
+            aimCurrentPos = pos;
+
+            const pullX = aimStartPos.x - aimCurrentPos.x;
+            const pullY = aimStartPos.y - aimCurrentPos.y;
+            const dist = Math.hypot(pullX, pullY);
+            currentShotPower = Math.min(100, Math.round((dist / 140) * 100));
+
+            const isAr = document.documentElement.getAttribute('lang') === 'ar';
+            const powerEl = document.getElementById('billiards-power-text');
+            if (powerEl) {
+                powerEl.innerHTML = `<i class="fa-solid fa-bolt"></i> <span data-i18n="billiards_power_label">${isAr ? 'القوة:' : 'Power:'}</span> ${currentShotPower}%`;
+            }
+        }
+
+        function handlePointerUp(e) {
+            if (!isAiming || !poolCueBall) return;
+            isAiming = false;
+
+            const pullX = aimStartPos.x - aimCurrentPos.x;
+            const pullY = aimStartPos.y - aimCurrentPos.y;
+            const dist = Math.hypot(pullX, pullY);
+
+            if (dist > 8) {
+                const angle = Math.atan2(pullY, pullX);
+                const power = Math.min(26, dist * 0.17);
+
+                poolCueBall.vx = Math.cos(angle) * power;
+                poolCueBall.vy = Math.sin(angle) * power;
+            }
+
+            const isAr = document.documentElement.getAttribute('lang') === 'ar';
+            const powerEl = document.getElementById('billiards-power-text');
+            if (powerEl) {
+                powerEl.innerHTML = `<i class="fa-solid fa-bolt"></i> <span data-i18n="billiards_power_label">${isAr ? 'القوة:' : 'Power:'}</span> 0%`;
+            }
+        }
+
+        poolCanvas.addEventListener('mousedown', handlePointerDown);
+        window.addEventListener('mousemove', handlePointerMove);
+        window.addEventListener('mouseup', handlePointerUp);
+
+        poolCanvas.addEventListener('touchstart', (e) => { handlePointerDown(e); }, { passive: true });
+        window.addEventListener('touchmove', (e) => { if (isAiming) handlePointerMove(e); }, { passive: true });
+        window.addEventListener('touchend', (e) => { if (isAiming) handlePointerUp(e); }, { passive: true });
+
+        function updateCanvasGeometry() {
+            // ضمان استجابة الأبعاد عند التغيير
+            drawPoolTable();
+        }
+
+        window.addEventListener('resize', updateCanvasGeometry);
+
         document.addEventListener("DOMContentLoaded", () => {
             document.getElementById('theme-icon').className = savedTheme === 'light' ? 'fa-solid fa-sun theme-toggle' : 'fa-solid fa-moon theme-toggle';
             changeLang(savedLang);
@@ -1897,6 +2470,10 @@
                 syncRealTime().then(() => { if (typeof updateSheetTimers === "function") updateSheetTimers(); });
                 setInterval(updateSheetTimers, 1000);
             }
+
+            // تشغيل محاكي البلياردو مباشرة عند تحميل الصفحة (أوفلاين)
+            initPoolBalls(true);
+            requestAnimationFrame(poolGameLoop);
         });
 
         document.addEventListener('touchstart', function(e) { if (e.touches.length > 1) e.preventDefault(); }, { passive: false });
@@ -1904,110 +2481,6 @@
         let lastTouchEnd = 0; document.addEventListener('touchend', function(e) { let now = (new Date()).getTime(); if (now - lastTouchEnd <= 300) e.preventDefault(); lastTouchEnd = now; }, { passive: false });
         document.addEventListener('keydown', function(e) { if ((e.ctrlKey || e.metaKey) && (e.key === '+' || e.key === '-' || e.key === '=')) e.preventDefault(); });
         document.addEventListener('wheel', function(e) { if (e.ctrlKey || e.metaKey) e.preventDefault(); }, { passive: false });
-        
-        // --- كود محاكي البلياردو ---
-        const canvasBilliard = document.getElementById('billiardCanvas');
-        if (canvasBilliard) {
-            const ctxBilliard = canvasBilliard.getContext('2d');
-            
-            canvasBilliard.width = 600;
-            canvasBilliard.height = 300;
-
-            let cueBall = { x: canvasBilliard.width / 4, y: canvasBilliard.height / 2, radius: 10 };
-            let isDraggingBilliard = false;
-            let mousePosBilliard = { x: 0, y: 0 };
-
-            function drawBilliards() {
-                ctxBilliard.clearRect(0, 0, canvasBilliard.width, canvasBilliard.height);
-                
-                ctxBilliard.fillStyle = '#0a0a0f';
-                const holes = [
-                    [0, 0], [canvasBilliard.width / 2, 0], [canvasBilliard.width, 0],
-                    [0, canvasBilliard.height], [canvasBilliard.width / 2, canvasBilliard.height], [canvasBilliard.width, canvasBilliard.height]
-                ];
-                holes.forEach(h => {
-                    ctxBilliard.beginPath();
-                    ctxBilliard.arc(h[0], h[1], 20, 0, Math.PI * 2);
-                    ctxBilliard.fill();
-                });
-
-                ctxBilliard.beginPath();
-                ctxBilliard.arc(cueBall.x, cueBall.y, cueBall.radius, 0, Math.PI * 2);
-                ctxBilliard.fillStyle = '#ffffff';
-                ctxBilliard.shadowBlur = 10;
-                ctxBilliard.shadowColor = 'rgba(0,0,0,0.8)';
-                ctxBilliard.shadowOffsetX = 2;
-                ctxBilliard.shadowOffsetY = 2;
-                ctxBilliard.fill();
-                
-                ctxBilliard.shadowBlur = 0;
-                ctxBilliard.shadowOffsetX = 0;
-                ctxBilliard.shadowOffsetY = 0;
-
-                if (isDraggingBilliard) drawAimLine();
-            }
-
-            function drawAimLine() {
-                const dx = mousePosBilliard.x - cueBall.x;
-                const dy = mousePosBilliard.y - cueBall.y;
-                const angle = Math.atan2(dy, dx);
-                
-                let hitX = cueBall.x + Math.cos(angle) * 2000;
-                let hitY = cueBall.y + Math.sin(angle) * 2000;
-                let bounceHitX = hitX, bounceHitY = hitY;
-
-                if (hitX > canvasBilliard.width) { hitX = canvasBilliard.width; hitY = cueBall.y + (hitX - cueBall.x) * Math.tan(angle); }
-                if (hitX < 0) { hitX = 0; hitY = cueBall.y + (hitX - cueBall.x) * Math.tan(angle); }
-                if (hitY > canvasBilliard.height) { hitY = canvasBilliard.height; hitX = cueBall.x + (hitY - cueBall.y) / Math.tan(angle); }
-                if (hitY < 0) { hitY = 0; hitX = cueBall.x + (hitY - cueBall.y) / Math.tan(angle); }
-
-                ctxBilliard.beginPath();
-                ctxBilliard.moveTo(cueBall.x, cueBall.y);
-                ctxBilliard.lineTo(hitX, hitY);
-                ctxBilliard.strokeStyle = 'rgba(255, 255, 255, 0.8)';
-                ctxBilliard.lineWidth = 2;
-                ctxBilliard.setLineDash([5, 5]);
-                ctxBilliard.stroke();
-
-                let reflectAngle = angle;
-                if (hitX <= 0 || hitX >= canvasBilliard.width) reflectAngle = Math.PI - angle;
-                else if (hitY <= 0 || hitY >= canvasBilliard.height) reflectAngle = -angle;
-
-                bounceHitX = hitX + Math.cos(reflectAngle) * 800;
-                bounceHitY = hitY + Math.sin(reflectAngle) * 800;
-
-                ctxBilliard.beginPath();
-                ctxBilliard.moveTo(hitX, hitY);
-                ctxBilliard.lineTo(bounceHitX, bounceHitY);
-                ctxBilliard.strokeStyle = '#ef4444'; 
-                ctxBilliard.setLineDash([]);
-                ctxBilliard.stroke();
-            }
-
-            function getMousePosBilliard(e) {
-                const rect = canvasBilliard.getBoundingClientRect();
-                const scaleX = canvasBilliard.width / rect.width;
-                const scaleY = canvasBilliard.height / rect.height;
-                let clientX = e.touches ? e.touches[0].clientX : e.clientX;
-                let clientY = e.touches ? e.touches[0].clientY : e.clientY;
-                return { x: (clientX - rect.left) * scaleX, y: (clientY - rect.top) * scaleY };
-            }
-
-            canvasBilliard.addEventListener('mousedown', (e) => { isDraggingBilliard = true; mousePosBilliard = getMousePosBilliard(e); drawBilliards(); });
-            canvasBilliard.addEventListener('mousemove', (e) => { if (isDraggingBilliard) { mousePosBilliard = getMousePosBilliard(e); drawBilliards(); } });
-            canvasBilliard.addEventListener('mouseup', () => { isDraggingBilliard = false; drawBilliards(); });
-
-            canvasBilliard.addEventListener('touchstart', (e) => { isDraggingBilliard = true; mousePosBilliard = getMousePosBilliard(e); drawBilliards(); }, {passive: false});
-            canvasBilliard.addEventListener('touchmove', (e) => { if(isDraggingBilliard) e.preventDefault(); if (isDraggingBilliard) { mousePosBilliard = getMousePosBilliard(e); drawBilliards(); } }, {passive: false});
-            canvasBilliard.addEventListener('touchend', () => { isDraggingBilliard = false; drawBilliards(); });
-
-            window.resetBilliard = function() {
-                cueBall = { x: canvasBilliard.width / 4, y: canvasBilliard.height / 2, radius: 10 };
-                drawBilliards();
-            };
-
-            setTimeout(drawBilliards, 100);
-        }
     </script>
 </body>
 </html>
