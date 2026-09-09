@@ -22,8 +22,9 @@
             background-color: var(--bg-main);
             color: var(--text-main);
             font-family: 'Cairo', sans-serif;
-            margin: 0; padding: 20px 0;
+            margin: 0; padding: 30px 15px;
             display: flex; flex-direction: column; align-items: center;
+            min-height: 100vh;
         }
 
         .section-title { font-size: 1.7rem; font-weight: 900; margin-bottom: 25px; text-align: center; }
@@ -43,22 +44,22 @@
 
         /* --- تصميم القائمة الرئيسية (Hub) --- */
         #sim-hub {
-            display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; width: 100%; max-width: 600px; padding: 0 15px;
+            display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; width: 100%; max-width: 600px;
         }
         .sim-card {
-            flex: 1; min-width: 250px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--glass-border);
+            flex: 1; min-width: 240px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--glass-border);
             border-radius: 16px; padding: 30px 20px; text-align: center; cursor: pointer; transition: 0.3s;
         }
         .sim-card:hover { background: rgba(255, 255, 255, 0.08); transform: translateY(-5px); border-color: rgba(255, 255, 255, 0.3); }
         .sim-card i { font-size: 40px; color: var(--primary); margin-bottom: 15px; }
         .sim-card h3 { margin: 0; font-size: 1.2rem; font-weight: 900; }
         
-        .back-btn { margin-bottom: 20px; align-self: flex-start; margin-right: 15px; }
+        .back-btn { margin-bottom: 20px; align-self: flex-start; }
 
         /* --- تصميم الروليت --- */
-        .roulette-container { display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 500px; padding: 20px; gap: 15px; }
+        .roulette-container { display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 500px; padding: 25px 20px; gap: 15px; }
         .roulette-canvas-wrapper { position: relative; margin-bottom: 10px; }
-        #rouletteCanvas { border-radius: 50%; box-shadow: 0 0 30px rgba(0,0,0,0.5); border: 4px solid #fff; }
+        #rouletteCanvas { border-radius: 50%; box-shadow: 0 0 30px rgba(0,0,0,0.5); border: 4px solid #fff; max-width: 100%; height: auto;}
         .roulette-pointer {
             position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
             width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent;
@@ -66,13 +67,14 @@
         }
         .names-input {
             width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); color: #fff;
-            padding: 12px; border-radius: 10px; font-family: 'Cairo', sans-serif; resize: vertical; min-height: 80px;
+            padding: 12px; border-radius: 10px; font-family: 'Cairo', sans-serif; resize: vertical; min-height: 80px; outline: none;
         }
+        .names-input:focus { border-color: var(--primary); }
         .winner-popup {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0);
             background: rgba(15, 15, 20, 0.95); padding: 20px 40px; border-radius: 12px;
             border: 2px solid var(--primary); color: #fff; font-size: 1.5rem; font-weight: 900;
-            text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.8); transition: 0.3s; z-index: 20;
+            text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.8); transition: 0.3s; z-index: 20; width: 80%;
         }
         .winner-popup.show { transform: translate(-50%, -50%) scale(1); }
 
@@ -112,20 +114,19 @@
 </head>
 <body>
 
-    <h2 class="section-title">مركز المحاكيات</h2>
-
     <!-- 1. القائمة الرئيسية (Hub) -->
     <div id="view-hub" class="view-section active">
+        <h2 class="section-title">مركز المحاكيات</h2>
         <div id="sim-hub">
             <div class="sim-card glass-panel" onclick="openSim('roulette')">
                 <i class="fa-solid fa-dharmachakra"></i>
                 <h3>روليت الأسماء</h3>
-                <p style="font-size: 12px; color: var(--text-muted);">عجلة حظ لتدوير واختيار الأسماء العشوائية.</p>
+                <p style="font-size: 12px; color: var(--text-muted); margin-top: 8px;">عجلة حظ لتدوير واختيار الأسماء العشوائية لترتيب اللاعبين أو توزيعهم.</p>
             </div>
             <div class="sim-card glass-panel" onclick="openSim('billiards')">
                 <i class="fa-solid fa-bowling-ball"></i>
                 <h3>محاكي البلياردو</h3>
-                <p style="font-size: 12px; color: var(--text-muted);">محاكي وزنية احترافي لكرات 8-Ball.</p>
+                <p style="font-size: 12px; color: var(--text-muted); margin-top: 8px;">محاكي وزنية احترافي لكرات 8-Ball مع مسار التصويب.</p>
             </div>
         </div>
     </div>
@@ -172,7 +173,7 @@
                 <button type="button" class="fit-btn" onclick="initPoolBalls('triangle')" style="height: 36px; padding: 0 12px;">
                     <i class="fa-solid fa-play"></i> مثلث نظامي
                 </button>
-                <!-- تم إزالة زر الترتيب الطولي بناءً على طلبك -->
+                
                 <button type="button" class="cancel-btn" onclick="initPoolBalls('clear')" style="height: 36px; padding: 0 12px; color: #ef4444;">
                     <i class="fa-solid fa-trash"></i> مسح
                 </button>
@@ -211,7 +212,7 @@
         let startAngle = 0;
         let arc = 0;
         let spinTimeout = null;
-        let spinArcStart = 10;
+        let spinAngleStart = 0;
         let spinTime = 0;
         let spinTimeTotal = 0;
         
@@ -266,7 +267,7 @@
             winnerPopup.classList.remove('show');
             spinAngleStart = Math.random() * 10 + 10;
             spinTime = 0;
-            spinTimeTotal = Math.random() * 3 + 4 * 1000;
+            spinTimeTotal = Math.random() * 3 + 4 * 1000; // مدة الدوران
             rotateWheel();
         }
 
@@ -460,7 +461,7 @@
                 let pullY = aimStartPos.y - aimCurrentPos.y;
                 let dist = Math.hypot(pullX, pullY);
 
-                if (dist > 10) { // تعديل الحساسية
+                if (dist > 15) { // تعديل الحساسية
                     let angle = Math.atan2(pullY, pullX);
                     let pred = getAimPrediction(poolCueBall, angle);
                     
@@ -556,7 +557,7 @@
             let pullY = aimStartPos.y - aimCurrentPos.y;
             let dist = Math.hypot(pullX, pullY);
 
-            // تم حل مشكلة الحساسية (الكرة لن تضرب إلا إذا تم سحبها مسافة واضحة)
+            // تم حل مشكلة الحساسية (الكرة لن تضرب إلا إذا تم سحبها مسافة واضحة أكثر من 20 بيكسل)
             if (dist > 20) {
                 let angle = Math.atan2(pullY, pullX);
                 let power = Math.min(27, dist * 0.17);
