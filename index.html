@@ -3,21 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>PlatoX - Explore Pro</title>
+    <title>PlatoX - Glassmorphism Pro</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Rajdhani:wght@600;700;900&display=block" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root {
             --bg-main: #0a0a0f; 
-            --bg-card: rgba(18, 18, 26, 0.65); 
             --primary: #ffffff; 
-            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-bg: rgba(20, 20, 30, 0.45); 
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
-            --btn-active-glow: rgba(255, 255, 255, 0.7);
-            
-            /* ألوان العملات */
             --coin-color: #fbc531;
             --pip-color: #9c88ff;
         }
@@ -29,113 +27,151 @@
             position: relative; min-height: 100vh; overflow-x: hidden;
         }
 
+        /* --- تأثيرات الخلفية للـ Glassmorphism (Blobs) --- */
+        .bg-blobs {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; overflow: hidden;
+        }
+        .blob {
+            position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; animation: float 15s infinite ease-in-out alternate;
+        }
+        .blob-1 { width: 300px; height: 300px; background: #9c88ff; top: -50px; left: -50px; }
+        .blob-2 { width: 400px; height: 400px; background: #e84118; bottom: -100px; right: -100px; animation-delay: -5s; }
+        .blob-3 { width: 250px; height: 250px; background: #fbc531; top: 40%; left: 60%; animation-delay: -10s; }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(50px, 80px) scale(1.2); }
+        }
+
         .static-gaming-bg {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -3; pointer-events: none;
-            background-color: var(--bg-main);
-            background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
             background-size: 30px 30px;
         }
 
+        /* --- تصميم الزجاج الاحترافي --- */
         .glass-panel { 
-            background: var(--bg-card); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); 
-            border: 1px solid var(--glass-border); border-radius: 16px; box-shadow: 0 8px 30px 0 rgba(0, 0, 0, 0.35); 
+            background: var(--glass-bg); 
+            backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); 
+            border: 1px solid var(--glass-border); border-radius: 20px; 
+            box-shadow: var(--glass-shadow), inset 0 0 15px rgba(255,255,255,0.02); 
         }
 
         .fit-btn, .cancel-btn {
-            border-radius: 8px; font-weight: 700; font-size: 13.5px; cursor: pointer; transition: 0.2s;
-            display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: none; padding: 10px 15px; font-family: inherit;
+            border-radius: 12px; font-weight: 700; font-size: 14px; cursor: pointer; transition: 0.3s;
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: none; padding: 12px 18px; font-family: inherit;
         }
-        .fit-btn { background: var(--primary); color: var(--bg-main); font-weight: 900; }
-        .fit-btn:hover { box-shadow: 0 0 15px var(--btn-active-glow); }
-        .cancel-btn { background: rgba(255,255,255,0.1); color: var(--text-main); border: 1px solid var(--glass-border); }
+        .fit-btn { 
+            background: rgba(255,255,255,0.9); color: var(--bg-main); font-weight: 900; 
+            box-shadow: 0 4px 15px rgba(255,255,255,0.2);
+        }
+        .fit-btn:hover { background: #fff; box-shadow: 0 6px 20px rgba(255,255,255,0.4); transform: translateY(-2px); }
+        .cancel-btn { background: rgba(255,255,255,0.05); color: var(--text-main); border: 1px solid var(--glass-border); backdrop-filter: blur(10px); }
+        .cancel-btn:hover { background: rgba(255,255,255,0.1); }
 
-        .view-section { display: none; width: 100%; min-height: 100vh; flex-direction: column; align-items: center; padding: 30px 15px; animation: fadeIn 0.3s ease; }
+        .view-section { display: none; width: 100%; min-height: 100vh; flex-direction: column; align-items: center; padding: 40px 20px; animation: fadeIn 0.4s ease; }
         .view-section.active { display: flex; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-        .section-title { font-size: 1.7rem; font-weight: 900; margin-bottom: 25px; text-align: center; }
-        .top-bar { width: 100%; max-width: 600px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .section-title { font-size: 1.8rem; font-weight: 900; margin-bottom: 30px; text-align: center; text-shadow: 0 4px 10px rgba(0,0,0,0.5); letter-spacing: 1px;}
+        .top-bar { width: 100%; max-width: 600px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
 
         /* --- تصميم القائمة الرئيسية --- */
-        #sim-hub { display: flex; flex-direction: column; gap: 15px; width: 100%; max-width: 500px; }
+        #sim-hub { display: flex; flex-direction: column; gap: 18px; width: 100%; max-width: 500px; }
         .sim-card { 
-            display: flex; align-items: center; gap: 15px; padding: 20px; text-decoration: none; 
-            color: var(--text-main); border-radius: 16px; position: relative; overflow: hidden; cursor: pointer; transition: 0.2s;
+            display: flex; align-items: center; gap: 20px; padding: 25px; text-decoration: none; 
+            color: var(--text-main); border-radius: 20px; position: relative; overflow: hidden; cursor: pointer; transition: 0.3s;
         }
-        .sim-card:hover { background: rgba(255, 255, 255, 0.08); transform: translateY(-3px); }
-        .sim-card i { font-size: 38px; color: var(--primary); width: 45px; text-align: center; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.3)); }
-        .sim-card-info { display: flex; flex-direction: column; gap: 4px; text-align: right; }
-        .sim-card-info h3 { font-weight: 900; font-size: 1.1rem; margin: 0; }
-        .sim-card-info p { color: var(--text-muted); font-weight: bold; line-height: 1.4; font-size: 0.85rem; margin: 0; }
+        .sim-card::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+            transform: skewX(-20deg); transition: 0.5s;
+        }
+        .sim-card:hover::before { left: 150%; }
+        .sim-card:hover { transform: translateY(-5px); border-color: rgba(255, 255, 255, 0.3); box-shadow: 0 10px 40px rgba(0,0,0,0.5); background: rgba(255,255,255,0.05); }
+        .sim-card i { font-size: 42px; width: 50px; text-align: center; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.4)); }
+        .sim-card-info { display: flex; flex-direction: column; gap: 6px; text-align: right; }
+        .sim-card-info h3 { font-weight: 900; font-size: 1.25rem; margin: 0; }
+        .sim-card-info p { color: var(--text-muted); font-weight: bold; line-height: 1.5; font-size: 0.9rem; margin: 0; }
 
-        /* --- تصميم الروليت الاحترافي (VIP) --- */
-        .roulette-wrapper { width: 100%; max-width: 420px; padding: 25px 20px; display: flex; flex-direction: column; align-items: center; gap: 15px; position: relative;}
-        .r-canvas-box { position: relative; margin-bottom: 15px; display: flex; justify-content: center; align-items: center;}
+        /* --- تصميم الروليت الاحترافي --- */
+        .roulette-wrapper { width: 100%; max-width: 450px; padding: 30px 25px; display: flex; flex-direction: column; align-items: center; gap: 20px; position: relative;}
         
-        /* إطار معدني للروليت */
+        .r-canvas-box { position: relative; margin-bottom: 20px; display: flex; justify-content: center; align-items: center; border-radius: 50%; }
+        .r-canvas-box::before {
+            content: ''; position: absolute; top: -15px; left: -15px; right: -15px; bottom: -15px;
+            border-radius: 50%; background: radial-gradient(circle, rgba(255,255,255,0.1), transparent 70%);
+            z-index: 0; pointer-events: none; transition: 0.3s;
+        }
+        .r-canvas-box.spinning::before { animation: pulseGlow 1s infinite alternate; }
+        @keyframes pulseGlow { 
+            0% { transform: scale(0.95); opacity: 0.5; background: radial-gradient(circle, rgba(232, 65, 24, 0.2), transparent 70%); } 
+            100% { transform: scale(1.05); opacity: 1; background: radial-gradient(circle, rgba(232, 65, 24, 0.5), transparent 70%); } 
+        }
+
         .r-border {
-            position: absolute; top: -5px; left: -5px; right: -5px; bottom: -5px;
-            border-radius: 50%; background: linear-gradient(145deg, #f5f6fa, #7f8fa6);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.8), inset 0 0 10px rgba(0,0,0,0.5); z-index: 1; pointer-events: none;
+            position: absolute; top: -8px; left: -8px; right: -8px; bottom: -8px;
+            border-radius: 50%; background: linear-gradient(145deg, rgba(255,255,255,0.2), rgba(0,0,0,0.5));
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8), inset 0 0 15px rgba(255,255,255,0.1); z-index: 1; pointer-events: none;
+            backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.1);
         }
         
         #rouletteCanvas { 
-            border-radius: 50%; box-shadow: inset 0 0 20px rgba(0,0,0,0.8); 
-            width: 300px; height: 300px; position: relative; z-index: 2;
+            border-radius: 50%; box-shadow: inset 0 0 30px rgba(0,0,0,0.9); 
+            width: 320px; height: 320px; position: relative; z-index: 2;
         }
         
-        /* المؤشر الأنيق */
         .r-pointer { 
-            position: absolute; top: -15px; left: 50%; transform: translateX(-50%); 
-            width: 30px; height: 35px; background: #e84118;
+            position: absolute; top: -20px; left: 50%; transform: translateX(-50%); 
+            width: 34px; height: 40px; background: linear-gradient(to bottom, #ff4757, #ff6b81);
             clip-path: polygon(50% 100%, 0 0, 100% 0);
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.6)); z-index: 10;
+            filter: drop-shadow(0 6px 8px rgba(0,0,0,0.8)); z-index: 10;
         }
 
-        .names-input { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); color: #fff; padding: 12px; border-radius: 8px; font-family: inherit; resize: vertical; min-height: 70px; outline: none; text-align: center; font-weight: bold; }
-        .names-input::placeholder { color: rgba(255,255,255,0.4); font-size: 12.5px; font-weight: normal;}
+        .names-input { width: 100%; background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border); color: #fff; padding: 15px; border-radius: 12px; font-family: inherit; resize: vertical; min-height: 80px; outline: none; text-align: center; font-weight: bold; transition: 0.3s; box-shadow: inset 0 0 10px rgba(0,0,0,0.5);}
+        .names-input:focus { border-color: rgba(255,255,255,0.4); background: rgba(0,0,0,0.6); }
+        .names-input::placeholder { color: rgba(255,255,255,0.3); font-size: 13px; font-weight: normal;}
         
-        .winner-popup { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0); background: rgba(15, 15, 20, 0.98); padding: 25px 20px; border-radius: 16px; border: 2px solid var(--primary); color: #fff; text-align: center; box-shadow: 0 15px 40px rgba(0,0,0,0.9); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 20; width: 90%; max-width: 320px; display: flex; flex-direction: column; gap: 15px; pointer-events: none; opacity: 0;}
+        .winner-popup { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0); background: rgba(15, 15, 20, 0.95); backdrop-filter: blur(20px); padding: 30px 25px; border-radius: 20px; border: 1px solid rgba(251, 197, 49, 0.5); color: #fff; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.9), 0 0 30px rgba(251, 197, 49, 0.2); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 20; width: 90%; max-width: 320px; display: flex; flex-direction: column; gap: 15px; pointer-events: none; opacity: 0;}
         .winner-popup.show { transform: translate(-50%, -50%) scale(1); pointer-events: auto; opacity: 1;}
-        .winner-name { font-size: 2rem; font-weight: 900; color: #fbc531; text-shadow: 0 0 15px rgba(251, 197, 49, 0.6); }
-        .winner-btns { display: flex; gap: 10px; width: 100%; }
+        .winner-name { font-size: 2.2rem; font-weight: 900; color: #fbc531; text-shadow: 0 0 20px rgba(251, 197, 49, 0.8); }
+        .winner-btns { display: flex; gap: 10px; width: 100%; margin-top: 10px;}
 
-        /* --- تصميم الحاسبة --- */
-        .calc-wrapper { width: 100%; max-width: 500px; padding: 25px 20px; display: flex; flex-direction: column; align-items: center; gap: 20px; }
+        /* --- تصميم الحاسبة الذكية --- */
+        .calc-wrapper { width: 100%; max-width: 500px; padding: 30px 25px; display: flex; flex-direction: column; align-items: center; gap: 25px; }
         
-        .calc-toggle { display: flex; background: rgba(0,0,0,0.4); border-radius: 12px; border: 1px solid var(--glass-border); overflow: hidden; width: 100%; }
-        .calc-mode-btn { flex: 1; padding: 12px; border: none; background: transparent; color: var(--text-muted); font-family: inherit; font-weight: 900; font-size: 14px; cursor: pointer; transition: 0.3s; }
-        .calc-mode-btn.active { background: rgba(255,255,255,0.1); color: var(--primary); }
-        .calc-mode-btn i { margin-left: 8px; font-size: 16px; }
+        .calc-toggle { display: flex; background: rgba(0,0,0,0.5); border-radius: 14px; border: 1px solid var(--glass-border); overflow: hidden; width: 100%; box-shadow: inset 0 0 10px rgba(0,0,0,0.5); padding: 4px;}
+        .calc-mode-btn { flex: 1; padding: 12px; border: none; background: transparent; color: var(--text-muted); border-radius: 10px; font-family: inherit; font-weight: 900; font-size: 15px; cursor: pointer; transition: 0.3s; display: flex; justify-content: center; align-items: center; gap: 8px;}
+        .calc-mode-btn.active { background: rgba(255,255,255,0.1); color: var(--primary); box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
 
         .calc-input-group { width: 100%; position: relative; }
-        .calc-input-group i { position: absolute; top: 50%; transform: translateY(-50%); right: 15px; font-size: 22px; color: var(--text-muted); transition: 0.3s;}
+        .calc-input-group i { position: absolute; top: 50%; transform: translateY(-50%); right: 18px; font-size: 24px; color: var(--text-muted); transition: 0.3s;}
         .calc-input-group input { 
-            width: 100%; background: rgba(0,0,0,0.3); border: 2px solid var(--glass-border); color: var(--primary); 
-            padding: 15px 50px 15px 15px; border-radius: 12px; font-family: 'Rajdhani', 'Cairo', sans-serif; font-size: 22px; font-weight: 900; outline: none; transition: 0.3s; text-align: left;
+            width: 100%; background: rgba(0,0,0,0.4); border: 2px solid var(--glass-border); color: var(--primary); 
+            padding: 18px 55px 18px 18px; border-radius: 14px; font-family: 'Rajdhani', 'Cairo', sans-serif; font-size: 26px; font-weight: 900; outline: none; transition: 0.3s; text-align: left; box-shadow: inset 0 0 15px rgba(0,0,0,0.5);
         }
-        .calc-input-group input::placeholder { font-size: 15px; font-weight: normal; color: rgba(255,255,255,0.3); text-align: right; font-family: 'Cairo', sans-serif;}
-        .calc-input-group input:focus { border-color: var(--primary); box-shadow: 0 0 15px rgba(255,255,255,0.2); }
-        .calc-input-group input:focus + i { color: var(--primary); }
+        .calc-input-group input::placeholder { font-size: 15px; font-weight: normal; color: rgba(255,255,255,0.25); text-align: right; font-family: 'Cairo', sans-serif;}
+        .calc-input-group input:focus { border-color: rgba(255,255,255,0.5); background: rgba(0,0,0,0.6); }
+        .calc-input-group input:focus + i { filter: drop-shadow(0 0 8px currentColor); }
 
-        .calc-result-box { width: 100%; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 16px; padding: 20px; text-align: center; display: flex; flex-direction: column; gap: 10px; min-height: 120px; justify-content: center;}
+        .calc-result-box { width: 100%; background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01)); border: 1px solid var(--glass-border); border-radius: 18px; padding: 25px 20px; text-align: center; display: flex; flex-direction: column; gap: 8px; min-height: 140px; justify-content: center; box-shadow: 0 10px 30px rgba(0,0,0,0.3);}
         
-        .result-amount { font-size: 3rem; font-family: 'Rajdhani', sans-serif; font-weight: 900; line-height: 1; text-shadow: 0 0 20px rgba(255,255,255,0.3); }
+        .result-amount { font-size: 3.5rem; font-family: 'Rajdhani', sans-serif; font-weight: 900; line-height: 1; margin: 10px 0;}
         .result-label { font-size: 15px; font-weight: bold; color: var(--text-muted); }
         
-        .text-coins { color: var(--coin-color); text-shadow: 0 0 20px rgba(251, 197, 49, 0.4); }
-        .text-pips { color: var(--pip-color); text-shadow: 0 0 20px rgba(156, 136, 255, 0.4); }
-
-        .breakdown-title { font-size: 13px; font-weight: bold; color: var(--text-muted); text-align: right; width: 100%; border-bottom: 1px solid var(--glass-border); padding-bottom: 8px; margin-top: 5px;}
-        .packages-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px; width: 100%; }
-        .pkg-card { background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border); padding: 10px; border-radius: 10px; display: flex; flex-direction: column; align-items: center; gap: 5px; }
-        .pkg-count { font-size: 18px; font-weight: 900; font-family: 'Rajdhani', sans-serif; color: var(--primary); }
-        .pkg-name { font-size: 12px; font-weight: bold; color: var(--text-muted); }
+        .text-coins { color: var(--coin-color); text-shadow: 0 0 25px rgba(251, 197, 49, 0.5); }
+        .text-pips { color: var(--pip-color); text-shadow: 0 0 25px rgba(156, 136, 255, 0.5); }
 
     </style>
 </head>
 <body>
 
+    <!-- خلفية الكود قلاسس (الفقاعات الضوئية) -->
+    <div class="bg-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
     <div class="static-gaming-bg"></div>
 
     <!-- القائمة الرئيسية -->
@@ -145,15 +181,15 @@
             <div class="sim-card glass-panel" onclick="openSim('calculator')">
                 <i class="fa-solid fa-calculator" style="color: var(--pip-color);"></i>
                 <div class="sim-card-info">
-                    <h3>حاسبة بلاتو</h3>
-                    <p>أداة لحساب تكلفة البيبس والكوينز مع إيجاد الباقات المناسبة للشراء.</p>
+                    <h3>حاسبة بلاتو الذكية</h3>
+                    <p>أداة ذكاء اصطناعي لحساب القيمة العادلة والدقيقة للكوينز والبيبس.</p>
                 </div>
             </div>
             <div class="sim-card glass-panel" onclick="openSim('roulette')">
                 <i class="fa-solid fa-dharmachakra" style="color: var(--coin-color);"></i>
                 <div class="sim-card-info">
-                    <h3>روليت الأسماء</h3>
-                    <p>عجلة حظ احترافية لتدوير واختيار الأسماء للفعاليات والمسابقات.</p>
+                    <h3>روليت الأسماء الاحترافي</h3>
+                    <p>عجلة حظ بتصميم زجاجي وتأثيرات بصرية لاختيار الفائزين.</p>
                 </div>
             </div>
         </div>
@@ -166,54 +202,52 @@
             <button class="cancel-btn" onclick="openSim('hub')"><i class="fa-solid fa-arrow-right"></i> القائمة</button>
         </div>
         <div class="glass-panel roulette-wrapper">
-            <div class="r-canvas-box">
+            <div class="r-canvas-box" id="rouletteBox">
                 <div class="r-border"></div>
                 <div class="r-pointer"></div>
-                <canvas id="rouletteCanvas" width="300" height="300"></canvas>
+                <canvas id="rouletteCanvas" width="320" height="320"></canvas>
                 
                 <div id="winnerPopup" class="winner-popup">
                     <span>🎉 الفائز هو 🎉</span>
                     <div class="winner-name" id="winnerNameStr">الاسم</div>
                     <div class="winner-btns">
-                        <button class="fit-btn" style="flex: 1; font-size: 12px;" onclick="closeWinnerPopup()">استمرار</button>
-                        <button class="cancel-btn" style="flex: 1; color: #ef4444; font-size: 12px;" onclick="removeWinner()">إزالة الفائز</button>
+                        <button class="fit-btn" style="flex: 1;" onclick="closeWinnerPopup()">استمرار</button>
+                        <button class="cancel-btn" style="flex: 1; color: #ff4757;" onclick="removeWinner()">حذف الفائز</button>
                     </div>
                 </div>
             </div>
-            <button class="fit-btn" style="width: 100%; height: 45px; font-size: 15px;" onclick="spinRoulette()"><i class="fa-solid fa-rotate-right"></i> فر العجلة</button>
+            <button class="fit-btn" style="width: 100%; height: 48px; font-size: 16px;" onclick="spinRoulette()"><i class="fa-solid fa-rotate-right"></i> تدوير العجلة</button>
             <textarea id="rouletteNames" class="names-input" placeholder="أدخل الأسماء هنا، افصل بينها بفاصلة (مثال: أحمد, علي, سارة)"></textarea>
-            <div style="width: 100%; display: flex; gap: 8px;">
+            <div style="width: 100%; display: flex; gap: 10px;">
                 <button class="cancel-btn" style="flex: 1;" onclick="updateRouletteWheel()"><i class="fa-solid fa-check"></i> تحديث</button>
-                <button class="cancel-btn" style="flex: 1; color: #ef4444;" onclick="resetRouletteNames()"><i class="fa-solid fa-rotate-left"></i> إعادة تعيين</button>
+                <button class="cancel-btn" style="flex: 1; color: #ff4757;" onclick="resetRouletteNames()"><i class="fa-solid fa-rotate-left"></i> إعادة تعيين</button>
             </div>
         </div>
     </div>
 
-    <!-- الحاسبة -->
+    <!-- الحاسبة الذكية المدعومة بخوارزمية تقييم -->
     <div id="view-calculator" class="view-section">
         <div class="top-bar">
-            <h2 class="section-title" style="margin: 0;">حاسبة بلاتو</h2>
+            <h2 class="section-title" style="margin: 0;">الحاسبة الذكية</h2>
             <button class="cancel-btn" onclick="openSim('hub')"><i class="fa-solid fa-arrow-right"></i> القائمة</button>
         </div>
         
         <div class="glass-panel calc-wrapper">
             
             <div class="calc-toggle">
-                <button class="calc-mode-btn active" id="btnModeCoins" onclick="setCalcMode('coins')"><i class="fa-solid fa-coins" style="color: var(--coin-color);"></i> لدي كوينز</button>
-                <button class="calc-mode-btn" id="btnModePips" onclick="setCalcMode('pips')"><i class="fa-solid fa-gem" style="color: var(--pip-color);"></i> أريد بيبس</button>
+                <!-- الأسماء هنا حسب طلبك فقط (كوينز) و (بيبس) -->
+                <button class="calc-mode-btn active" id="btnModeCoins" onclick="setCalcMode('coins')"><i class="fa-solid fa-coins" style="color: var(--coin-color);"></i> كوينز</button>
+                <button class="calc-mode-btn" id="btnModePips" onclick="setCalcMode('pips')"><i class="fa-solid fa-gem" style="color: var(--pip-color);"></i> بيبس</button>
             </div>
 
             <div class="calc-input-group">
-                <input type="number" id="calcInput" placeholder="أدخل عدد الكوينز (مثال: 31000)" oninput="performCalculation()">
+                <input type="number" id="calcInput" placeholder="أدخل الرقم هنا..." oninput="performCalculation()">
                 <i class="fa-solid fa-coins" id="calcInputIcon" style="color: var(--coin-color);"></i>
             </div>
 
             <div class="calc-result-box">
-                <div class="result-label" id="resultLabel">مجموع البيبس:</div>
-                <div class="result-amount text-pips" id="resultAmount">0</div>
-                
-                <div class="breakdown-title" id="breakdownTitle" style="display: none;">الباقات المطلوبة:</div>
-                <div class="packages-grid" id="packagesGrid"></div>
+                <div class="result-label" id="resultLabel">القيمة العادلة للتحويل:</div>
+                <div class="result-amount text-muted" id="resultAmount">0</div>
             </div>
 
         </div>
@@ -230,20 +264,19 @@
         }
 
         /* =========================================================================
-           1. محاكي الروليت الاحترافي (VIP Smooth Spinning)
+           1. محاكي الروليت الاحترافي (Glassmorphism & Smooth Easing)
            ========================================================================= */
         const rCanvas = document.getElementById("rouletteCanvas");
         const rCtx = rCanvas.getContext("2d");
         const winnerPopup = document.getElementById("winnerPopup");
+        const rouletteBox = document.getElementById("rouletteBox");
         
-        // ألوان عصرية وجميلة للروليت
         let rNames = ["YYY", "YYY", "YYY"];
         let rColors = ['#1abc9c', '#3498db', '#e74c3c', '#9b59b6', '#f1c40f', '#e67e22', '#2ecc71', '#34495e'];
         
         let currentAngle = 0; 
         let isSpinning = false; 
         let lastWinnerIndex = -1;
-        let animationReq;
 
         document.getElementById('rouletteNames').value = rNames.join(', ');
 
@@ -252,7 +285,7 @@
             rNames = text.split(/[\n,]+/).map(n => n.trim()).filter(n => n.length > 0);
             if(rNames.length === 0) rNames = [];
             winnerPopup.classList.remove('show');
-            currentAngle = 0; // تصفير العجلة عند التحديث
+            currentAngle = 0; 
             drawRouletteWheel();
         }
 
@@ -265,8 +298,8 @@
             rCtx.clearRect(0, 0, rCanvas.width, rCanvas.height);
             const cx = rCanvas.width / 2; 
             const cy = rCanvas.height / 2;
-            const outsideRadius = 145; 
-            const textRadius = 90; 
+            const outsideRadius = 155; 
+            const textRadius = 100; 
 
             if (rNames.length === 0) {
                 rCtx.beginPath(); rCtx.arc(cx, cy, outsideRadius, 0, Math.PI*2);
@@ -279,7 +312,6 @@
             for(let i = 0; i < rNames.length; i++) {
                 let angle = currentAngle + i * arc;
                 
-                // رسم الأجزاء مع تحديد ألوان احترافية
                 rCtx.beginPath();
                 rCtx.moveTo(cx, cy);
                 rCtx.arc(cx, cy, outsideRadius, angle, angle + arc, false);
@@ -287,45 +319,41 @@
                 rCtx.fillStyle = rColors[i % rColors.length];
                 rCtx.fill();
                 
-                // إطار داخلي بين الأقسام
-                rCtx.lineWidth = 2;
-                rCtx.strokeStyle = "rgba(0,0,0,0.3)";
+                rCtx.lineWidth = 1.5;
+                rCtx.strokeStyle = "rgba(0,0,0,0.4)";
                 rCtx.stroke();
                 
-                // رسم الأسماء بخط عريض وواضح مع ظل
                 rCtx.save();
                 rCtx.fillStyle = "#ffffff"; 
-                rCtx.shadowBlur = 4; 
-                rCtx.shadowColor = "rgba(0,0,0,0.8)";
+                rCtx.shadowBlur = 5; 
+                rCtx.shadowColor = "rgba(0,0,0,0.9)";
                 rCtx.translate(cx + Math.cos(angle + arc / 2) * textRadius, cy + Math.sin(angle + arc / 2) * textRadius);
                 rCtx.rotate(angle + arc / 2); 
                 rCtx.textAlign = "right"; 
                 rCtx.textBaseline = "middle";
                 rCtx.font = "bold 16px Cairo";
-                rCtx.fillText(rNames[i], 40, 0); 
+                rCtx.fillText(rNames[i], 45, 0); 
                 rCtx.restore();
             }
 
-            // رسم زر الارتكاز المعدني في المنتصف
+            // نقطة الارتكاز المعدنية (Center Pin) بتصميم زجاجي/معدني
             rCtx.beginPath();
-            rCtx.arc(cx, cy, 20, 0, Math.PI * 2);
-            let centerGrad = rCtx.createRadialGradient(cx, cy, 5, cx, cy, 20);
+            rCtx.arc(cx, cy, 22, 0, Math.PI * 2);
+            let centerGrad = rCtx.createRadialGradient(cx, cy, 5, cx, cy, 22);
             centerGrad.addColorStop(0, "#ffffff");
-            centerGrad.addColorStop(1, "#7f8fa6");
+            centerGrad.addColorStop(1, "#576574");
             rCtx.fillStyle = centerGrad;
             rCtx.fill();
-            rCtx.lineWidth = 3;
-            rCtx.strokeStyle = "#2f3640";
+            rCtx.lineWidth = 4;
+            rCtx.strokeStyle = "#222f3e";
             rCtx.stroke();
             
-            // نقطة الارتكاز الصغيرة
             rCtx.beginPath();
-            rCtx.arc(cx, cy, 5, 0, Math.PI * 2);
-            rCtx.fillStyle = "#2f3640";
+            rCtx.arc(cx, cy, 6, 0, Math.PI * 2);
+            rCtx.fillStyle = "#222f3e";
             rCtx.fill();
         }
 
-        // خوارزمية الدوران الناعمة (Cubic Ease-Out)
         let spinStart = 0;
         let spinDuration = 0;
         let startRotation = 0;
@@ -335,12 +363,11 @@
             if(rNames.length === 0 || isSpinning) return;
             isSpinning = true;
             winnerPopup.classList.remove('show');
+            rouletteBox.classList.add('spinning'); // تفعيل الإضاءة النبضية
             
-            // تحديد مدة الدوران وعدد اللفات (بين 6 لـ 10 ثواني)
-            spinDuration = 5000 + Math.random() * 2000; 
+            spinDuration = 6000 + Math.random() * 2000; 
             startRotation = currentAngle;
-            // اللفات الإضافية + زاوية عشوائية
-            targetRotation = currentAngle + (Math.PI * 2 * (5 + Math.random() * 5)); 
+            targetRotation = currentAngle + (Math.PI * 2 * (6 + Math.random() * 5)); 
             
             spinStart = performance.now();
             requestAnimationFrame(animateRoulette);
@@ -351,15 +378,15 @@
             
             if(elapsed < spinDuration) {
                 let t = elapsed / spinDuration;
-                // Easing Function: easeOutQuart لجعل التوقف جداً واقعي وناعم
-                let ease = 1 - Math.pow(1 - t, 4);
+                let ease = 1 - Math.pow(1 - t, 4); // حركة سلسة جداً تتوقف ببطء
                 currentAngle = startRotation + (targetRotation - startRotation) * ease;
                 
                 drawRouletteWheel();
-                animationReq = requestAnimationFrame(animateRoulette);
+                requestAnimationFrame(animateRoulette);
             } else {
                 currentAngle = targetRotation % (Math.PI * 2);
                 isSpinning = false;
+                rouletteBox.classList.remove('spinning'); // إيقاف النبض
                 drawRouletteWheel();
                 showWinner();
             }
@@ -367,7 +394,6 @@
 
         function showWinner() {
             const arc = Math.PI * 2 / rNames.length;
-            // حساب الزاوية التي يشير لها المؤشر (والذي يقع في الأعلى عند 270 درجة أو 1.5 PI)
             let degrees = (currentAngle * 180 / Math.PI) % 360;
             let pointingAngle = (270 - degrees + 360) % 360;
             let arcd = arc * 180 / Math.PI;
@@ -390,7 +416,7 @@
         }
 
         /* =========================================================================
-           2. الحاسبة الصافية والدقيقة (Pure Calculator)
+           2. حاسبة الذكاء الاصطناعي (AI Dynamic Pricing)
            ========================================================================= */
         
         let calcMode = 'coins'; 
@@ -405,12 +431,10 @@
             
             if(mode === 'coins') {
                 document.getElementById('btnModeCoins').classList.add('active');
-                inputEl.placeholder = "أدخل عدد الكوينز (مثال: 31000)";
                 iconEl.className = "fa-solid fa-coins";
                 iconEl.style.color = "var(--coin-color)";
             } else {
                 document.getElementById('btnModePips').classList.add('active');
-                inputEl.placeholder = "أدخل عدد البيبس المطلوب (مثال: 75)";
                 iconEl.className = "fa-solid fa-gem";
                 iconEl.style.color = "var(--pip-color)";
             }
@@ -419,156 +443,53 @@
             performCalculation();
         }
 
-        function calculateBestPipsForCoins(targetCoins) {
-            if(!targetCoins || targetCoins <= 0) return null;
-            let maxSearch = Math.min(targetCoins, 100000); 
-            let dp = new Array(maxSearch + 1).fill(0);
-            let pkgs = [ {p: 75, c: 31000}, {p: 20, c: 8000}, {p: 16, c: 7000}, {p: 10, c: 5000} ];
-            
-            let base20 = 0;
-            let processCoins = targetCoins;
-            if (targetCoins > 100000) {
-                let chunks = Math.floor((targetCoins - 50000) / 8000);
-                base20 = chunks;
-                processCoins = targetCoins - (chunks * 8000);
-            }
-            
-            let path = new Array(processCoins + 1).fill(null);
-            
-            for (let i = 0; i <= processCoins; i++) {
-                for(let pkg of pkgs) {
-                    if (i + pkg.c <= processCoins) {
-                        if (dp[i] + pkg.p > dp[i + pkg.c]) {
-                            dp[i + pkg.c] = dp[i] + pkg.p;
-                            path[i + pkg.c] = {prev: i, p: pkg.p};
-                        }
-                    }
-                }
-            }
-            
-            let bestPips = 0; let bestCost = 0;
-            for (let i = 0; i <= processCoins; i++) {
-                if (dp[i] > bestPips) {
-                    bestPips = dp[i]; bestCost = i;
-                } else if (dp[i] === bestPips && i < bestCost) { 
-                    bestCost = i; 
-                }
-            }
-            
-            let breakdown = {75:0, 20: base20, 16:0, 10:0};
-            let curr = bestCost;
-            while(curr > 0 && path[curr]) {
-                breakdown[path[curr].p]++;
-                curr = path[curr].prev;
-            }
-            
-            return { pips: bestPips + (base20 * 20), breakdown };
-        }
-
-        function calculateBestCoinsForPips(targetPips) {
-            if(!targetPips || targetPips <= 0) return null;
-            let base20 = 0;
-            let processPips = targetPips;
-            if (targetPips > 500) {
-                let chunks = Math.floor((targetPips - 100) / 20);
-                base20 = chunks;
-                processPips = targetPips - (chunks * 20);
-            }
-            
-            let maxSearch = processPips + 75; 
-            let dp = new Array(maxSearch + 1).fill(Infinity);
-            let path = new Array(maxSearch + 1).fill(null);
-            dp[0] = 0;
-            
-            let pkgs = [ {p: 75, c: 31000}, {p: 20, c: 8000}, {p: 16, c: 7000}, {p: 10, c: 5000} ];
-            
-            for (let i = 0; i <= maxSearch; i++) {
-                if (dp[i] === Infinity) continue;
-                for (let pkg of pkgs) {
-                    let next = i + pkg.p;
-                    if (next <= maxSearch) {
-                        if (dp[i] + pkg.c < dp[next]) {
-                            dp[next] = dp[i] + pkg.c;
-                            path[next] = {prev: i, p: pkg.p};
-                        }
-                    }
-                }
-            }
-            
-            let minCoins = Infinity; let bestPips = processPips;
-            for (let i = processPips; i <= maxSearch; i++) {
-                if (dp[i] < minCoins) { minCoins = dp[i]; bestPips = i; }
-            }
-            
-            let breakdown = {75:0, 20: base20, 16:0, 10:0};
-            let curr = bestPips;
-            while(curr > 0 && path[curr]) {
-                breakdown[path[curr].p]++;
-                curr = path[curr].prev;
-            }
-            
-            return { coins: minCoins + (base20 * 8000), breakdown };
+        // خوارزمية ذكية (Curve Fitting Algorithm)
+        // اللعبة تبيع الكميات القليلة بغالي (10 بيبس = 5000 كوينز -> البيبس الواحد = 500 كوينز)
+        // وتبيع الكميات الكبيرة برخيص (20 بيبس = 8000 كوينز -> البيبس الواحد = 400 كوينز)
+        // هذه الدالة تحسب "سعر البيبس الواحد" بناءً على الكمية المطلوبة بشكل ديناميكي من 550 إلى 400.
+        function getDynamicRate(pipsAmount) {
+            if (pipsAmount <= 0) return 500;
+            // دالة أسية تنخفض من 550 (للبيبس الواحد) وتستقر عند 400 (للكميات الكبيرة)
+            let rate = 400 + 150 * Math.exp(-pipsAmount / 15);
+            return rate;
         }
 
         function performCalculation() {
-            let val = parseInt(document.getElementById('calcInput').value);
+            let val = parseFloat(document.getElementById('calcInput').value);
             const amountEl = document.getElementById('resultAmount');
-            const labelEl = document.getElementById('resultLabel');
-            const gridEl = document.getElementById('packagesGrid');
-            const titleEl = document.getElementById('breakdownTitle');
             
-            gridEl.innerHTML = '';
-
             if (isNaN(val) || val <= 0) {
                 amountEl.innerText = '0';
                 amountEl.className = 'result-amount text-muted';
-                labelEl.innerText = 'بانتظار الإدخال...';
-                titleEl.style.display = 'none';
                 return;
             }
 
             if (calcMode === 'coins') {
-                let res = calculateBestPipsForCoins(val);
-                if (res && res.pips > 0) {
-                    amountEl.innerText = res.pips.toLocaleString();
-                    amountEl.className = 'result-amount text-pips';
-                    labelEl.innerText = 'مجموع البيبس:';
-                    titleEl.style.display = 'block';
-                    renderBreakdown(res.breakdown);
-                } else {
-                    amountEl.innerText = '0';
-                    amountEl.className = 'result-amount text-muted';
-                    labelEl.innerText = 'المبلغ غير كافٍ لشراء أي باقة';
-                    titleEl.style.display = 'none';
-                }
+                // المستخدم أدخل كوينز ويريد معرفة البيبس
+                // سنقوم بعملية تقريبية ذكية لمعرفة كم بيبس يمكنه الحصول عليه
+                let estimatedPips = val / 450; // تقدير أولي
+                let actualRate = getDynamicRate(estimatedPips);
+                let finalPips = val / actualRate;
+                
+                // تنسيق الرقم (إذا كان فيه كسور نأخذ منزلة واحدة، وإذا صحيح نكتبه كما هو)
+                let displayValue = (finalPips % 1 !== 0) ? finalPips.toFixed(1) : finalPips.toString();
+                
+                amountEl.innerText = displayValue + ' بيبس';
+                amountEl.className = 'result-amount text-pips';
+                
             } else {
-                let res = calculateBestCoinsForPips(val);
-                if (res) {
-                    amountEl.innerText = res.coins.toLocaleString();
-                    amountEl.className = 'result-amount text-coins';
-                    labelEl.innerText = 'التكلفة الإجمالية (كوينز):';
-                    titleEl.style.display = 'block';
-                    renderBreakdown(res.breakdown);
-                }
+                // المستخدم أدخل بيبس ويريد معرفة الكوينز
+                // نستخدم الدالة الذكية مباشرة لمعرفة التكلفة العادلة
+                let rate = getDynamicRate(val);
+                let finalCoins = Math.round(val * rate);
+                
+                amountEl.innerText = finalCoins.toLocaleString() + ' كوينز';
+                amountEl.className = 'result-amount text-coins';
             }
         }
 
-        function renderBreakdown(bd) {
-            const gridEl = document.getElementById('packagesGrid');
-            const order = [75, 20, 16, 10];
-            let html = '';
-            for(let p of order) {
-                if(bd[p] > 0) {
-                    html += `
-                    <div class="pkg-card">
-                        <span class="pkg-count">${bd[p]}x</span>
-                        <span class="pkg-name">باقة ${p} بيبس</span>
-                    </div>`;
-                }
-            }
-            gridEl.innerHTML = html;
-        }
-
+        // تشغيل الروليت عند بدء الصفحة
+        drawRouletteWheel();
     </script>
 </body>
 </html>
