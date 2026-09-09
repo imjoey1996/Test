@@ -10,7 +10,7 @@
     <style>
         :root {
             --bg-main: #07070a;
-            --bg-card: rgba(20, 20, 28, 0.6);
+            --bg-card: rgba(20, 20, 28, 0.5);
             --bg-card-sub: rgba(30, 30, 40, 0.4);
             --primary: #ffffff;
             --border: rgba(255, 255, 255, 0.08);
@@ -19,22 +19,19 @@
             --text-muted: #848596;
             --coin-color: #fbc531;
             --pip-color: #9c88ff;
+            --success-color: #0be881;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
         body {
-            background-color: var(--bg-main);
-            color: var(--text-main);
+            background-color: var(--bg-main); color: var(--text-main);
             font-family: 'Rajdhani', 'Cairo', sans-serif;
-            min-height: 100vh;
-            overflow-x: hidden;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            min-height: 100vh; overflow-x: hidden;
+            display: flex; flex-direction: column; align-items: center;
         }
 
-        /* --- تأثيرات الخلفية الزجاجية (Glassmorphism & Grid) --- */
+        /* --- تأثيرات الخلفية الزجاجية والفقاعات --- */
         .site-grid {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none;
             background-image: 
@@ -45,9 +42,7 @@
         .bg-blobs {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; overflow: hidden; pointer-events: none;
         }
-        .blob {
-            position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.35; animation: float 12s infinite ease-in-out alternate;
-        }
+        .blob { position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.35; animation: float 12s infinite ease-in-out alternate; }
         .blob-1 { width: 350px; height: 350px; background: #9c88ff; top: -100px; left: -100px; }
         .blob-2 { width: 400px; height: 400px; background: #fbc531; bottom: -100px; right: -50px; animation-delay: -4s; }
 
@@ -56,11 +51,10 @@
             100% { transform: translate(30px, 60px) scale(1.1); }
         }
 
-        /* --- الهيدر العلوي --- */
+        /* --- الهيدر --- */
         .app-header {
             width: 100%; max-width: 500px; padding: 20px 24px;
-            display: flex; justify-content: space-between; align-items: center;
-            z-index: 10;
+            display: flex; justify-content: space-between; align-items: center; z-index: 10;
         }
         .app-brand {
             font-size: 1.8rem; font-weight: 900; letter-spacing: 0.5px; font-family: 'Rajdhani', sans-serif;
@@ -76,7 +70,6 @@
         }
         .lang-btn:hover { border-color: var(--border-glow); background: rgba(255,255,255,0.1); }
 
-        /* --- حاوية التطبيق --- */
         .main-container { 
             width: 100%; max-width: 460px; padding: 10px 20px 40px 20px; 
             display: flex; flex-direction: column; align-items: center; 
@@ -84,7 +77,6 @@
         }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- ستايل العناوين (مطابق للصورة) --- */
         .section-tag {
             display: flex; align-items: center; justify-content: center; gap: 10px;
             font-size: 1rem; font-weight: 900; letter-spacing: 1.5px; text-transform: uppercase;
@@ -95,7 +87,7 @@
             border-radius: 4px; box-shadow: 0 0 12px #fff;
         }
 
-        /* --- تصميم الكارد الزجاجي --- */
+        /* --- التصميم الزجاجي الرئيسي --- */
         .platox-card {
             width: 100%; background: var(--bg-card); border: 1px solid var(--border);
             border-radius: 24px; padding: 25px; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(255,255,255,0.02);
@@ -111,12 +103,11 @@
         .switch-opt {
             flex: 1; padding: 12px; text-align: center; font-weight: 800; font-size: 15px;
             border-radius: 12px; cursor: pointer; color: var(--text-muted); transition: 0.3s;
-            display: flex; align-items: center; justify-content: center; gap: 8px;
-            font-family: inherit;
+            display: flex; align-items: center; justify-content: center; gap: 8px; font-family: inherit;
         }
         .switch-opt.active { background: rgba(255,255,255,0.08); color: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
 
-        /* --- حقل الإدخال الاحترافي --- */
+        /* --- حقل الإدخال --- */
         .input-wrapper { position: relative; width: 100%; }
         .input-wrapper input {
             width: 100%; background: rgba(0,0,0,0.4); border: 1px solid var(--border);
@@ -135,21 +126,46 @@
         html[dir="rtl"] .input-wrapper i { right: auto; left: 20px; }
         .input-wrapper input:focus + i { filter: drop-shadow(0 0 8px currentColor); }
 
-        /* --- مربع النتيجة --- */
-        .calc-display {
+        /* --- لوحة العرض الاحترافية (Dashboard Style) --- */
+        .dashboard-display {
             background: linear-gradient(145deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01)); 
-            border: 1px solid var(--border); border-radius: 18px; padding: 30px 20px; 
-            text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3); min-height: 160px;
+            border: 1px solid var(--border); border-radius: 18px; padding: 25px 20px; 
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3), inset 0 0 10px rgba(0,0,0,0.2);
+            position: relative; overflow: hidden;
         }
-        .calc-label { font-size: 14px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
-        .calc-value { font-size: 3.5rem; font-weight: 900; line-height: 1; margin: 5px 0; transition: 0.3s; }
-        .calc-currency { font-size: 16px; font-weight: 800; color: #fff; text-transform: uppercase; letter-spacing: 1px;}
+        
+        /* تأثير الإضاءة العلوية للوحة */
+        .dashboard-display::before {
+            content: ''; position: absolute; top: 0; left: 10%; width: 80%; height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        }
 
-        /* ألوان القيم */
+        .main-result-box {
+            text-align: center; margin-bottom: 20px; width: 100%;
+            padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .calc-label { font-size: 13px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+        .calc-value { font-size: 3.8rem; font-weight: 900; line-height: 1; margin: 5px 0; font-family: 'Rajdhani', sans-serif;}
+        .calc-currency { font-size: 15px; font-weight: 800; color: #fff; text-transform: uppercase; letter-spacing: 2px;}
+
+        /* إحصائيات الذكاء الاصطناعي السفلية */
+        .stats-grid {
+            display: grid; grid-template-columns: 1fr 1fr; width: 100%; gap: 15px;
+        }
+        .stat-item {
+            display: flex; flex-direction: column; align-items: center;
+            background: rgba(0,0,0,0.3); padding: 12px; border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.03);
+        }
+        .stat-title { font-size: 11px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; margin-bottom: 4px; letter-spacing: 0.5px;}
+        .stat-val { font-size: 18px; font-weight: 900; font-family: 'Rajdhani', sans-serif; color: #fff; }
+        
+        .val-bonus { color: var(--success-color); text-shadow: 0 0 10px rgba(11, 232, 129, 0.4); }
+
         .text-coins { color: var(--coin-color); text-shadow: 0 0 25px rgba(251, 197, 49, 0.4); }
         .text-pips { color: var(--pip-color); text-shadow: 0 0 25px rgba(156, 136, 255, 0.4); }
-        .text-none { color: rgba(255,255,255,0.1); }
+        .text-none { color: rgba(255,255,255,0.1); text-shadow: none; }
 
     </style>
 </head>
@@ -182,15 +198,31 @@
             </div>
 
             <div class="input-wrapper">
-                <!-- inputmode="numeric" يظهر الكيبورد الرقمي في الجوال -->
                 <input type="text" inputmode="numeric" id="calcInput" placeholder="Enter Coins..." oninput="handleInput(event)">
                 <i class="fa-solid fa-coins" id="inputIcon" style="color: var(--coin-color);"></i>
             </div>
 
-            <div class="calc-display">
-                <div class="calc-label" id="resultTitle">ESTIMATED VALUE</div>
-                <div class="calc-value text-none" id="resultValue">0</div>
-                <div class="calc-currency" id="resultCurrency">PIPS</div>
+            <!-- لوحة التحكم الاحترافية -->
+            <div class="dashboard-display">
+                
+                <div class="main-result-box">
+                    <div class="calc-label" id="resultTitle">ESTIMATED VALUE</div>
+                    <div class="calc-value text-none" id="resultValue">0</div>
+                    <div class="calc-currency" id="resultCurrency">PIPS</div>
+                </div>
+
+                <!-- إحصائيات الذكاء الاصطناعي -->
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-title" id="statRateLabel">RATE / PIP</div>
+                        <div class="stat-val" id="statRateValue">0 <span style="font-size: 10px; color: var(--text-muted);">Coins</span></div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-title" id="statBonusLabel">VOLUME BONUS</div>
+                        <div class="stat-val" id="statBonusValue">0%</div>
+                    </div>
+                </div>
+
             </div>
 
         </div>
@@ -199,7 +231,7 @@
 
     <script>
         /* =========================================================================
-           نظام اللغات والترجمة الفورية
+           إعدادات اللغات والترجمة
            ========================================================================= */
         let currentLang = 'en';
         const i18n = {
@@ -213,7 +245,10 @@
                 placeholderPips: 'Enter Pips...',
                 resultTitle: 'ESTIMATED VALUE',
                 currCoins: 'COINS',
-                currPips: 'PIPS'
+                currPips: 'PIPS',
+                rateLabel: 'RATE / PIP',
+                bonusLabel: 'VOLUME BONUS',
+                coinsLabel: 'Coins'
             },
             ar: {
                 langBtn: 'EN',
@@ -224,8 +259,11 @@
                 placeholderCoins: 'أدخل عدد الكوينز...',
                 placeholderPips: 'أدخل عدد البيبس...',
                 resultTitle: 'القيمة التقديرية العادلة',
-                currCoins: 'COINS',
-                currPips: 'PIPS'
+                currCoins: 'COINS', // الإبقاء على المصطلحات الانجليزية
+                currPips: 'PIPS',
+                rateLabel: 'سعر الـ PIP',
+                bonusLabel: 'بونص الكمية',
+                coinsLabel: 'Coins'
             }
         };
 
@@ -241,15 +279,18 @@
             document.getElementById('tabCoins').innerText = t.tabCoins;
             document.getElementById('tabPips').innerText = t.tabPips;
             document.getElementById('resultTitle').innerText = t.resultTitle;
+            document.getElementById('statRateLabel').innerText = t.rateLabel;
+            document.getElementById('statBonusLabel').innerText = t.bonusLabel;
             
             document.getElementById('calcInput').placeholder = (currentMode === 'coins') ? t.placeholderCoins : t.placeholderPips;
             document.getElementById('resultCurrency').innerText = (currentMode === 'coins') ? t.currPips : t.currCoins;
         }
 
         /* =========================================================================
-           نظام الحاسبة والذكاء الاصطناعي
+           منطق الحاسبة (AI Dynamic Pricing & Counters)
            ========================================================================= */
         let currentMode = 'coins'; 
+        let animationFrame; // لحفظ الـ ID لعملية الـ Animation وإلغائها عند الكتابة السريعة
 
         function setMode(mode) {
             currentMode = mode;
@@ -274,27 +315,19 @@
                 resultCurr.innerText = t.currCoins;
             }
             
-            // تصفير الحقل عند التبديل
             input.value = ''; 
             calculate();
         }
 
-        // تحويل الأرقام العربية إلى إنجليزية
         const convertArabicNumerals = (str) => {
             return str.replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d));
         };
 
-        // معالجة الإدخال (تصفية، تحويل، وضع الفواصل)
         function handleInput(e) {
             let val = e.target.value;
-            
-            // 1. تحويل الأرقام العربية (١٢٣) إلى إنجليزية (123)
             val = convertArabicNumerals(val);
+            val = val.replace(/\D/g, ''); // إبقاء الأرقام فقط
             
-            // 2. مسح أي أحرف أو مسافات (الإبقاء على الأرقام فقط)
-            val = val.replace(/\D/g, '');
-            
-            // 3. وضع الفواصل للألوف (مثال: 31,000)
             if(val !== '') {
                 val = parseInt(val, 10).toLocaleString('en-US');
             }
@@ -303,50 +336,95 @@
             calculate();
         }
 
-        // الخوارزمية الذكية لتقييم السعر العادل بناءً على الكمية
+        // الخوارزمية الذكية لحساب السعر
+        // السعر الأساسي للبيبس الواحد هو 550 كوينز. ينخفض مع الكميات الكبيرة حتى يستقر حول 400.
+        const MAX_RATE = 550;
         function getDynamicRate(pips) {
-            if (pips <= 0) return 500;
-            // المعادلة: الكمية القليلة تقترب من 550 كوينز للبيبس، والكميات الضخمة تستقر عند 400
+            if (pips <= 0) return MAX_RATE;
             return 400 + 150 * Math.exp(-pips / 15);
         }
 
+        // دالة العداد المتحرك (Number Animation)
+        function animateValue(obj, start, end, duration, isFloat) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                
+                // Ease out Expo
+                const easeProgress = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+                
+                let currentVal = start + (end - start) * easeProgress;
+                
+                if(isFloat) {
+                    let displayValue = (currentVal % 1 !== 0) ? currentVal.toFixed(1) : Math.round(currentVal).toString();
+                    let parts = displayValue.split('.');
+                    parts[0] = parseInt(parts[0] || 0).toLocaleString('en-US');
+                    obj.innerText = parts.join('.');
+                } else {
+                    obj.innerText = Math.round(currentVal).toLocaleString('en-US');
+                }
+
+                if (progress < 1) {
+                    animationFrame = window.requestAnimationFrame(step);
+                }
+            };
+            if(animationFrame) window.cancelAnimationFrame(animationFrame);
+            animationFrame = window.requestAnimationFrame(step);
+        }
+
         function calculate() {
-            // أخذ القيمة من الحقل وإزالة الفواصل لتحويلها إلى رقم برمجي
             let rawValue = document.getElementById('calcInput').value.replace(/,/g, '');
             let val = parseFloat(rawValue);
             
             const outVal = document.getElementById('resultValue');
+            const rateVal = document.getElementById('statRateValue');
+            const bonusVal = document.getElementById('statBonusValue');
 
-            // في حال كان الحقل فارغاً
             if (isNaN(val) || val <= 0) {
+                if(animationFrame) window.cancelAnimationFrame(animationFrame);
                 outVal.innerText = '0';
                 outVal.className = 'calc-value text-none';
+                rateVal.innerHTML = `0 <span style="font-size: 10px; color: var(--text-muted);">Coins</span>`;
+                bonusVal.innerText = '0%';
+                bonusVal.className = 'stat-val';
                 return;
             }
 
+            let currentActualRate = 0;
+            let targetValue = 0;
+            let isResultFloat = false;
+
             if (currentMode === 'coins') {
-                // إدخال كوينز -> إخراج بيبس
                 let estimatedPips = val / 450; 
-                let actualRate = getDynamicRate(estimatedPips);
-                let finalPips = val / actualRate;
-                
-                // تنسيق الرقم (رقم عشري واحد إذا كان هناك كسر)
-                let displayValue = (finalPips % 1 !== 0) ? finalPips.toFixed(1) : finalPips.toString();
-                
-                // إضافة فواصل للألوف للناتج أيضاً
-                let parts = displayValue.split('.');
-                parts[0] = parseInt(parts[0]).toLocaleString('en-US');
-                
-                outVal.innerText = parts.join('.');
+                currentActualRate = getDynamicRate(estimatedPips);
+                targetValue = val / currentActualRate;
+                isResultFloat = true;
                 outVal.className = 'calc-value text-pips';
-                
             } else {
-                // إدخال بيبس -> إخراج كوينز
-                let rate = getDynamicRate(val);
-                let finalCoins = Math.round(val * rate);
-                
-                outVal.innerText = finalCoins.toLocaleString('en-US');
+                currentActualRate = getDynamicRate(val);
+                targetValue = Math.round(val * currentActualRate);
+                isResultFloat = false;
                 outVal.className = 'calc-value text-coins';
+            }
+
+            // تشغيل الأنيميشن للرقم الكبير (مدة 500 ملي ثانية)
+            // نجلب القيمة الحالية لنبدأ منها لتكون الحركة متصلة
+            let currentDisplay = parseFloat(outVal.innerText.replace(/,/g, '')) || 0;
+            animateValue(outVal, currentDisplay, targetValue, 500, isResultFloat);
+
+            // تحديث الإحصائيات (بدون أنيميشن لأنها أرقام مساعدة)
+            rateVal.innerHTML = `${Math.round(currentActualRate).toLocaleString('en-US')} <span style="font-size: 10px; color: var(--text-muted);">Coins</span>`;
+            
+            // حساب نسبة البونص (الذكاء الاصطناعي يحسب كم قل السعر عن السعر الأساسي 550)
+            let bonusPercent = ((MAX_RATE - currentActualRate) / MAX_RATE) * 100;
+            
+            if (bonusPercent > 2) { // إذا كان التخفيض أكثر من 2% نلونه بالأخضر
+                bonusVal.innerText = `+${bonusPercent.toFixed(1)}%`;
+                bonusVal.className = 'stat-val val-bonus';
+            } else {
+                bonusVal.innerText = `${Math.max(0, bonusPercent).toFixed(1)}%`;
+                bonusVal.className = 'stat-val';
             }
         }
     </script>
