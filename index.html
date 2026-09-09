@@ -85,10 +85,9 @@
             box-shadow: 0 15px 40px rgba(0,0,0,0.8); background: #000;
         }
 
-        /* --- لوحة التحكم الجانبية (شريط الضربة + السبين) --- */
         .controls-right { display: flex; flex-direction: column; align-items: center; gap: 12px; padding-top: 10px;}
 
-        /* زر السبين الجديد (فوق المضرب) */
+        /* زر السبين */
         .spin-toggle { width: 38px; height: 38px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, #fff, #ccc); border: 3px solid #333; box-shadow: 0 4px 10px rgba(0,0,0,0.6); cursor: pointer; display: flex; justify-content: center; align-items: center; position: relative; }
         .spin-dot-indicator { width: 8px; height: 8px; background: #ef4444; border-radius: 50%; position: absolute; }
         
@@ -103,26 +102,27 @@
         .spin-crosshair.vert { top: 0; left: 50%; width: 1px; height: 100%; }
         .spin-dot-main { position: absolute; width: 14px; height: 14px; background: #ef4444; border-radius: 50%; border: 2px solid #fff; top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; box-shadow: 0 2px 5px rgba(0,0,0,0.5); }
 
-        /* شريط القوة (Power Bar) الجديد - سحب للأسفل */
+        /* شريط القوة (Power Bar) المُصغر */
         .power-bar-wrapper {
-            width: 38px; height: 420px; border-radius: 20px; border: 3px solid #111;
+            width: 32px; /* تصغير العرض */
+            height: 360px; /* تصغير الطول */
+            border-radius: 16px; border: 3px solid #111;
             background: linear-gradient(to bottom, #8f9b37 0%, #d4b532 25%, #e07d25 50%, #d14124 75%, #a62a1c 100%);
             position: relative; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.8), inset 0 0 10px rgba(0,0,0,0.5); 
-            touch-action: none; cursor: grab;
+            touch-action: none; cursor: grab; margin-top: 10px;
         }
         .power-bar-wrapper:active { cursor: grabbing; }
-        /* الخطوط المقسمة للشريط */
         .power-lines {
             position: absolute; width: 100%; height: 100%; top: 0; left: 0;
             background: repeating-linear-gradient(to bottom, transparent, transparent 19.5%, rgba(0,0,0,0.8) 20%);
             pointer-events: none; z-index: 2;
         }
-        /* عصا المضرب */
         .power-cue {
-            position: absolute; left: 50%; transform: translateX(-50%); top: -5px; /* تبدأ من الأعلى */
-            width: 10px; height: 400px; border-radius: 5px; pointer-events: none; z-index: 3;
+            position: absolute; left: 50%; transform: translateX(-50%); top: -5px; 
+            width: 8px; /* تنحيف العصا */
+            height: 350px; border-radius: 4px; pointer-events: none; z-index: 3;
             background: linear-gradient(to right, #a07855, #f5f6fa, #a07855);
-            border-bottom: 8px solid #222; /* رأس المضرب */
+            border-bottom: 6px solid #222; 
             box-shadow: 0 5px 10px rgba(0,0,0,0.6);
         }
     </style>
@@ -138,7 +138,7 @@
                 <i class="fa-solid fa-bowling-ball"></i>
                 <div class="sim-card-info">
                     <h3>محاكي البلياردو</h3>
-                    <p>وزنية ومسار كرات 8-Ball مع تحكم بالسبين والمضرب.</p>
+                    <p>إعدادات احترافية، سبين حقيقي، ووزنية 8-Ball.</p>
                 </div>
             </div>
             <div class="sim-card glass-panel" onclick="openSim('roulette')">
@@ -174,7 +174,7 @@
             <textarea id="rouletteNames" class="names-input"></textarea>
             <div style="width: 100%; display: flex; gap: 8px;">
                 <button class="cancel-btn" style="flex: 1;" onclick="updateRouletteWheel()"><i class="fa-solid fa-check"></i> تحديث</button>
-                <button class="cancel-btn" style="flex: 1; color: #ef4444;" onclick="resetRouletteNames()"><i class="fa-solid fa-trash"></i> مسح / ريسيت</button>
+                <button class="cancel-btn" style="flex: 1; color: #ef4444;" onclick="resetRouletteNames()"><i class="fa-solid fa-rotate-left"></i> إعادة تعيين</button>
             </div>
         </div>
     </div>
@@ -193,31 +193,25 @@
                     <input type="number" id="ballCountInput" min="1" max="15" value="15">
                 </div>
                 <button type="button" class="fit-btn" onclick="initPoolBalls('triangle')"><i class="fa-solid fa-play"></i> ترتيب</button>
-                <button type="button" class="cancel-btn" onclick="resetBilliards()" style="color: #ef4444;"><i class="fa-solid fa-rotate-left"></i> مسح / ريسيت</button>
+                <button type="button" class="cancel-btn" onclick="resetBilliards()" style="color: #ef4444;"><i class="fa-solid fa-rotate-left"></i> إعادة تعيين</button>
             </div>
 
             <div class="table-area">
                 
-                <!-- كانفاس الطاولة -->
                 <canvas id="billiardsCanvas" width="270" height="510"></canvas>
                 
                 <!-- لوحة التحكم اليمنى (السبين + شريط القوة) -->
                 <div class="controls-right">
-                    
-                    <!-- زر السبين الخارجي (أعلى المضرب) -->
                     <div class="spin-toggle" onclick="toggleSpinModal()" title="إعدادات السبين">
                         <div class="spin-dot-indicator" id="spinIndicator"></div>
                     </div>
 
-                    <!-- شريط القوة والمضرب (سحب للأسفل) -->
                     <div class="power-bar-wrapper" id="powerBar">
                         <div class="power-lines"></div>
                         <div class="power-cue" id="powerCue"></div>
                     </div>
-
                 </div>
 
-                <!-- نافذة السبين (مخفية تظهر عند الضغط) -->
                 <div class="spin-modal" id="spinModal">
                     <span style="color: #fff; font-size: 13px; font-weight: 900; letter-spacing: 1px;">PRESET</span>
                     <div class="spin-presets">
@@ -250,7 +244,7 @@
         }
 
         /* =========================================================================
-           1. محاكي الروليت (العشوائية الحقيقية مع الريسيت)
+           1. محاكي الروليت
            ========================================================================= */
         const rCanvas = document.getElementById("rouletteCanvas");
         const rCtx = rCanvas.getContext("2d");
@@ -272,7 +266,6 @@
             drawRouletteWheel();
         }
 
-        // مسح يرجعها للوضع الافتراضي
         function resetRouletteNames() { 
             document.getElementById('rouletteNames').value = 'YYY\nYYY\nYYY'; 
             updateRouletteWheel(); 
@@ -342,7 +335,7 @@
 
 
         /* =========================================================================
-           2. محاكي البلياردو (Pro Billiards Simulator)
+           2. محاكي البلياردو
            ========================================================================= */
         const poolCanvas = document.getElementById('billiardsCanvas');
         const poolCtx = poolCanvas.getContext('2d');
@@ -354,8 +347,10 @@
         const CUSHION = 22; 
         const PLAY_LEFT = CUSHION; const PLAY_RIGHT = TABLE_WIDTH - CUSHION;
         const PLAY_TOP = CUSHION; const PLAY_BOTTOM = TABLE_HEIGHT - CUSHION;
-        const BALL_RADIUS = 7.5;  // تصغير الكرات لتناسب الصورة
-        const POCKET_RADIUS = 15; // ضبط الحفر لتسقط الكرات بداخلها بواقعية
+        
+        // تصغير الكرات لتناسب الحفر بشكل مثالي
+        const BALL_RADIUS = 7.0;  
+        const POCKET_RADIUS = 15.5; 
         const FRICTION = 0.985; 
 
         const POCKETS = [
@@ -414,7 +409,6 @@
                 else if (this.y + this.radius > PLAY_BOTTOM) { this.y = PLAY_BOTTOM - this.radius; this.vy = -this.vy * 0.8; if(this.isCue) this.vx -= spinX * 1.5; }
 
                 for (let p of POCKETS) {
-                    // تصحيح حساسية السقوط
                     if (Math.hypot(this.x - p.x, this.y - p.y) < POCKET_RADIUS) {
                         this.inPocket = true; this.vx = 0; this.vy = 0;
                         if (this.isCue) setTimeout(() => { this.inPocket = false; this.x = TABLE_WIDTH/2; this.y = TABLE_HEIGHT*0.75; }, 1000);
@@ -450,8 +444,8 @@
         }
 
         function resetBilliards() {
-            setSpin(0, 0); // تصفير السبين
-            initPoolBalls('clear'); // مسح الطاولة وإبقاء البيضاء
+            setSpin(0, 0); 
+            initPoolBalls('clear'); 
         }
 
         function getAimPrediction(cue, angle) {
@@ -503,10 +497,10 @@
                     let ghostY = poolCueBall.y + pred.dy * pred.t;
 
                     poolCtx.beginPath(); poolCtx.moveTo(poolCueBall.x, poolCueBall.y); poolCtx.lineTo(ghostX, ghostY);
-                    poolCtx.strokeStyle = 'rgba(255,255,255,0.9)'; poolCtx.lineWidth = 1.2; poolCtx.stroke();
+                    poolCtx.strokeStyle = 'rgba(255,255,255,0.9)'; poolCtx.lineWidth = 1.5; poolCtx.stroke();
 
                     poolCtx.beginPath(); poolCtx.arc(ghostX, ghostY, BALL_RADIUS, 0, Math.PI*2);
-                    poolCtx.strokeStyle = 'rgba(255,255,255,0.7)'; poolCtx.lineWidth = 1; poolCtx.stroke();
+                    poolCtx.strokeStyle = 'rgba(255,255,255,0.7)'; poolCtx.lineWidth = 1.2; poolCtx.stroke();
 
                     if (pred.type === 'ball') {
                         let nx = pred.target.x - ghostX, ny = pred.target.y - ghostY;
@@ -514,12 +508,12 @@
                         
                         poolCtx.beginPath(); poolCtx.moveTo(pred.target.x, pred.target.y);
                         poolCtx.lineTo(pred.target.x + nx * 100, pred.target.y + ny * 100);
-                        poolCtx.strokeStyle = '#ff3333'; poolCtx.lineWidth = 2; poolCtx.stroke();
+                        poolCtx.strokeStyle = '#ff3333'; poolCtx.lineWidth = 2.5; poolCtx.stroke();
 
                         let tx = -ny, ty = nx;
                         if (pred.dx * tx + pred.dy * ty < 0) { tx = -tx; ty = -ty; }
                         poolCtx.beginPath(); poolCtx.moveTo(ghostX, ghostY); poolCtx.lineTo(ghostX + tx * 35, ghostY + ty * 35);
-                        poolCtx.strokeStyle = 'rgba(255,255,255,0.8)'; poolCtx.lineWidth = 1.2; poolCtx.stroke();
+                        poolCtx.strokeStyle = 'rgba(255,255,255,0.8)'; poolCtx.lineWidth = 1.5; poolCtx.stroke();
                     
                     } else if (pred.type === 'wall') {
                         let rx = pred.dx, ry = pred.dy;
@@ -527,7 +521,7 @@
                         if (pred.ny !== 0) ry = -ry;
                         poolCtx.beginPath(); poolCtx.moveTo(ghostX, ghostY);
                         poolCtx.lineTo(ghostX + rx * 80, ghostY + ry * 80);
-                        poolCtx.strokeStyle = '#ff3333'; poolCtx.lineWidth = 1.5; poolCtx.setLineDash([5, 5]); poolCtx.stroke();
+                        poolCtx.strokeStyle = '#ff3333'; poolCtx.lineWidth = 1.8; poolCtx.setLineDash([5, 5]); poolCtx.stroke();
                         poolCtx.setLineDash([]);
                     }
                 }
@@ -553,9 +547,8 @@
                         b1.vx -= p * nx; b1.vy -= p * ny;
                         b2.vx += p * nx; b2.vy += p * ny;
 
-                        // تأثير السبين المباشر عند الاصطدام
                         if (b1.isCue) {
-                            b1.vx += Math.cos(aimAngle) * (-spinY) * 1.5; 
+                            b1.vx += Math.cos(aimAngle) * (-spinY) * 1.5;
                             b1.vy += Math.sin(aimAngle) * (-spinY) * 1.5;
                         } else if (b2.isCue) {
                             b2.vx += Math.cos(aimAngle) * (-spinY) * 1.5;
@@ -578,15 +571,18 @@
             return { x: (clientX - rect.left) * scaleX, y: (clientY - rect.top) * scaleY };
         }
 
-        // --- التوجيه المستقل (Aiming) عبر الطاولة ---
-        let lastTouchX = 0; let isAimingDrag = false;
+        // --- التوجيه الحر المباشر (Tap/Drag Anywhere) ---
+        let lastTouchX = 0; let lastTouchY = 0; let isAimingDrag = false;
 
         function handlePointerDownTable(e) {
             const pos = getCanvasCoordinates(e);
             draggedBall = poolBalls.find(b => !b.inPocket && Math.hypot(b.x - pos.x, b.y - pos.y) < BALL_RADIUS * 2);
             if (!draggedBall) {
                 isAimingDrag = true;
-                lastTouchX = e.touches ? e.touches[0].clientX : e.clientX;
+                // توجيه الإيم مباشرة لمكان اللمس!
+                if(poolCueBall && !poolCueBall.inPocket) {
+                    aimAngle = Math.atan2(pos.y - poolCueBall.y, pos.x - poolCueBall.x);
+                }
             }
         }
 
@@ -597,10 +593,11 @@
                 draggedBall.y = Math.max(PLAY_TOP + BALL_RADIUS, Math.min(PLAY_BOTTOM - BALL_RADIUS, pos.y));
                 draggedBall.vx = 0; draggedBall.vy = 0;
             } else if (isAimingDrag) {
-                let currentX = e.touches ? e.touches[0].clientX : e.clientX;
-                let delta = currentX - lastTouchX;
-                aimAngle += delta * 0.004; // حساسية بطيئة وناعمة جداً للوزنية
-                lastTouchX = currentX;
+                const pos = getCanvasCoordinates(e);
+                if (poolCueBall && !poolCueBall.inPocket) {
+                    // تحريك الإيم مع إصبعك وين ما يروح
+                    aimAngle = Math.atan2(pos.y - poolCueBall.y, pos.x - poolCueBall.x);
+                }
             }
         }
 
@@ -613,24 +610,21 @@
         window.addEventListener('touchmove', e => { if (draggedBall || isAimingDrag) { e.preventDefault(); handlePointerMoveTable(e); } }, { passive: false });
         window.addEventListener('touchend', e => { if (draggedBall || isAimingDrag) handlePointerUpTable(); }, { passive: false });
 
-        // --- شريط القوة وطريقة الضرب (سحب المضرب للأسفل) ---
+        // --- شريط القوة (Power Bar) ---
         const powerBar = document.getElementById('powerBar');
         const powerCue = document.getElementById('powerCue');
         let powerDragging = false;
         let powerStartY = 0;
         let powerValue = 0;
 
-        function handlePowerDown(yPos) {
-            powerDragging = true;
-            powerStartY = yPos;
-        }
+        function handlePowerDown(yPos) { powerDragging = true; powerStartY = yPos; }
 
         function updatePowerUI(yPos) {
             let deltaY = yPos - powerStartY;
             if (deltaY < 0) deltaY = 0; 
-            const maxPull = powerBar.getBoundingClientRect().height - 20; 
+            const maxPull = powerBar.getBoundingClientRect().height - 15; 
             powerValue = Math.min(1, deltaY / maxPull);
-            powerCue.style.top = `${powerValue * maxPull}px`; // سحب المضرب للأسفل
+            powerCue.style.top = `${powerValue * maxPull}px`; 
         }
 
         function shootCueBall() {
@@ -638,8 +632,8 @@
             let isMoving = poolBalls.some(b => !b.inPocket && (Math.abs(b.vx) > 0.05 || Math.abs(b.vy) > 0.05));
             if (isMoving || powerValue < 0.05) return; 
 
-            // قوة ضربة طبيعية (تخفيض المعامل إلى 17 ليكون واقعياً وليس صاروخياً)
-            let power = powerValue * 17; 
+            // قوة ضربة واقعية جداً 
+            let power = powerValue * 12; 
             poolCueBall.vx = Math.cos(aimAngle) * power;
             poolCueBall.vy = Math.sin(aimAngle) * power;
         }
@@ -655,7 +649,7 @@
             if(powerDragging) { powerDragging = false; shootCueBall(); powerValue = 0; powerCue.style.top = '-5px'; }
         });
 
-        /* --- تحكم السبين (Spin UI Logic) --- */
+        /* --- تحكم السبين --- */
         function toggleSpinModal() { document.getElementById('spinModal').classList.toggle('active'); }
 
         const spinArea = document.getElementById('spinArea');
@@ -684,7 +678,6 @@
         spinArea.addEventListener('touchstart', e => { e.preventDefault(); handleSpinDrag(e); }, {passive: false});
         spinArea.addEventListener('touchmove', e => { e.preventDefault(); handleSpinDrag(e); }, {passive: false});
 
-        // تشغيل المحاكي
         initPoolBalls('triangle');
         requestAnimationFrame(poolGameLoop);
 
