@@ -130,8 +130,7 @@
 
     <div class="static-gaming-bg"></div>
 
-    <!-- القائمة الرئيسية تفتح أولاً كواجهة طبيعية -->
-    <div id="view-hub" class="view-section active">
+    <div id="view-hub" class="view-section">
         <h2 class="section-title">مركز المحاكيات التعليمي</h2>
         <div id="sim-hub">
             <div class="sim-card glass-panel" onclick="openSim('roulette')">
@@ -152,7 +151,7 @@
     </div>
 
     <!-- الروليت -->
-    <div id="view-roulette" class="view-section">
+    <div id="view-roulette" class="view-section active">
         <div class="top-bar">
             <h2 class="section-title" style="margin: 0;">الروليت</h2>
             <button class="cancel-btn" onclick="openSim('hub')"><i class="fa-solid fa-arrow-right"></i> القائمة</button>
@@ -241,7 +240,7 @@
         }
 
         /* =========================================================================
-           1. محاكي الروليت (العشوائية الحقيقية مع الريسيت)
+           1. محاكي الروليت
            ========================================================================= */
         const rCanvas = document.getElementById("rouletteCanvas");
         const rCtx = rCanvas.getContext("2d");
@@ -346,9 +345,7 @@
         const PLAY_TOP = CUSHION; const PLAY_BOTTOM = TABLE_HEIGHT - CUSHION;
         
         const BALL_RADIUS = 7.5;  
-        // مساحة سقوط واسعة وطبيعية للكرات 
-        const POCKET_DROP_RADIUS = 20.5; 
-        const POCKET_DRAW_RADIUS = 15.5; 
+        const POCKET_RADIUS = 15.5; 
         const FRICTION = 0.988; 
 
         const POCKETS = [
@@ -432,7 +429,7 @@
 
             if (mode === 'triangle') {
                 const apexX = TABLE_WIDTH / 2;
-                const apexY = PLAY_TOP + 120; 
+                const apexY = PLAY_TOP + 120;
                 let bIdx = 0;
                 for (let row = 0; row < 5; row++) {
                     for (let col = 0; col <= row; col++) {
@@ -486,7 +483,7 @@
                 poolCtx.fillStyle = '#429e53'; poolCtx.fillRect(PLAY_LEFT, PLAY_TOP, PLAY_RIGHT - PLAY_LEFT, PLAY_BOTTOM - PLAY_TOP);
                 poolCtx.strokeStyle = 'rgba(255,255,255,0.3)'; poolCtx.lineWidth = 1;
                 poolCtx.beginPath(); poolCtx.moveTo(PLAY_LEFT, TABLE_HEIGHT * 0.75); poolCtx.lineTo(PLAY_RIGHT, TABLE_HEIGHT * 0.75); poolCtx.stroke();
-                POCKETS.forEach(p => { poolCtx.beginPath(); poolCtx.arc(p.x, p.y, POCKET_DRAW_RADIUS, 0, Math.PI*2); poolCtx.fillStyle = '#050505'; poolCtx.fill(); });
+                POCKETS.forEach(p => { poolCtx.beginPath(); poolCtx.arc(p.x, p.y, POCKET_RADIUS, 0, Math.PI*2); poolCtx.fillStyle = '#050505'; poolCtx.fill(); });
             }
 
             poolBalls.forEach(b => b.draw());
@@ -595,8 +592,7 @@
                     if (Math.hypot(b.vx, b.vy) < 0.05) { b.vx = 0; b.vy = 0; }
                     
                     for (let p of POCKETS) {
-                        // مساحة جذب واقعية وسلسة
-                        if (Math.hypot(b.x - p.x, b.y - p.y) < POCKET_DROP_RADIUS) {
+                        if (Math.hypot(b.x - p.x, b.y - p.y) < POCKET_RADIUS) {
                             b.inPocket = true; b.vx = 0; b.vy = 0;
                             if (b.isCue) setTimeout(() => { b.inPocket = false; b.x = TABLE_WIDTH/2; b.y = TABLE_HEIGHT*0.75; }, 1000);
                             break;
@@ -671,19 +667,24 @@
         function shootCueBall() {
             if (!poolCueBall || poolCueBall.inPocket) return;
             let isMoving = poolBalls.some(b => !b.inPocket && (Math.abs(b.vx) > 0.05 || Math.abs(b.vy) > 0.05));
-            if (isMoving || powerValue < 0.05) return; 
+            if (isMoving || powerValue < 0.02) return; // السماح بضربات خفيفة
 
-            let power = powerValue * 15; 
+            // تم ضبط القوة هنا لتطابق الفيديوهات (ضربة قياسية)
+            let power = powerValue * 21; 
             poolCueBall.vx = Math.cos(aimAngle) * power;
             poolCueBall.vy = Math.sin(aimAngle) * power;
         }
 
         powerBar.addEventListener('mousedown', e => { handlePowerDown(e.clientY); });
         window.addEventListener('mousemove', e => { if(powerDragging) updatePowerUI(e.clientY); });
-        window.addEventListener('mouseup', () => { if(powerDragging) { powerDragging = false; shootCueBall(); powerValue = 0; powerCue.style.top = '-5px'; } });
+        window.addEventListener('mouseup', () => { 
+            if(powerDragging) { powerDragging = false; shootCueBall(); powerValue = 0; powerCue.style.top = '-5px'; }
+        });
         powerBar.addEventListener('touchstart', e => { e.preventDefault(); handlePowerDown(e.touches[0].clientY); }, { passive: false });
         window.addEventListener('touchmove', e => { if(powerDragging) { e.preventDefault(); updatePowerUI(e.touches[0].clientY); } }, { passive: false });
-        window.addEventListener('touchend', () => { if(powerDragging) { powerDragging = false; shootCueBall(); powerValue = 0; powerCue.style.top = '-5px'; } });
+        window.addEventListener('touchend', () => { 
+            if(powerDragging) { powerDragging = false; shootCueBall(); powerValue = 0; powerCue.style.top = '-5px'; }
+        });
 
         function toggleSpinModal() { document.getElementById('spinModal').classList.toggle('active'); }
 
