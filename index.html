@@ -104,7 +104,7 @@
         .spin-crosshair.vert { top: 0; left: 50%; width: 1px; height: 100%; }
         .spin-dot-main { position: absolute; width: 14px; height: 14px; background: #ef4444; border-radius: 50%; border: 2px solid #fff; top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; box-shadow: 0 2px 5px rgba(0,0,0,0.5); }
 
-        /* شريط القوة (Power Bar) */
+        /* شريط القوة */
         .power-bar-wrapper {
             width: 26px; height: 230px; border-radius: 13px; border: 2px solid #111;
             background: linear-gradient(to top, #ff3333 0%, #ff9933 30%, #ffcc00 60%, #99cc33 100%);
@@ -150,6 +150,7 @@
         </div>
     </div>
 
+    <!-- الروليت يفتح كواجهة افتراضية -->
     <div id="view-roulette" class="view-section active">
         <div class="top-bar">
             <h2 class="section-title" style="margin: 0;">الروليت</h2>
@@ -177,6 +178,7 @@
         </div>
     </div>
 
+    <!-- البلياردو -->
     <div id="view-billiards" class="view-section">
         <div class="top-bar">
             <h2 class="section-title" style="margin: 0;">البلياردو</h2>
@@ -352,13 +354,13 @@
             { x: PLAY_LEFT - 2, y: PLAY_BOTTOM + 2 }, { x: PLAY_RIGHT + 2, y: PLAY_BOTTOM + 2 }
         ];
 
-        // ترتيب الكرات الاحترافي المطابق للصورة تماماً
+        // ترتيب الكرات الاحترافي المطابق للعبة
         const RACK_ORDER = [
-            { c: '#F9CA24', n: 1, type: 'solid' }, // صف 1: اصفر صلب
-            { c: '#D63031', n: 3, type: 'solid' }, { c: '#E17055', n: 5, type: 'solid' }, // صف 2: احمر صلب، برتقالي صلب
-            { c: '#0984E3', n: 2, type: 'solid' }, { c: '#222222', n: 8, type: 'solid' }, { c: '#6C5CE7', n: 4, type: 'solid' }, // صف 3: ازرق صلب، اسود 8، بنفسجي صلب
-            { c: '#B53471', n: 7, type: 'solid' }, { c: '#00B894', n: 6, type: 'solid' }, { c: '#F9CA24', n: 9, type: 'stripe' }, { c: '#0984E3', n: 10, type: 'stripe' }, // صف 4
-            { c: '#D63031', n: 11, type: 'stripe' }, { c: '#6C5CE7', n: 12, type: 'stripe' }, { c: '#E17055', n: 13, type: 'stripe' }, { c: '#00B894', n: 14, type: 'stripe' }, { c: '#B53471', n: 15, type: 'stripe' } // صف 5
+            { c: '#F9CA24', n: 1, type: 'solid' }, 
+            { c: '#D63031', n: 3, type: 'solid' }, { c: '#E17055', n: 5, type: 'solid' }, 
+            { c: '#0984E3', n: 2, type: 'solid' }, { c: '#222222', n: 8, type: 'solid' }, { c: '#6C5CE7', n: 4, type: 'solid' }, 
+            { c: '#B53471', n: 7, type: 'solid' }, { c: '#00B894', n: 6, type: 'solid' }, { c: '#F9CA24', n: 9, type: 'stripe' }, { c: '#0984E3', n: 10, type: 'stripe' }, 
+            { c: '#D63031', n: 11, type: 'stripe' }, { c: '#6C5CE7', n: 12, type: 'stripe' }, { c: '#E17055', n: 13, type: 'stripe' }, { c: '#00B894', n: 14, type: 'stripe' }, { c: '#B53471', n: 15, type: 'stripe' } 
         ];
 
         let poolBalls = []; let poolCueBall = null;
@@ -428,13 +430,15 @@
 
             if (mode === 'triangle') {
                 const apexX = TABLE_WIDTH / 2;
-                const apexY = PLAY_TOP + 120; // رفع المثلث ليكون في المكان الصحيح
+                // ضبط رأس المثلث بدقة ليكون عند النقطة الماسية الثانية (النقاط البيضاء)
+                const apexY = PLAY_TOP + (PLAY_BOTTOM - PLAY_TOP) * 0.25; 
                 let bIdx = 0;
                 for (let row = 0; row < 5; row++) {
                     for (let col = 0; col <= row; col++) {
                         if (bIdx >= count) break;
                         let bx = apexX + (col * BALL_RADIUS * 2.05) - (row * BALL_RADIUS * 1.025);
-                        let by = apexY + (row * BALL_RADIUS * 1.8);
+                        // الكرات تُبنى للأعلى باتجاه الجدار
+                        let by = apexY - (row * BALL_RADIUS * 1.75);
                         poolBalls.push(new PoolBall(bx, by, RACK_ORDER[bIdx]));
                         bIdx++;
                     }
@@ -447,17 +451,20 @@
             initPoolBalls('triangle'); 
         }
 
-        // خوارزمية التنبؤ بخط الإيم التعليمي الكامل
-        function getAimPrediction(startPos, angle, ignoreBall = null) {
+        // خوارزمية دقيقة لتوقع مسار الكرة (تجاهل كرات محددة لتجنب الاصطدام الذاتي)
+        function getAimPrediction(startPos, angle, ignoreBall1 = null, ignoreBall2 = null) {
             let dx = Math.cos(angle), dy = Math.sin(angle);
-            let closestT = Infinity, hitType = 'wall', hitTarget = null;
+            let closestT = Infinity, hitType = 'none', hitTarget = null;
             
-            let tx = dx > 0 ? (PLAY_RIGHT - BALL_RADIUS - startPos.x) / dx : (dx < 0 ? (PLAY_LEFT + BALL_RADIUS - startPos.x) / dx : Infinity);
-            let ty = dy > 0 ? (PLAY_BOTTOM - BALL_RADIUS - startPos.y) / dy : (dy < 0 ? (PLAY_TOP + BALL_RADIUS - startPos.y) / dy : Infinity);
-            closestT = Math.min(tx, ty);
+            let tx = dx > 0 ? (PLAY_RIGHT - BALL_RADIUS - startPos.x) / dx : dx < 0 ? (PLAY_LEFT + BALL_RADIUS - startPos.x) / dx : Infinity;
+            let ty = dy > 0 ? (PLAY_BOTTOM - BALL_RADIUS - startPos.y) / dy : dy < 0 ? (PLAY_TOP + BALL_RADIUS - startPos.y) / dy : Infinity;
+            
+            let wallNormX = 0, wallNormY = 0;
+            if (tx > 0 && tx < closestT) { closestT = tx; hitType = 'wall'; wallNormX = dx > 0 ? -1 : 1; wallNormY = 0; }
+            if (ty > 0 && ty < closestT) { closestT = ty; hitType = 'wall'; wallNormX = 0; wallNormY = dy > 0 ? -1 : 1; }
 
             for (let b of poolBalls) {
-                if (b === ignoreBall || b.inPocket) continue;
+                if (b === ignoreBall1 || b === ignoreBall2 || b.inPocket) continue;
                 let vX = startPos.x - b.x, vY = startPos.y - b.y;
                 let b_coef = 2 * (vX * dx + vY * dy);
                 let c_coef = vX * vX + vY * vY - (BALL_RADIUS*2)*(BALL_RADIUS*2);
@@ -467,13 +474,7 @@
                     if (t > 0.1 && t < closestT) { closestT = t; hitType = 'ball'; hitTarget = b; }
                 }
             }
-            
-            let nx = 0, ny = 0;
-            if (hitType === 'wall') {
-                if (closestT === tx) nx = dx > 0 ? -1 : 1;
-                if (closestT === ty) ny = dy > 0 ? -1 : 1;
-            }
-            return { t: closestT, type: hitType, target: hitTarget, dx, dy, nx, ny };
+            return { t: closestT, type: hitType, target: hitTarget, dx, dy, nx: wallNormX, ny: wallNormY };
         }
 
         function drawPoolTable() {
@@ -505,19 +506,32 @@
                     poolCtx.strokeStyle = 'rgba(255,255,255,0.7)'; poolCtx.lineWidth = 1.2; poolCtx.stroke();
 
                     if (pred.type === 'ball') {
-                        // الخط الأحمر التعليمي الكامل للكرة الهدف
+                        // مسار الكرة الهدف (الخط الأحمر الاحترافي الكامل)
                         let nx = pred.target.x - ghostX, ny = pred.target.y - ghostY;
                         let nLen = Math.hypot(nx, ny); nx /= nLen; ny /= nLen;
                         
                         let targetAngle = Math.atan2(ny, nx);
-                        let redPred = getAimPrediction(pred.target, targetAngle, poolCueBall); 
+                        // توقع مسار الكرة الحمراء مع تجاهل الكرة البيضاء
+                        let redPred = getAimPrediction(pred.target, targetAngle, pred.target, poolCueBall);
                         let endRedX = pred.target.x + Math.cos(targetAngle) * redPred.t;
                         let endRedY = pred.target.y + Math.sin(targetAngle) * redPred.t;
-
+                        
                         poolCtx.beginPath(); poolCtx.moveTo(pred.target.x, pred.target.y);
                         poolCtx.lineTo(endRedX, endRedY);
                         poolCtx.strokeStyle = '#ff3333'; poolCtx.lineWidth = 2.5; poolCtx.stroke();
 
+                        // ارتداد الكرة الحمراء إذا ضربت الجدار
+                        if (redPred.type === 'wall') {
+                            let rrx = redPred.dx, rry = redPred.dy;
+                            if (redPred.nx !== 0) rrx = -rrx;
+                            if (redPred.ny !== 0) rry = -rry;
+                            poolCtx.beginPath(); poolCtx.moveTo(endRedX, endRedY);
+                            poolCtx.lineTo(endRedX + rrx * 50, endRedY + rry * 50);
+                            poolCtx.strokeStyle = '#ff3333'; poolCtx.lineWidth = 1.5; poolCtx.setLineDash([4, 4]); poolCtx.stroke();
+                            poolCtx.setLineDash([]);
+                        }
+
+                        // خط ارتداد الكرة البيضاء القصير
                         let tx = -ny, ty = nx;
                         if (pred.dx * tx + pred.dy * ty < 0) { tx = -tx; ty = -ty; }
                         poolCtx.beginPath(); poolCtx.moveTo(ghostX, ghostY); poolCtx.lineTo(ghostX + tx * 35, ghostY + ty * 35);
@@ -536,7 +550,7 @@
             }
         }
 
-        // Sub-stepping لفيزياء تصادم دقيقة 100%
+        // الفيزياء الدقيقة (Sub-stepping)
         function poolGameLoop() {
             const SUB_STEPS = 5; 
             for(let step=0; step<SUB_STEPS; step++) {
@@ -569,8 +583,13 @@
                             b1.vx -= p * nx; b1.vy -= p * ny;
                             b2.vx += p * nx; b2.vy += p * ny;
 
-                            if (b1.isCue) { b1.vx += Math.cos(aimAngle) * (-spinY) * 0.5; b1.vy += Math.sin(aimAngle) * (-spinY) * 0.5; } 
-                            else if (b2.isCue) { b2.vx += Math.cos(aimAngle) * (-spinY) * 0.5; b2.vy += Math.sin(aimAngle) * (-spinY) * 0.5; }
+                            if (b1.isCue) {
+                                b1.vx += Math.cos(aimAngle) * (-spinY) * 0.5; 
+                                b1.vy += Math.sin(aimAngle) * (-spinY) * 0.5;
+                            } else if (b2.isCue) {
+                                b2.vx += Math.cos(aimAngle) * (-spinY) * 0.5;
+                                b2.vy += Math.sin(aimAngle) * (-spinY) * 0.5;
+                            }
                         }
                     }
                 }
@@ -596,34 +615,38 @@
 
         function getCanvasCoordinates(e) {
             const rect = poolCanvas.getBoundingClientRect();
-            const scaleX = TABLE_WIDTH / rect.width; const scaleY = TABLE_HEIGHT / rect.height;
-            const clientX = e.touches ? e.touches[0].clientX : e.clientX; const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            const scaleX = TABLE_WIDTH / rect.width;
+            const scaleY = TABLE_HEIGHT / rect.height;
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
             return { x: (clientX - rect.left) * scaleX, y: (clientY - rect.top) * scaleY };
         }
 
-        // --- التوجيه الحر المباشر البطيء والناعم ---
-        let lastTouchX = 0; let isAimingDrag = false;
+        // --- التوجيه الحر المباشر والمريح ---
+        let isAimingDrag = false;
 
         function handlePointerDownTable(e) {
             const pos = getCanvasCoordinates(e);
             draggedBall = poolBalls.find(b => !b.inPocket && Math.hypot(b.x - pos.x, b.y - pos.y) < BALL_RADIUS * 2);
             if (!draggedBall) {
                 isAimingDrag = true;
-                lastTouchX = e.touches ? e.touches[0].clientX : e.clientX;
+                // يتوجه السهم مباشرة لمكان اللمس
+                if(poolCueBall && !poolCueBall.inPocket) {
+                    aimAngle = Math.atan2(pos.y - poolCueBall.y, pos.x - poolCueBall.x);
+                }
             }
         }
 
         function handlePointerMoveTable(e) {
+            const pos = getCanvasCoordinates(e);
             if (draggedBall) {
-                const pos = getCanvasCoordinates(e);
                 draggedBall.x = Math.max(PLAY_LEFT + BALL_RADIUS, Math.min(PLAY_RIGHT - BALL_RADIUS, pos.x));
                 draggedBall.y = Math.max(PLAY_TOP + BALL_RADIUS, Math.min(PLAY_BOTTOM - BALL_RADIUS, pos.y));
                 draggedBall.vx = 0; draggedBall.vy = 0;
             } else if (isAimingDrag) {
-                let currentX = e.touches ? e.touches[0].clientX : e.clientX;
-                let delta = currentX - lastTouchX;
-                aimAngle += delta * 0.0015; // حساسية تم تخفيضها جداً لتكون ناعمة ومريحة
-                lastTouchX = currentX;
+                if (poolCueBall && !poolCueBall.inPocket) {
+                    aimAngle = Math.atan2(pos.y - poolCueBall.y, pos.x - poolCueBall.x);
+                }
             }
         }
 
@@ -636,10 +659,12 @@
         window.addEventListener('touchmove', e => { if (draggedBall || isAimingDrag) { e.preventDefault(); handlePointerMoveTable(e); } }, { passive: false });
         window.addEventListener('touchend', e => { if (draggedBall || isAimingDrag) handlePointerUpTable(); }, { passive: false });
 
-        // --- شريط القوة وطريقة الضرب المريحة ---
+        // --- شريط القوة (Power Bar) ---
         const powerBar = document.getElementById('powerBar');
         const powerCue = document.getElementById('powerCue');
-        let powerDragging = false; let powerStartY = 0; let powerValue = 0;
+        let powerDragging = false;
+        let powerStartY = 0;
+        let powerValue = 0;
 
         function handlePowerDown(yPos) { powerDragging = true; powerStartY = yPos; }
 
@@ -656,17 +681,22 @@
             let isMoving = poolBalls.some(b => !b.inPocket && (Math.abs(b.vx) > 0.05 || Math.abs(b.vy) > 0.05));
             if (isMoving || powerValue < 0.05) return; 
 
-            let power = powerValue * 12; // قوة مدروسة ومريحة
+            // قوة ضربة واقعية جداً
+            let power = powerValue * 15; 
             poolCueBall.vx = Math.cos(aimAngle) * power;
             poolCueBall.vy = Math.sin(aimAngle) * power;
         }
 
         powerBar.addEventListener('mousedown', e => { handlePowerDown(e.clientY); });
         window.addEventListener('mousemove', e => { if(powerDragging) updatePowerUI(e.clientY); });
-        window.addEventListener('mouseup', () => { if(powerDragging) { powerDragging = false; shootCueBall(); powerValue = 0; powerCue.style.top = '-5px'; } });
+        window.addEventListener('mouseup', () => { 
+            if(powerDragging) { powerDragging = false; shootCueBall(); powerValue = 0; powerCue.style.top = '-5px'; }
+        });
         powerBar.addEventListener('touchstart', e => { e.preventDefault(); handlePowerDown(e.touches[0].clientY); }, { passive: false });
         window.addEventListener('touchmove', e => { if(powerDragging) { e.preventDefault(); updatePowerUI(e.touches[0].clientY); } }, { passive: false });
-        window.addEventListener('touchend', () => { if(powerDragging) { powerDragging = false; shootCueBall(); powerValue = 0; powerCue.style.top = '-5px'; } });
+        window.addEventListener('touchend', () => { 
+            if(powerDragging) { powerDragging = false; shootCueBall(); powerValue = 0; powerCue.style.top = '-5px'; }
+        });
 
         /* --- تحكم السبين --- */
         function toggleSpinModal() { document.getElementById('spinModal').classList.toggle('active'); }
