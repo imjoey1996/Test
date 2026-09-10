@@ -504,7 +504,7 @@
             animation: pulse-ring 1s infinite;
         }
 
-        /* Generic Canvas Container */
+        /* Generic Canvas Container - منع التمرير على اللمس تماماً */
         .game-canvas-container {
             position: relative;
             width: 100%;
@@ -513,6 +513,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            touch-action: none !important; /* يمنع تحريك المتصفح نهائياً عند لمس ألعاب الكانفاس */
         }
         .game-canvas-canvas {
             background: rgba(0, 0, 0, 0.5);
@@ -522,6 +523,7 @@
             display: block;
             width: 300px;
             height: 300px;
+            touch-action: none !important;
         }
         [data-theme="light"] .game-canvas-canvas {
             background: rgba(255, 255, 255, 0.6);
@@ -541,6 +543,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            touch-action: none !important;
         }
         .modern-pad-btn {
             position: absolute;
@@ -557,6 +560,7 @@
             cursor: pointer;
             transition: all 0.15s ease;
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            touch-action: none !important;
         }
         .modern-pad-btn:active {
             background: var(--primary);
@@ -624,7 +628,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 8px 12px;
+            padding: 10px 14px;
             border-radius: 10px;
             background: rgba(255,255,255,0.03);
             border: 1px solid var(--glass-border);
@@ -1121,7 +1125,7 @@
                     </div>
                 </div>
 
-                <!-- 2. لعبة الأفعى Snake 2.0 -->
+                <!-- 2. لعبة الأفعى Snake 2.0 (استجابة فائقة وطابور حركة) -->
                 <div id="game-card-snake" class="game-display-card glass-panel">
                     <div class="game-header-bar">
                         <span class="game-stats-pill num-font" id="snake-lvl">Lvl 1/50</span>
@@ -1140,7 +1144,7 @@
                     </div>
                 </div>
 
-                <!-- 3. لعبة كاسر الطوب Breaker -->
+                <!-- 3. لعبة كاسر الطوب Breaker (منع تحريك المتصفح تماماً) -->
                 <div id="game-card-breaker" class="game-display-card glass-panel">
                     <div class="game-header-bar">
                         <span class="game-stats-pill num-font"><i class="fa-solid fa-layer-group" style="color:#a855f7;"></i> <span id="breaker-lvl">Lvl 1/50</span></span>
@@ -1153,11 +1157,11 @@
                     </div>
                 </div>
 
-                <!-- 4. لعبة مغامرة الذئب (مع كم باقي كوينز حتى تروح مرحلة ثانية) -->
+                <!-- 4. لعبة مغامرة الذئب (كوينز متبقية ومسافات متوازنة) -->
                 <div id="game-card-wolf" class="game-display-card glass-panel">
                     <div class="game-header-bar">
                         <span class="game-stats-pill num-font"><i class="fa-solid fa-flag-checkered" style="color:#38bdf8;"></i> <span id="wolf-lvl">Lvl 1/50</span></span>
-                        <span class="game-stats-pill num-font"><i class="fa-solid fa-coins" style="color:#eab308;"></i> <span id="wolf-needed">باقي: 5</span></span>
+                        <span class="game-stats-pill num-font"><i class="fa-solid fa-coins" style="color:#eab308;"></i> <span id="wolf-needed">باقي: 4</span></span>
                         <span class="game-stats-pill num-font"><i class="fa-solid fa-heart" style="color:#ef4444;"></i> <span id="wolf-lives">3</span></span>
                         <button type="button" class="nav-btn" onclick="startWolfGame()" style="padding:4px 10px; background:rgba(255,255,255,0.05); border:1px solid var(--glass-border); border-radius:8px;"><i class="fa-solid fa-rotate-right"></i></button>
                     </div>
@@ -1187,7 +1191,7 @@
             </div>
         </div>
 
-        <!-- نافذة لوحة الصدارة المنبثقة المشتركة (Top 10) -->
+        <!-- نافذة لوحة الصدارة المنبثقة المشتركة (Top 10 - بدون pts) -->
         <div class="shared-leaderboard-popup" id="shared-lb-popup" onclick="if(event.target === this) closeSharedLeaderboard()">
             <div class="leaderboard-modal-card glass-panel">
                 <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--glass-border); padding-bottom:10px;">
@@ -2572,19 +2576,17 @@
         }
 
         // --- نظام حفظ ومعالجة اليوزر التلقائي والصدارة المشتركة ---
-        let pendingProgression = null; // { game, lvl, score }
+        let pendingProgression = null;
 
-        function recordGameProgression(gameName, lvl, score) {
+        function recordGameProgression(gameName, lvl) {
             let savedUserId = safeGetStorage('player_permanent_id');
             if (!savedUserId) {
-                // المستخدم لم يسجل يوزره بعد -> إظهار نافذة التسجيل لمرة واحدة فقط
-                pendingProgression = { game: gameName, lvl: lvl, score: score };
+                pendingProgression = { game: gameName, lvl: lvl };
                 document.getElementById('generic-user-modal').style.display = 'flex';
                 document.getElementById('global-input-user').value = '';
                 document.getElementById('global-user-err').style.display = 'none';
             } else {
-                // مسجل مسبقاً -> تحديث فوري بالصدارة بصمت وسلاسة
-                updateLeaderboardRecord(savedUserId, gameName, lvl, score);
+                updateLeaderboardRecord(savedUserId, gameName, lvl);
             }
         }
 
@@ -2609,7 +2611,7 @@
             closeGlobalUserModal();
 
             if (pendingProgression) {
-                updateLeaderboardRecord(val, pendingProgression.game, pendingProgression.lvl, pendingProgression.score);
+                updateLeaderboardRecord(val, pendingProgression.game, pendingProgression.lvl);
                 pendingProgression = null;
             }
 
@@ -2622,36 +2624,35 @@
             document.getElementById('generic-user-modal').style.display = 'none';
         }
 
-        function updateLeaderboardRecord(userId, game, lvl, score) {
+        function updateLeaderboardRecord(userId, game, lvl) {
             let raw = safeGetStorage('unified_game_leaderboard');
             let list = [];
             try { list = raw ? JSON.parse(raw) : []; } catch(e) { list = []; }
 
             let existingIdx = list.findIndex(item => item.user.toLowerCase() === userId.toLowerCase());
             if (existingIdx !== -1) {
-                if (score > list[existingIdx].score) {
-                    list[existingIdx].score = score;
+                if (lvl > list[existingIdx].lvl) {
                     list[existingIdx].lvl = lvl;
                     list[existingIdx].game = game;
                 }
             } else {
-                list.push({ user: userId, score: score, lvl: lvl, game: game });
+                list.push({ user: userId, lvl: lvl, game: game });
             }
 
-            list.sort((a, b) => b.score - a.score);
+            list.sort((a, b) => b.lvl - a.lvl);
             safeSetStorage('unified_game_leaderboard', JSON.stringify(list));
         }
 
         function getLeaderboardData() {
-            let defaultLeader = { user: "YYY", score: 5000, lvl: 50, game: "Wolf" };
+            let defaultLeader = { user: "YYY", lvl: 50, game: "Wolf" };
             let raw = safeGetStorage('unified_game_leaderboard');
             let list = [];
             try { list = raw ? JSON.parse(raw) : []; } catch(e) { list = []; }
             
             list = list.filter(item => item.user !== "YYY");
             list.unshift(defaultLeader);
-            list.sort((a, b) => b.score - a.score);
-            return list.slice(0, 10); // أفضل 10 متصدرين
+            list.sort((a, b) => b.lvl - a.lvl);
+            return list.slice(0, 10);
         }
 
         function openSharedLeaderboard() {
@@ -2668,9 +2669,9 @@
                             <span style="font-size:14px; font-weight:bold; min-width:24px;">${badge}</span>
                             <span class="num-font" style="font-weight:900; font-size:13.5px;">${escapeHTML(item.user)}</span>
                         </div>
-                        <div style="display:flex; flex-direction:column; align-items:flex-end;">
-                            <span class="num-font" style="font-weight:900; color:#eab308; font-size:13px;">${item.score} pts</span>
-                            <span style="font-size:9.5px; color:var(--text-muted); font-weight:700;">Lvl ${item.lvl} (${item.game})</span>
+                        <div style="display:flex; align-items:center; gap:6px;">
+                            <span class="num-font" style="font-weight:900; color:#eab308; font-size:13px;">Lvl ${item.lvl}</span>
+                            <span style="font-size:11px; color:var(--text-muted); font-weight:700;">(${item.game})</span>
                         </div>
                     </div>
                 `;
@@ -2759,7 +2760,7 @@
                 status.innerText = translations[lang].xo_win_x;
                 status.style.color = "#10b981";
 
-                recordGameProgression("XO", xoLevel, xoLevel * 40);
+                recordGameProgression("XO", xoLevel);
             } else if (result === 'lose') {
                 status.innerText = translations[lang].xo_win_o;
                 status.style.color = "#ef4444";
@@ -2813,13 +2814,13 @@
             status.style.color = "inherit";
         }
 
-        // --- 2. لعبة الأفعى Snake 2.0 (50 مرحلة) ---
+        // --- 2. لعبة الأفعى Snake 2.0 (نظام طابور حركة فوري لمنع أي بطء أو تجاهل) ---
         let snakeCanvas = document.getElementById('snakeCanvas');
         let snakeCtx = snakeCanvas ? snakeCanvas.getContext('2d') : null;
         let snakeGrid = 15;
         let snake = [{x: 150, y: 150}];
         let snakeDir = {x: 15, y: 0};
-        let snakeNextDir = {x: 15, y: 0};
+        let snakeQueue = []; // طابور الحركات الفورية
         let snakeFood = {x: 60, y: 60};
         let snakeScore = 0;
         let snakeLevel = safeGetStorage('snake_lvl') ? parseInt(safeGetStorage('snake_lvl')) : 1;
@@ -2832,12 +2833,12 @@
             if (snakeInterval) clearInterval(snakeInterval);
             snake = [{x: 150, y: 150}, {x: 135, y: 150}, {x: 120, y: 150}];
             snakeDir = {x: snakeGrid, y: 0};
-            snakeNextDir = {x: snakeGrid, y: 0};
+            snakeQueue = [];
             snakeScore = 0;
             document.getElementById('snake-score').innerText = '0';
             placeSnakeFood();
             snakeGameRunning = true;
-            let speed = Math.max(80, 150 - (snakeLevel * 1.4));
+            let speed = Math.max(90, 140 - (snakeLevel * 1.0));
             snakeInterval = setInterval(updateSnakeGame, speed);
         }
 
@@ -2848,7 +2849,12 @@
 
         function updateSnakeGame() {
             if (!snakeCtx) return;
-            snakeDir = snakeNextDir;
+
+            // معالجة الحركة من الطابور الفوري إن وُجدت
+            if (snakeQueue.length > 0) {
+                snakeDir = snakeQueue.shift();
+            }
+
             let head = {x: snake[0].x + snakeDir.x, y: snake[0].y + snakeDir.y};
 
             if (head.x < 0 || head.x >= 300 || head.y < 0 || head.y >= 300) {
@@ -2863,12 +2869,11 @@
                 snakeScore++;
                 document.getElementById('snake-score').innerText = snakeScore;
                 
-                // الانتقال لمرحلة ثانية عند جمع 5 أطعمة في المستوى
                 if (snakeScore % 5 === 0 && snakeLevel < 50) {
                     snakeLevel++;
                     safeSetStorage('snake_lvl', snakeLevel.toString());
                     document.getElementById('snake-lvl').innerText = `Lvl ${snakeLevel}/50`;
-                    recordGameProgression("Snake", snakeLevel, snakeLevel * 60 + snakeScore);
+                    recordGameProgression("Snake", snakeLevel);
                 }
 
                 placeSnakeFood();
@@ -2917,30 +2922,34 @@
             snakeCtx.shadowBlur = 0;
         }
 
+        // استجابة فورية للأزرار عبر المقارنة مع آخر حركة مسجلة في الطابور
         function handleSnakeDpad(dir) {
-            if (dir === 'UP' && snakeDir.y === 0) snakeNextDir = {x: 0, y: -snakeGrid};
-            if (dir === 'DOWN' && snakeDir.y === 0) snakeNextDir = {x: 0, y: snakeGrid};
-            if (dir === 'LEFT' && snakeDir.x === 0) snakeNextDir = {x: -snakeGrid, y: 0};
-            if (dir === 'RIGHT' && snakeDir.x === 0) snakeNextDir = {x: snakeGrid, y: 0};
+            let lastDir = snakeQueue.length > 0 ? snakeQueue[snakeQueue.length - 1] : snakeDir;
+            if (dir === 'UP' && lastDir.y === 0) snakeQueue.push({x: 0, y: -snakeGrid});
+            if (dir === 'DOWN' && lastDir.y === 0) snakeQueue.push({x: 0, y: snakeGrid});
+            if (dir === 'LEFT' && lastDir.x === 0) snakeQueue.push({x: -snakeGrid, y: 0});
+            if (dir === 'RIGHT' && lastDir.x === 0) snakeQueue.push({x: snakeGrid, y: 0});
         }
 
         if(snakeCanvas) {
             let sTouchX = 0, sTouchY = 0;
             snakeCanvas.addEventListener('touchstart', e => {
+                e.preventDefault();
                 sTouchX = e.touches[0].clientX;
                 sTouchY = e.touches[0].clientY;
-            }, {passive: true});
+            }, {passive: false});
             snakeCanvas.addEventListener('touchend', e => {
+                e.preventDefault();
                 let diffX = e.changedTouches[0].clientX - sTouchX;
                 let diffY = e.changedTouches[0].clientY - sTouchY;
                 if (Math.abs(diffX) > Math.abs(diffY)) {
-                    if (diffX > 25) handleSnakeDpad('RIGHT');
-                    else if (diffX < -25) handleSnakeDpad('LEFT');
+                    if (diffX > 20) handleSnakeDpad('RIGHT');
+                    else if (diffX < -20) handleSnakeDpad('LEFT');
                 } else {
-                    if (diffY > 25) handleSnakeDpad('DOWN');
-                    else if (diffY < -25) handleSnakeDpad('UP');
+                    if (diffY > 20) handleSnakeDpad('DOWN');
+                    else if (diffY < -20) handleSnakeDpad('UP');
                 }
-            }, {passive: true});
+            }, {passive: false});
         }
 
         function endSnakeGame() {
@@ -2957,7 +2966,7 @@
             }
         }
 
-        // --- 3. لعبة كاسر الطوب Breaker (50 مرحلة) ---
+        // --- 3. لعبة كاسر الطوب Breaker (منع تحريك وتمرير الصفحة نهائياً) ---
         let breakerCanvas = document.getElementById('breakerCanvas');
         let breakerCtx = breakerCanvas ? breakerCanvas.getContext('2d') : null;
         let breakerPaddle = { x: 120, width: 65, height: 8 };
@@ -3037,7 +3046,7 @@
                 if (breakerLevel < 50) breakerLevel++;
                 safeSetStorage('breaker_lvl', breakerLevel.toString());
                 document.getElementById('breaker-lvl').innerText = `Lvl ${breakerLevel}/50`;
-                recordGameProgression("Breaker", breakerLevel, breakerScore);
+                recordGameProgression("Breaker", breakerLevel);
                 startBreakerGame(false);
                 return;
             }
@@ -3084,12 +3093,14 @@
                 breakerPaddle.x = Math.max(0, Math.min(300 - breakerPaddle.width, relativeX - breakerPaddle.width / 2));
             };
             breakerCanvas.addEventListener('touchmove', e => {
+                e.preventDefault(); // يمنع تحريك المتصفح نهائياً عند تحريك المضرب
                 if (e.touches.length > 0) movePaddle(e.touches[0].clientX);
-            }, { passive: true });
+            }, { passive: false });
+            breakerCanvas.addEventListener('touchstart', e => e.preventDefault(), { passive: false });
             breakerCanvas.addEventListener('mousemove', e => movePaddle(e.clientX));
         }
 
-        // --- 4. لعبة مغامرة الذئب (نظام الكوينز المتبقية و 50 مرحلة) ---
+        // --- 4. لعبة مغامرة الذئب (كوينز بمكان آمن ومسافات متدرجة وسهلة بالبداية) ---
         let wolfCanvas = document.getElementById('wolfCanvas');
         let wolfCtx = wolfCanvas ? wolfCanvas.getContext('2d') : null;
         let wolfGameRunning = false;
@@ -3100,8 +3111,8 @@
         let wolfCoins = [];
         let wolfLives = 3;
         let wolfLevel = 1;
-        let wolfCoinsNeeded = 5; // كوينز متبقية للمرحلة الحالية
-        let wolfSpeed = 3.0;
+        let wolfCoinsNeeded = 4;
+        let wolfSpeed = 2.6; // سرعة هادئة وسهلة بالبداية
 
         function startWolfGame() {
             if (wolfAnimId) cancelAnimationFrame(wolfAnimId);
@@ -3109,10 +3120,12 @@
             wolf.vy = 0;
             wolf.grounded = true;
             wolfLives = 3;
-            wolfCoinsNeeded = 5;
-            wolfSpeed = 3.0 + (wolfLevel * 0.05);
-            wolfObstacles = [{ x: 320, w: 18, h: 26, type: 0 }];
-            wolfCoins = [{ x: 230, y: 190, collected: false }];
+            wolfCoinsNeeded = 4;
+            // تدرج سرعة مريح
+            wolfSpeed = 2.6 + (wolfLevel * 0.06);
+            wolfObstacles = [{ x: 380, w: 18, h: 22, type: 0 }];
+            // الكوين الأول يظهر في مكان آمن بعيداً عن الشوك
+            wolfCoins = [{ x: 220, y: 175, collected: false }];
             
             document.getElementById('wolf-lives').innerText = '3';
             document.getElementById('wolf-lvl').innerText = `Lvl ${wolfLevel}/50`;
@@ -3136,6 +3149,13 @@
             }
         }
 
+        if (wolfCanvas) {
+            wolfCanvas.addEventListener('touchstart', e => {
+                e.preventDefault(); // يمنع النزول والتمرير باللمس
+                triggerWolfJump();
+            }, { passive: false });
+        }
+
         document.addEventListener('keydown', e => {
             if ((e.code === 'Space' || e.code === 'ArrowUp') && document.getElementById('game-card-wolf').classList.contains('active-game')) {
                 e.preventDefault();
@@ -3145,18 +3165,17 @@
 
         function completeWolfLevel() {
             if (wolfLevel < 50) wolfLevel++;
-            wolfCoinsNeeded = 5 + Math.min(10, Math.floor(wolfLevel / 5)); // متطلبات متدرجة لكل مستوى
-            wolfSpeed = Math.min(6.5, 3.0 + (wolfLevel * 0.07));
+            wolfCoinsNeeded = 4 + Math.min(8, Math.floor(wolfLevel / 6));
+            wolfSpeed = Math.min(5.5, 2.6 + (wolfLevel * 0.06));
             document.getElementById('wolf-lvl').innerText = `Lvl ${wolfLevel}/50`;
             updateWolfCoinsNeededUI();
 
-            // تنبيه فوري بالعبور وتوثيق الصدارة تلقائياً
             const isAr = document.documentElement.lang === 'ar';
             const toast = document.getElementById("toast");
             toast.innerHTML = isAr ? `<i class="fa-solid fa-flag-checkered"></i> عبرت للمرحلة ${wolfLevel}!` : `<i class="fa-solid fa-flag-checkered"></i> Advanced to Level ${wolfLevel}!`;
             toast.className = "show"; setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 2000);
 
-            recordGameProgression("Wolf", wolfLevel, wolfLevel * 100);
+            recordGameProgression("Wolf", wolfLevel);
         }
 
         function updateWolfGame() {
@@ -3209,7 +3228,7 @@
             wolfCtx.fill();
             wolfCtx.restore();
 
-            // عقبات
+            // عقبات مع تدرج مسافات سهل بالبداية
             for (let i = 0; i < wolfObstacles.length; i++) {
                 let ob = wolfObstacles[i];
                 ob.x -= wolfSpeed;
@@ -3241,6 +3260,7 @@
                 }
                 wolfCtx.restore();
 
+                // اصطدام
                 if (wolf.x + wolf.w > ob.x && wolf.x < ob.x + ob.w && wolf.y + wolf.h > 248 - ob.h) {
                     wolfLives--;
                     document.getElementById('wolf-lives').innerText = wolfLives;
@@ -3253,24 +3273,26 @@
                         const lang = document.documentElement.lang === 'ar';
                         wolfCtx.font = lang ? '900 16px Cairo, sans-serif' : '900 16px Rajdhani, sans-serif';
                         wolfCtx.textAlign = 'center';
-                        wolfCtx.fillText(lang ? "سقط الذئب! انقر لإعادة المحاولة" : "Fell! Tap to Retry", 150, 150);
+                        wolfCtx.fillText(lang ? "سقط الذئب! انقر لإعادة المحاولة" : "Game Over! Tap to retry", 150, 150);
                         return;
                     }
                 }
             }
 
-            if (wolfObstacles.length === 0 || wolfObstacles[wolfObstacles.length - 1].x < 130) {
+            // مسافات التوليد: بالبداية واسعة جداً (سهلة)، وتتقارب بالتدريج
+            let minGap = Math.max(160, 240 - (wolfLevel * 2));
+            if (wolfObstacles.length === 0 || wolfObstacles[wolfObstacles.length - 1].x < (300 - minGap)) {
                 let nextType = (wolfLevel % 3);
                 wolfObstacles.push({
-                    x: 320 + Math.random() * 40,
-                    w: 16 + Math.random() * 8,
-                    h: 22 + Math.random() * 12,
+                    x: 320 + Math.random() * 30,
+                    w: 16 + Math.random() * 6,
+                    h: 20 + Math.random() * 10,
                     type: nextType
                 });
             }
             wolfObstacles = wolfObstacles.filter(ob => ob.x > -40);
 
-            // كوينز المطلوب أكلها
+            // كوينز ذكية: التوليد يتم دائماً بعيداً عن الأشواك في الهواء أو بمسافة آمنة
             for (let coin of wolfCoins) {
                 coin.x -= wolfSpeed;
                 if (!coin.collected) {
@@ -3293,12 +3315,17 @@
                     }
                 }
             }
-            if (wolfCoins.length === 0 || wolfCoins[wolfCoins.length - 1].x < 120) {
-                wolfCoins.push({
-                    x: 330,
-                    y: 175 - Math.random() * 40,
-                    collected: false
-                });
+
+            // ضمان أن الكوينز تتولد بمسافة آمنة عن أقرب شوك
+            if (wolfCoins.length === 0 || wolfCoins[wolfCoins.length - 1].x < 110) {
+                let safeCoinX = 330;
+                let isNearObstacle = wolfObstacles.some(ob => Math.abs(ob.x - safeCoinX) < 45);
+                if (isNearObstacle) {
+                    // إذا كان قرب شوك نجعله في الهواء لكي يقفز اللاعب ويأخذه بأمان
+                    wolfCoins.push({ x: safeCoinX, y: 160, collected: false });
+                } else {
+                    wolfCoins.push({ x: safeCoinX, y: 228, collected: false });
+                }
             }
             wolfCoins = wolfCoins.filter(c => c.x > -20);
 
