@@ -2,6 +2,7 @@
 <html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
+    <base href="/"> <!-- هذا هو السطر السحري الذي يحل مشكلة اختفاء الصور -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://worldtimeapi.org https://timeapi.io https://docs.google.com https://script.google.com https://script.googleusercontent.com https://api.ipify.org; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; script-src 'self' 'unsafe-inline'; img-src 'self' data: https:; media-src https: 'self';">
@@ -9,14 +10,17 @@
     <title>PlatoX | مجتمع اللاعبين العرب</title>
     
     <!-- ======== إعدادات أيقونة الموقع عند الحفظ كـ تطبيق ======== -->
-    <link rel="icon" type="image/png" href="IMG_0586.png">
-    <link rel="apple-touch-icon" href="IMG_0586.png">
-    <link rel="icon" sizes="192x192" href="IMG_0586.png">
-    <link rel="icon" sizes="512x512" href="IMG_0586.png">
+    <link rel="icon" type="image/png" href="IMG_0586.png?v=3">
+    <link rel="apple-touch-icon" href="IMG_0586.png?v=3">
+    <link rel="icon" sizes="192x192" href="IMG_0586.png?v=3">
+    <link rel="icon" sizes="512x512" href="IMG_0586.png?v=3">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="PlatoX">
     <meta name="application-name" content="PlatoX">
+    <meta name="theme-color" content="#0a0a0f">
+    <meta name="msapplication-navbutton-color" content="#0a0a0f">
+    <meta name="msapplication-starturl" content="/">
     <!-- ========================================================== -->
 
     <script>
@@ -116,12 +120,11 @@
         .navbar { position: fixed; top: 0; left: 0; width: 100%; padding: calc(12px + env(safe-area-inset-top)) 25px 12px; display: flex; justify-content: space-between; align-items: center; background: rgba(5, 5, 8, 0.65); backdrop-filter: blur(25px); border-bottom: 1px solid var(--glass-border); z-index: 1000; direction: ltr; }
         [data-theme="light"] .navbar { background: rgba(255, 255, 255, 0.8); }
         
-        /* تنسيق قسم اللوجو والاسم في الهيدر */
-        .brand-header { display: flex; align-items: center; gap: 12px; cursor: pointer; transition: transform 0.2s ease; }
+        .brand-header { display: flex; align-items: center; gap: 4px; cursor: pointer; transition: transform 0.2s ease; }
         .brand-header:active { transform: scale(0.95); }
-        .nav-main-logo { width: 44px; height: 44px; object-fit: contain; border-radius: 10px; }
-        .navbar h1 { font-size: 26px; font-weight: 900; letter-spacing: 1px; display: flex; align-items: baseline; margin: 0; }
-        .navbar h1 span { color: var(--primary); font-size: 1.5em; transform: translateY(2px); margin-left: 2px; text-shadow: 0 0 25px var(--text-glow-x), 0 0 10px var(--text-glow-x); }
+        .nav-main-logo { width: 48px; height: 48px; object-fit: contain; border-radius: 10px; }
+        .navbar h1 { font-size: 26px; font-weight: 900; letter-spacing: 0.5px; display: flex; align-items: baseline; margin: 0; padding-top: 4px; }
+        .navbar h1 span { color: var(--primary); font-size: 1.4em; transform: translateY(2px); margin-left: 1px; text-shadow: 0 0 25px var(--text-glow-x), 0 0 10px var(--text-glow-x); }
 
         .nav-actions { display: flex; align-items: center; gap: 18px; position: relative; }
         .nav-actions i { font-size: 22px; cursor: pointer; color: var(--text-main); transition: 0.2s; }
@@ -313,7 +316,7 @@
         [data-theme="light"] .video-glow-box { background: rgba(0,0,0,0.1); }
         .video-glow-box video { width: 100%; display: block; border-radius: 12px; max-height: 70vh; object-fit: cover; background: #000; }
 
-        .feedback-btn-wrapper { width: 100%; display: flex; justify-content: flex-end; } 
+        .feedback-btn-wrapper { width: 100%; display: flex; justify-content: center; } 
 
         #toast { visibility: hidden; min-width: 200px; background: rgba(15, 15, 20, 0.95); backdrop-filter: blur(10px); color: #fff; text-align: center; border-radius: 10px; padding: 12px 20px; position: fixed; z-index: 9999; left: 50%; bottom: 25px; transform: translateX(-50%); font-size: 14px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid var(--primary); font-family: 'Cairo', sans-serif; font-weight:bold; transition: opacity 0.3s;}
         #toast.show { visibility: visible; bottom: calc(95px + env(safe-area-inset-bottom)); opacity: 1; }
@@ -354,6 +357,202 @@
         [data-theme="light"] .calc-input-wrapper input:focus { background: #fff; border-color: var(--primary); }
         [data-theme="light"] .calc-input-wrapper input::placeholder { color: rgba(0,0,0,0.4); }
 
+        /* =========================================================
+           ستايلات سكشن الألعاب الحديث (For Fun Games Styles)
+           ========================================================= */
+        .games-hub-wrapper {
+            width: 100%;
+            max-width: 750px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .game-tabs-selector {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            padding: 4px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 14px;
+            border: 1px solid var(--glass-border);
+        }
+        .game-tabs-selector::-webkit-scrollbar { display: none; }
+        [data-theme="light"] .game-tabs-selector { background: rgba(0,0,0,0.05); }
+
+        .game-tab-btn {
+            flex: 1;
+            min-width: 110px;
+            padding: 10px 12px;
+            border-radius: 10px;
+            border: 1px solid transparent;
+            background: transparent;
+            color: var(--text-muted);
+            font-family: inherit;
+            font-weight: 700;
+            font-size: 13.5px;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+        .game-tab-btn i { font-size: 15px; }
+        .game-tab-btn.active {
+            background: var(--bg-card);
+            color: var(--primary);
+            border-color: var(--glass-border);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+            font-weight: 900;
+        }
+        [data-theme="light"] .game-tab-btn.active {
+            background: #ffffff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .game-display-card {
+            padding: 25px 20px;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            min-height: 440px;
+        }
+        .game-display-card.active-game {
+            display: flex;
+        }
+
+        .game-header-bar {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .game-stats-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 800;
+            padding: 5px 12px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+        }
+        [data-theme="light"] .game-stats-pill { background: rgba(0,0,0,0.04); }
+
+        /* XO Game Styling */
+        .xo-board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            width: 270px;
+            height: 270px;
+            margin: 15px auto;
+        }
+        .xo-cell {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.8rem;
+            font-weight: 900;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            user-select: none;
+        }
+        .xo-cell:hover:not(.occupied) {
+            background: rgba(255, 255, 255, 0.08);
+            transform: scale(0.98);
+        }
+        .xo-cell.x-mark { color: #60a5fa; text-shadow: 0 0 15px rgba(96, 165, 250, 0.6); }
+        .xo-cell.o-mark { color: #f43f5e; text-shadow: 0 0 15px rgba(244, 63, 94, 0.6); }
+        .xo-cell.winning-cell {
+            background: rgba(16, 185, 129, 0.15) !important;
+            border-color: #10b981 !important;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+            animation: pulse-ring 1s infinite;
+        }
+
+        /* Snake & Breaker Canvas Styling */
+        .game-canvas-container {
+            position: relative;
+            width: 100%;
+            max-width: 320px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .game-canvas-canvas {
+            background: rgba(0, 0, 0, 0.45);
+            border: 1px solid var(--glass-border);
+            border-radius: 14px;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.6);
+            display: block;
+            width: 300px;
+            height: 300px;
+        }
+        [data-theme="light"] .game-canvas-canvas {
+            background: rgba(255, 255, 255, 0.5);
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .snake-dpad {
+            display: grid;
+            grid-template-columns: repeat(3, 48px);
+            grid-template-rows: repeat(2, 44px);
+            gap: 6px;
+            margin-top: 15px;
+            justify-content: center;
+        }
+        .dpad-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            color: var(--text-main);
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+        .dpad-btn:active {
+            background: var(--primary);
+            color: var(--bg-main);
+            transform: scale(0.92);
+        }
+
+        /* Reflex Game */
+        .reflex-box {
+            width: 100%;
+            max-width: 310px;
+            height: 250px;
+            border-radius: 16px;
+            border: 2px dashed var(--glass-border);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin: 15px auto;
+            text-align: center;
+            padding: 20px;
+        }
+        .reflex-box.waiting { background: rgba(239, 68, 68, 0.15); border-color: #ef4444; }
+        .reflex-box.ready { background: rgba(16, 185, 129, 0.25); border-color: #10b981; box-shadow: 0 0 30px rgba(16, 185, 129, 0.3); }
+
         @media (max-width: 600px) {
             .main-lang-switch { margin-top: calc(85px + env(safe-area-inset-top)); margin-bottom: 10px; } 
             .main-lang-switch .lang-btn { padding: 6px 15px; }
@@ -384,6 +583,13 @@
             .server-tabs { flex-wrap: wrap !important; justify-content: center !important; gap: 10px; padding-bottom: 10px; }
             
             .notif-dropdown { position: fixed; top: 75px; right: 5vw; width: 90vw; max-width: 320px; }
+            
+            .nav-main-logo { width: 42px; height: 42px; }
+            .navbar h1 { font-size: 24px; padding-top: 2px; }
+            .brand-header { gap: 3px; }
+
+            .game-tabs-selector { justify-content: flex-start; }
+            .game-tab-btn { min-width: 95px; font-size: 12.5px; padding: 8px 10px; }
         }
     </style>
 </head>
@@ -398,10 +604,8 @@
     <div class="static-gaming-bg"></div>
 
     <nav class="navbar" dir="ltr">
-        
-        <!-- اللوجو واسم الموقع -->
         <div class="brand-header" onclick="window.scrollTo({top:0, behavior:'smooth'})">
-            <img src="IMG_0586.png" alt="PlatoX Logo" class="nav-main-logo">
+            <img src="IMG_0586.png?v=3" alt="PlatoX Logo" class="nav-main-logo">
             <h1 class="num-font">Plato<span>X</span></h1>
         </div>
         
@@ -691,9 +895,7 @@
 
         <section id="arabic-leaders">
             <h2 class="section-title" data-i18n="leaders_title">القادة العرب</h2>
-            <div class="grid-container" id="arabic-leaders-grid">
-                <!-- سيتم جلب القادة العرب من الشيت هنا -->
-            </div>
+            <div class="grid-container" id="arabic-leaders-grid"></div>
         </section>
 
         <div class="cyber-divider"><div class="center-node"></div></div>
@@ -715,7 +917,7 @@
         </section>
     </main>
 
-    <main id="view-leaderboard" class="tab-view">
+    <main id="view-explore" class="tab-view">
 
         <section id="weekly-showcase" style="display: none;">
             <h2 class="section-title" data-i18n="weekly_showcase_title">عناصر الألعاب الأسبوعية</h2>
@@ -783,9 +985,7 @@
 
         <section id="accounts">
             <h2 class="section-title" data-i18n="players_title">اللاعبين الاقدم</h2>
-            <div class="premium-list" id="oldest-players-container">
-                <!-- سيتم جلب وعرض بيانات اللاعبين الأقدم هنا من الشيت -->
-            </div>
+            <div class="premium-list" id="oldest-players-container"></div>
             <button type="button" class="cancel-btn" id="show-more-players" onclick="showMorePlayers()" style="margin-top: 15px; display: none; width: auto; padding: 8px 20px;">
                 <span data-i18n="show_more">عرض المزيد</span> <i class="fa-solid fa-chevron-down"></i>
             </button>
@@ -799,6 +999,101 @@
             <div class="glass-panel" style="width: 100%; max-width: 750px; padding: 30px; border-radius: 16px; text-align: center; position: relative;">
                 <i class="fa-solid fa-quote-right" style="position: absolute; top: 15px; right: 20px; font-size: 25px; color: var(--glass-border);"></i>
                 <p id="tip-content" class="glass-desc-text" style="font-weight: 700; font-size: 1.1rem; line-height: 1.8; margin-top: 10px;" data-i18n="tips_loading">جاري تحميل النصيحة...</p>
+            </div>
+        </section>
+
+        <div class="cyber-divider"><div class="center-node"></div></div>
+
+        <!-- ==============================================
+             قسم For Fun (ألعاب ترفيهية خفيفة)
+             ============================================== -->
+        <section id="for-fun">
+            <h2 class="section-title num-font" data-i18n="fun_title">FOR FUN</h2>
+            <div class="games-hub-wrapper">
+                
+                <!-- تبويبات اختيار الألعاب -->
+                <div class="game-tabs-selector">
+                    <button type="button" class="game-tab-btn active" onclick="switchGame('xo')">
+                        <i class="fa-solid fa-xmark"></i> <span data-i18n="game_xo">تيك تاك تو</span>
+                    </button>
+                    <button type="button" class="game-tab-btn" onclick="switchGame('snake')">
+                        <i class="fa-solid fa-staff-snake"></i> <span data-i18n="game_snake">الثعبان</span>
+                    </button>
+                    <button type="button" class="game-tab-btn" onclick="switchGame('breaker')">
+                        <i class="fa-solid fa-shield-cat"></i> <span data-i18n="game_breaker">كاسر الطوب</span>
+                    </button>
+                    <button type="button" class="game-tab-btn" onclick="switchGame('reflex')">
+                        <i class="fa-solid fa-bolt"></i> <span data-i18n="game_reflex">سرعة الرد</span>
+                    </button>
+                </div>
+
+                <!-- 1. لعبة X-O -->
+                <div id="game-card-xo" class="game-display-card glass-panel active-game">
+                    <div class="game-header-bar">
+                        <span class="game-stats-pill num-font" id="xo-status" data-i18n="xo_turn_x">دورك (X)</span>
+                        <div style="display:flex; gap:8px;">
+                            <span class="game-stats-pill num-font"><i class="fa-solid fa-trophy" style="color:#f59e0b;"></i> <span id="xo-score">0 - 0</span></span>
+                            <button type="button" class="nav-btn" onclick="resetXOGame()" style="padding:4px 10px; background:rgba(255,255,255,0.05); border:1px solid var(--glass-border); border-radius:8px;"><i class="fa-solid fa-rotate-right"></i></button>
+                        </div>
+                    </div>
+                    <div class="xo-board" id="xo-board">
+                        <div class="xo-cell num-font" onclick="makeXOMove(0)"></div>
+                        <div class="xo-cell num-font" onclick="makeXOMove(1)"></div>
+                        <div class="xo-cell num-font" onclick="makeXOMove(2)"></div>
+                        <div class="xo-cell num-font" onclick="makeXOMove(3)"></div>
+                        <div class="xo-cell num-font" onclick="makeXOMove(4)"></div>
+                        <div class="xo-cell num-font" onclick="makeXOMove(5)"></div>
+                        <div class="xo-cell num-font" onclick="makeXOMove(6)"></div>
+                        <div class="xo-cell num-font" onclick="makeXOMove(7)"></div>
+                        <div class="xo-cell num-font" onclick="makeXOMove(8)"></div>
+                    </div>
+                </div>
+
+                <!-- 2. لعبة الأفعى Snake -->
+                <div id="game-card-snake" class="game-display-card glass-panel">
+                    <div class="game-header-bar">
+                        <span class="game-stats-pill num-font"><i class="fa-solid fa-apple-whole" style="color:#ef4444;"></i> <span id="snake-score">0</span></span>
+                        <span class="game-stats-pill num-font"><i class="fa-solid fa-crown" style="color:#eab308;"></i> <span id="snake-best">0</span></span>
+                        <button type="button" class="nav-btn" onclick="startSnakeGame()" style="padding:4px 10px; background:rgba(255,255,255,0.05); border:1px solid var(--glass-border); border-radius:8px;"><i class="fa-solid fa-play"></i></button>
+                    </div>
+                    <div class="game-canvas-container">
+                        <canvas id="snakeCanvas" class="game-canvas-canvas" width="300" height="300"></canvas>
+                        <!-- D-Pad للموبايل -->
+                        <div class="snake-dpad">
+                            <div></div>
+                            <button type="button" class="dpad-btn" onclick="handleSnakeDpad('UP')"><i class="fa-solid fa-chevron-up"></i></button>
+                            <div></div>
+                            <button type="button" class="dpad-btn" onclick="handleSnakeDpad('LEFT')"><i class="fa-solid fa-chevron-left"></i></button>
+                            <button type="button" class="dpad-btn" onclick="handleSnakeDpad('DOWN')"><i class="fa-solid fa-chevron-down"></i></button>
+                            <button type="button" class="dpad-btn" onclick="handleSnakeDpad('RIGHT')"><i class="fa-solid fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. لعبة كاسر الطوب Breaker -->
+                <div id="game-card-breaker" class="game-display-card glass-panel">
+                    <div class="game-header-bar">
+                        <span class="game-stats-pill num-font"><i class="fa-solid fa-cubes" style="color:#38bdf8;"></i> <span id="breaker-score">0</span></span>
+                        <span class="game-stats-pill num-font" id="breaker-status" data-i18n="breaker_drag">اسحب للتحكم</span>
+                        <button type="button" class="nav-btn" onclick="startBreakerGame()" style="padding:4px 10px; background:rgba(255,255,255,0.05); border:1px solid var(--glass-border); border-radius:8px;"><i class="fa-solid fa-rotate-right"></i></button>
+                    </div>
+                    <div class="game-canvas-container">
+                        <canvas id="breakerCanvas" class="game-canvas-canvas" width="300" height="300"></canvas>
+                    </div>
+                </div>
+
+                <!-- 4. لعبة سرعة الرد Reflex -->
+                <div id="game-card-reflex" class="game-display-card glass-panel">
+                    <div class="game-header-bar">
+                        <span class="game-stats-pill num-font"><i class="fa-solid fa-stopwatch" style="color:#10b981;"></i> <span id="reflex-best">-- ms</span></span>
+                        <span class="game-stats-pill num-font" data-i18n="reflex_hint">انقر بالوقت المناسب</span>
+                    </div>
+                    <div class="reflex-box" id="reflexArea" onclick="handleReflexClick()">
+                        <i class="fa-solid fa-hand-pointer pro-icon-glow" style="font-size:35px;" id="reflex-icon"></i>
+                        <h3 id="reflex-text" style="font-size:1.15rem; font-weight:800;" data-i18n="reflex_start">اضغط هنا للبدء</h3>
+                    </div>
+                </div>
+
             </div>
         </section>
 
@@ -830,7 +1125,7 @@
             <i class="fa-solid fa-users"></i>
             <span data-i18n="nav_leaders">حول القادة</span>
         </div>
-        <div class="bottom-nav-item" onclick="switchView('leaderboard', this)" id="nav-btn-leaderboard">
+        <div class="bottom-nav-item" onclick="switchView('explore', this)" id="nav-btn-explore">
             <div class="nav-dot" id="dot-explore"></div>
             <i class="fa-solid fa-compass"></i>
             <span data-i18n="nav_leaderboard">استكشف</span>
@@ -882,7 +1177,7 @@
             return arr;
         }
 
-        function switchView(viewName, itemEl) {
+        function switchView(viewName, itemEl, updateUrl = true) {
             document.querySelectorAll('.tab-view').forEach(view => view.classList.remove('active-view'));
             document.querySelectorAll('.bottom-nav-item').forEach(item => item.classList.remove('active'));
 
@@ -894,7 +1189,12 @@
                 activeNav.classList.add('active');
             }
             
-            safeSetStorage('currentView', viewName);
+            safeSetSession('currentView', viewName);
+
+            if (updateUrl) {
+                const currentLang = document.documentElement.getAttribute('lang') || 'en';
+                window.history.pushState({ view: viewName, lang: currentLang }, '', `/${currentLang}/${viewName}`);
+            }
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
             if (viewName === 'home') setTimeout(updateCarouselButtons, 80);
@@ -906,7 +1206,7 @@
         }
 
         function goToSection(view, sectionId) {
-            switchView(view);
+            switchView(view, null, true);
             document.getElementById('notif-dropdown').classList.remove('show');
             
             setTimeout(() => {
@@ -959,7 +1259,7 @@
             if (currentLatestTour && currentLatestTour.id !== seenTour) {
                 hasNewExplore = true;
                 html += `
-                <div class="notif-item" onclick="markSeenAndGo('tour', '${currentLatestTour.id}', 'leaderboard', 'tournaments')">
+                <div class="notif-item" onclick="markSeenAndGo('tour', '${currentLatestTour.id}', 'explore', 'tournaments')">
                     <i class="fa-solid fa-trophy"></i> 
                     <div class="notif-text-box">
                         <span class="notif-sub" style="color:#eab308;">${isAr ? 'تحديث البطولات' : 'Tournaments Update'}</span>
@@ -972,7 +1272,7 @@
                 hasNewExplore = true;
                 const safeTitle = escapeHTML(currentLatestWeekly.display);
                 html += `
-                <div class="notif-item" onclick="markSeenAndGo('weekly', '${currentLatestWeekly.id}', 'leaderboard', 'weekly-showcase')">
+                <div class="notif-item" onclick="markSeenAndGo('weekly', '${currentLatestWeekly.id}', 'explore', 'weekly-showcase')">
                     <i class="fa-solid fa-gift" style="color:#a855f7;"></i> 
                     <div class="notif-text-box">
                         <span class="notif-sub" style="color:#a855f7;">${isAr ? 'عناصر أسبوعية جديدة' : 'New Weekly Items'}</span>
@@ -1329,7 +1629,25 @@
                 placeholderPips: "أدخل عدد البيبس...",
                 resultTitle: "القيمة التقديرية العادلة",
                 currCoins: "COINS", 
-                currPips: "PIPS"
+                currPips: "PIPS",
+
+                // ألعاب For Fun
+                fun_title: "قسم الألعاب (FOR FUN)",
+                game_xo: "تيك تاك تو",
+                game_snake: "الأفعى",
+                game_breaker: "كاسر الطوب",
+                game_reflex: "سرعة الرد",
+                xo_turn_x: "دورك (X)",
+                xo_turn_o: "دور الذكاء (O)...",
+                xo_win_x: "مبروك! فزت 🎉",
+                xo_win_o: "فاز الكمبيوتر!",
+                xo_tie: "تعادل!",
+                breaker_drag: "حرّك بإصبعك",
+                reflex_hint: "اختبر سرعة استجابتك",
+                reflex_start: "اضغط هنا للبدء",
+                reflex_wait: "انتظر اللون الأخضر...",
+                reflex_click: "اضغط الآن!",
+                reflex_early: "سريع جداً! اضغط للبدء مجدداً"
             },
             en: {
                 nav_home: "Home", nav_leaders: "About Leaders", nav_leaderboard: "Explore",
@@ -1391,11 +1709,29 @@
                 placeholderPips: "Enter Pips...",
                 resultTitle: "ESTIMATED VALUE",
                 currCoins: "COINS",
-                currPips: "PIPS"
+                currPips: "PIPS",
+
+                // Games
+                fun_title: "FOR FUN",
+                game_xo: "Tic-Tac-Toe",
+                game_snake: "Snake",
+                game_breaker: "Breaker",
+                game_reflex: "Reflex Tap",
+                xo_turn_x: "Your Turn (X)",
+                xo_turn_o: "AI Thinking (O)...",
+                xo_win_x: "You Won! 🎉",
+                xo_win_o: "AI Won!",
+                xo_tie: "Draw!",
+                breaker_drag: "Drag paddle",
+                reflex_hint: "Test your reflex speed",
+                reflex_start: "Tap to Start",
+                reflex_wait: "Wait for green...",
+                reflex_click: "TAP NOW!",
+                reflex_early: "Too early! Tap to retry"
             }
         };
 
-        function changeLang(lang) {
+        function changeLang(lang, updateUrl = true) {
             document.documentElement.setAttribute('lang', lang); 
             document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
             
@@ -1411,7 +1747,6 @@
             document.getElementById('plato-id').placeholder = lang === 'ar' ? 'يوزرك في اللعبة' : 'Your Plato ID';
             document.getElementById('bug-desc').placeholder = lang === 'ar' ? 'وصف المشكلة...' : 'Issue description...';
             
-            // تحديث نصوص الحاسبة المتبقية
             const calcInput = document.getElementById('calcInput');
             if (calcInput) {
                 calcInput.placeholder = calcMode === 'coins' ? translations[lang].placeholderCoins : translations[lang].placeholderPips;
@@ -1419,9 +1754,6 @@
             }
 
             clearInputError('plato-id'); clearInputError('bug-desc');
-            
-            const feedbackBtnWrapper = document.getElementById('feedback-wrapper');
-            if (feedbackBtnWrapper) feedbackBtnWrapper.style.justifyContent = lang === 'ar' ? 'flex-end' : 'flex-start'; 
             
             renderArabicLeaders(); 
             renderGlobalLeaders(); 
@@ -1436,6 +1768,11 @@
                 updateNotificationsDropdown();
             }
             safeSetStorage('lang', lang);
+
+            if (updateUrl) {
+                const currentView = safeGetSession('currentView') || 'home';
+                window.history.pushState({ view: currentView, lang: lang }, '', `/${lang}/${currentView}`);
+            }
         }
 
         async function loadDynamicData(force = false) {
@@ -1956,7 +2293,7 @@
         }
 
         /* =========================================================================
-           نظام الحاسبة والذكاء الاصطناعي
+           نظام الحاسبة الذكية
            ========================================================================= */
         let calcMode = 'coins'; 
         let calcAnimationReq;
@@ -2001,7 +2338,7 @@
         }
 
         const convertArabicNumerals = (str) => {
-            return str.replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d));
+            return str.replace(/[٠-٩]/g, d => '٠١٢٣٥٦٧٨٩'.indexOf(d));
         };
 
         function handleCalcInput(e) {
@@ -2094,10 +2431,415 @@
             animateCalcValue(outVal, currentDisplay, targetValue, 400, isResultFloat, targetColor, targetShadow);
         }
 
-        // التهيئة المبدئية
+        /* =========================================================================
+           ألعاب FOR FUN (سريعة وخفيفة جداً)
+           ========================================================================= */
+        function switchGame(gameId) {
+            document.querySelectorAll('.game-tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.game-display-card').forEach(card => card.classList.remove('active-game'));
+            
+            const selectedBtn = event.currentTarget;
+            if (selectedBtn) selectedBtn.classList.add('active');
+            
+            const targetCard = document.getElementById(`game-card-${gameId}`);
+            if (targetCard) targetCard.classList.add('active-game');
+
+            // إيقاف أو تشغيل الحلقات الخاصة بكل لعبة للحفاظ على الموارد
+            if (gameId === 'snake' && !snakeGameRunning) startSnakeGame();
+            if (gameId === 'breaker' && !breakerGameRunning) startBreakerGame();
+        }
+
+        // --- 1. لعبة X-O ---
+        let xoBoardState = ["", "", "", "", "", "", "", "", ""];
+        let xoPlayerTurn = "X";
+        let xoGameActive = true;
+        let xoScores = { user: 0, ai: 0 };
+        const winCombinations = [
+            [0, 1, 2], [3, 4, 5], [6, 7, 8],
+            [0, 3, 6], [1, 4, 7], [2, 5, 8],
+            [0, 4, 8], [2, 4, 6]
+        ];
+
+        function makeXOMove(index) {
+            if (!xoGameActive || xoBoardState[index] !== "" || xoPlayerTurn !== "X") return;
+            
+            applyXOMark(index, "X");
+            if (checkXOWin("X")) {
+                handleXOGameEnd("win");
+                return;
+            } else if (xoBoardState.every(cell => cell !== "")) {
+                handleXOGameEnd("tie");
+                return;
+            }
+
+            xoPlayerTurn = "O";
+            const lang = document.documentElement.getAttribute('lang') || 'en';
+            document.getElementById('xo-status').innerText = translations[lang].xo_turn_o;
+
+            // ذكاء اصطناعي ذكي وسريع (تأخير 300ms لمحاكاة التفكير)
+            setTimeout(() => {
+                if (!xoGameActive) return;
+                let aiMove = getBestAIMove();
+                applyXOMark(aiMove, "O");
+
+                if (checkXOWin("O")) {
+                    handleXOGameEnd("lose");
+                } else if (xoBoardState.every(cell => cell !== "")) {
+                    handleXOGameEnd("tie");
+                } else {
+                    xoPlayerTurn = "X";
+                    document.getElementById('xo-status').innerText = translations[lang].xo_turn_x;
+                }
+            }, 300);
+        }
+
+        function applyXOMark(index, player) {
+            xoBoardState[index] = player;
+            const cells = document.querySelectorAll('.xo-cell');
+            cells[index].innerText = player;
+            cells[index].classList.add(player.toLowerCase() + '-mark', 'occupied');
+        }
+
+        function checkXOWin(player) {
+            return winCombinations.some(comb => {
+                const win = comb.every(idx => xoBoardState[idx] === player);
+                if (win) {
+                    const cells = document.querySelectorAll('.xo-cell');
+                    comb.forEach(i => cells[i].classList.add('winning-cell'));
+                }
+                return win;
+            });
+        }
+
+        function handleXOGameEnd(result) {
+            xoGameActive = false;
+            const lang = document.documentElement.getAttribute('lang') || 'en';
+            const status = document.getElementById('xo-status');
+            
+            if (result === 'win') {
+                status.innerText = translations[lang].xo_win_x;
+                status.style.color = "#10b981";
+                xoScores.user++;
+            } else if (result === 'lose') {
+                status.innerText = translations[lang].xo_win_o;
+                status.style.color = "#ef4444";
+                xoScores.ai++;
+            } else {
+                status.innerText = translations[lang].xo_tie;
+                status.style.color = "var(--text-muted)";
+            }
+            document.getElementById('xo-score').innerText = `${xoScores.user} - ${xoScores.ai}`;
+        }
+
+        function getBestAIMove() {
+            // محاولة الفوز أولاً
+            for (let i = 0; i < 9; i++) {
+                if (xoBoardState[i] === "") {
+                    xoBoardState[i] = "O";
+                    if (winCombinations.some(c => c.every(idx => xoBoardState[idx] === "O"))) {
+                        xoBoardState[i] = ""; return i;
+                    }
+                    xoBoardState[i] = "";
+                }
+            }
+            // إيقاف فوز اللاعب
+            for (let i = 0; i < 9; i++) {
+                if (xoBoardState[i] === "") {
+                    xoBoardState[i] = "X";
+                    if (winCombinations.some(c => c.every(idx => xoBoardState[idx] === "X"))) {
+                        xoBoardState[i] = ""; return i;
+                    }
+                    xoBoardState[i] = "";
+                }
+            }
+            // اختيار المنتصف
+            if (xoBoardState[4] === "") return 4;
+            // اختيار عشوائي من المتاح
+            const empty = xoBoardState.map((v, idx) => v === "" ? idx : null).filter(v => v !== null);
+            return empty[Math.floor(Math.random() * empty.length)];
+        }
+
+        function resetXOGame() {
+            xoBoardState = ["", "", "", "", "", "", "", "", ""];
+            xoPlayerTurn = "X";
+            xoGameActive = true;
+            const cells = document.querySelectorAll('.xo-cell');
+            cells.forEach(c => {
+                c.innerText = "";
+                c.className = "xo-cell num-font";
+            });
+            const lang = document.documentElement.getAttribute('lang') || 'en';
+            const status = document.getElementById('xo-status');
+            status.innerText = translations[lang].xo_turn_x;
+            status.style.color = "inherit";
+        }
+
+        // --- 2. لعبة الأفعى Snake ---
+        let snakeCanvas = document.getElementById('snakeCanvas');
+        let snakeCtx = snakeCanvas ? snakeCanvas.getContext('2d') : null;
+        let snakeGrid = 15;
+        let snake = [{x: 150, y: 150}];
+        let snakeDir = {x: 15, y: 0};
+        let snakeFood = {x: 60, y: 60};
+        let snakeScore = 0;
+        let snakeBest = safeGetStorage('snake_best') || 0;
+        let snakeInterval = null;
+        let snakeGameRunning = false;
+
+        document.getElementById('snake-best').innerText = snakeBest;
+
+        function startSnakeGame() {
+            if (snakeInterval) clearInterval(snakeInterval);
+            snake = [{x: 150, y: 150}, {x: 135, y: 150}, {x: 120, y: 150}];
+            snakeDir = {x: snakeGrid, y: 0};
+            snakeScore = 0;
+            document.getElementById('snake-score').innerText = '0';
+            placeSnakeFood();
+            snakeGameRunning = true;
+            snakeInterval = setInterval(updateSnakeGame, 100);
+        }
+
+        function placeSnakeFood() {
+            snakeFood.x = Math.floor(Math.random() * (300 / snakeGrid)) * snakeGrid;
+            snakeFood.y = Math.floor(Math.random() * (300 / snakeGrid)) * snakeGrid;
+        }
+
+        function updateSnakeGame() {
+            if (!snakeCtx) return;
+            let head = {x: snake[0].x + snakeDir.x, y: snake[0].y + snakeDir.y};
+
+            // اصطدام بالجدران
+            if (head.x < 0 || head.x >= 300 || head.y < 0 || head.y >= 300) {
+                endSnakeGame(); return;
+            }
+            // اصطدام بالجسم
+            for (let part of snake) {
+                if (part.x === head.x && part.y === head.y) { endSnakeGame(); return; }
+            }
+
+            snake.unshift(head);
+            if (head.x === snakeFood.x && head.y === snakeFood.y) {
+                snakeScore++;
+                document.getElementById('snake-score').innerText = snakeScore;
+                if (snakeScore > snakeBest) {
+                    snakeBest = snakeScore;
+                    safeSetStorage('snake_best', snakeBest);
+                    document.getElementById('snake-best').innerText = snakeBest;
+                }
+                placeSnakeFood();
+            } else {
+                snake.pop();
+            }
+
+            // رسم اللعبة
+            snakeCtx.clearRect(0, 0, 300, 300);
+            
+            // طعام الأفعى
+            snakeCtx.fillStyle = '#ef4444';
+            snakeCtx.beginPath();
+            snakeCtx.arc(snakeFood.x + snakeGrid/2, snakeFood.y + snakeGrid/2, snakeGrid/2 - 2, 0, Math.PI * 2);
+            snakeCtx.fill();
+
+            // جسم الأفعى
+            snake.forEach((part, index) => {
+                snakeCtx.fillStyle = index === 0 ? '#10b981' : 'rgba(16, 185, 129, 0.65)';
+                snakeCtx.shadowColor = index === 0 ? '#10b981' : 'transparent';
+                snakeCtx.shadowBlur = index === 0 ? 8 : 0;
+                snakeCtx.beginPath();
+                snakeCtx.roundRect(part.x + 1, part.y + 1, snakeGrid - 2, snakeGrid - 2, 4);
+                snakeCtx.fill();
+            });
+            snakeCtx.shadowBlur = 0;
+        }
+
+        function handleSnakeDpad(dir) {
+            if (dir === 'UP' && snakeDir.y === 0) snakeDir = {x: 0, y: -snakeGrid};
+            if (dir === 'DOWN' && snakeDir.y === 0) snakeDir = {x: 0, y: snakeGrid};
+            if (dir === 'LEFT' && snakeDir.x === 0) snakeDir = {x: -snakeGrid, y: 0};
+            if (dir === 'RIGHT' && snakeDir.x === 0) snakeDir = {x: snakeGrid, y: 0};
+        }
+
+        function endSnakeGame() {
+            clearInterval(snakeInterval);
+            snakeGameRunning = false;
+            if (snakeCtx) {
+                snakeCtx.fillStyle = 'rgba(0,0,0,0.6)';
+                snakeCtx.fillRect(0, 0, 300, 300);
+                snakeCtx.fillStyle = '#fff';
+                snakeCtx.font = '900 18px Cairo, sans-serif';
+                snakeCtx.textAlign = 'center';
+                snakeCtx.fillText("انتهت اللعبة! اضغط تشغيل للبدء", 150, 150);
+            }
+        }
+
+        // --- 3. لعبة كاسر الطوب Breaker ---
+        let breakerCanvas = document.getElementById('breakerCanvas');
+        let breakerCtx = breakerCanvas ? breakerCanvas.getContext('2d') : null;
+        let breakerPaddle = { x: 120, width: 60, height: 8 };
+        let breakerBall = { x: 150, y: 200, dx: 2.5, dy: -2.5, radius: 5 };
+        let breakerBricks = [];
+        let breakerScore = 0;
+        let breakerAnimId = null;
+        let breakerGameRunning = false;
+
+        function initBreakerBricks() {
+            breakerBricks = [];
+            const rows = 4, cols = 5, brickW = 50, brickH = 12, pad = 8, offsetTop = 25, offsetLeft = 8;
+            for (let r = 0; r < rows; r++) {
+                for (let c = 0; c < cols; c++) {
+                    breakerBricks.push({
+                        x: c * (brickW + pad) + offsetLeft,
+                        y: r * (brickH + pad) + offsetTop,
+                        status: 1
+                    });
+                }
+            }
+        }
+
+        function startBreakerGame() {
+            if (breakerAnimId) cancelAnimationFrame(breakerAnimId);
+            initBreakerBricks();
+            breakerPaddle.x = 120;
+            breakerBall.x = 150;
+            breakerBall.y = 220;
+            breakerBall.dx = (Math.random() > 0.5 ? 2.5 : -2.5);
+            breakerBall.dy = -2.5;
+            breakerScore = 0;
+            document.getElementById('breaker-score').innerText = '0';
+            breakerGameRunning = true;
+            updateBreaker();
+        }
+
+        function updateBreaker() {
+            if (!breakerGameRunning || !breakerCtx) return;
+
+            breakerCtx.clearRect(0, 0, 300, 300);
+
+            // رسم الطوب
+            breakerBricks.forEach(b => {
+                if (b.status === 1) {
+                    breakerCtx.fillStyle = '#38bdf8';
+                    breakerCtx.beginPath();
+                    breakerCtx.roundRect(b.x, b.y, 50, 12, 3);
+                    breakerCtx.fill();
+
+                    // تصادم الكرة بالطوب
+                    if (breakerBall.x > b.x && breakerBall.x < b.x + 50 && breakerBall.y > b.y && breakerBall.y < b.y + 12) {
+                        breakerBall.dy = -breakerBall.dy;
+                        b.status = 0;
+                        breakerScore += 10;
+                        document.getElementById('breaker-score').innerText = breakerScore;
+                    }
+                }
+            });
+
+            // رسم المضرب
+            breakerCtx.fillStyle = 'var(--primary)';
+            breakerCtx.beginPath();
+            breakerCtx.roundRect(breakerPaddle.x, 280, breakerPaddle.width, breakerPaddle.height, 4);
+            breakerCtx.fill();
+
+            // رسم الكرة
+            breakerCtx.fillStyle = '#ffffff';
+            breakerCtx.beginPath();
+            breakerCtx.arc(breakerBall.x, breakerBall.y, breakerBall.radius, 0, Math.PI * 2);
+            breakerCtx.fill();
+
+            // حركة وتصادم الكرة
+            breakerBall.x += breakerBall.dx;
+            breakerBall.y += breakerBall.dy;
+
+            if (breakerBall.x + breakerBall.radius > 300 || breakerBall.x - breakerBall.radius < 0) breakerBall.dx = -breakerBall.dx;
+            if (breakerBall.y - breakerBall.radius < 0) breakerBall.dy = -breakerBall.dy;
+
+            // تصادم المضرب
+            if (breakerBall.y + breakerBall.radius >= 280 && breakerBall.x >= breakerPaddle.x && breakerBall.x <= breakerPaddle.x + breakerPaddle.width) {
+                breakerBall.dy = -Math.abs(breakerBall.dy);
+            }
+
+            // سقوط الكرة بالأسفل
+            if (breakerBall.y > 300) {
+                breakerGameRunning = false;
+                breakerCtx.fillStyle = 'rgba(0,0,0,0.6)';
+                breakerCtx.fillRect(0, 0, 300, 300);
+                breakerCtx.fillStyle = '#fff';
+                breakerCtx.font = '900 16px Cairo, sans-serif';
+                breakerCtx.textAlign = 'center';
+                breakerCtx.fillText("حاول مجدداً!", 150, 150);
+                return;
+            }
+
+            breakerAnimId = requestAnimationFrame(updateBreaker);
+        }
+
+        // تحكم المضرب باللمس والماوس
+        if (breakerCanvas) {
+            const movePaddle = (clientX) => {
+                const rect = breakerCanvas.getBoundingClientRect();
+                const relativeX = clientX - rect.left;
+                breakerPaddle.x = Math.max(0, Math.min(300 - breakerPaddle.width, relativeX - breakerPaddle.width / 2));
+            };
+            breakerCanvas.addEventListener('touchmove', e => {
+                if (e.touches.length > 0) movePaddle(e.touches[0].clientX);
+            }, { passive: true });
+            breakerCanvas.addEventListener('mousemove', e => movePaddle(e.clientX));
+        }
+
+        // --- 4. لعبة سرعة الرد Reflex ---
+        let reflexState = 'idle'; // idle, waiting, ready
+        let reflexTimer = null;
+        let reflexStartTime = 0;
+        let reflexBestTime = safeGetStorage('reflex_best') || null;
+
+        if (reflexBestTime) document.getElementById('reflex-best').innerText = `${reflexBestTime} ms`;
+
+        function handleReflexClick() {
+            const box = document.getElementById('reflexArea');
+            const text = document.getElementById('reflex-text');
+            const icon = document.getElementById('reflex-icon');
+            const lang = document.documentElement.getAttribute('lang') || 'en';
+
+            if (reflexState === 'idle') {
+                reflexState = 'waiting';
+                box.className = 'reflex-box waiting';
+                text.innerText = translations[lang].reflex_wait;
+                icon.className = 'fa-solid fa-hourglass-half';
+
+                const randomDelay = Math.floor(Math.random() * 2500) + 1200;
+                reflexTimer = setTimeout(() => {
+                    reflexState = 'ready';
+                    box.className = 'reflex-box ready';
+                    text.innerText = translations[lang].reflex_click;
+                    icon.className = 'fa-solid fa-bolt';
+                    reflexStartTime = Date.now();
+                }, randomDelay);
+
+            } else if (reflexState === 'waiting') {
+                // نقر مبكر جداً
+                clearTimeout(reflexTimer);
+                reflexState = 'idle';
+                box.className = 'reflex-box';
+                text.innerText = translations[lang].reflex_early;
+                icon.className = 'fa-solid fa-triangle-exclamation';
+            } else if (reflexState === 'ready') {
+                // استجابة صحيحة
+                const diff = Date.now() - reflexStartTime;
+                reflexState = 'idle';
+                box.className = 'reflex-box';
+                text.innerText = `${diff} ms! اضغط لإعادة المحاولة`;
+                icon.className = 'fa-solid fa-check';
+
+                if (!reflexBestTime || diff < reflexBestTime) {
+                    reflexBestTime = diff;
+                    safeSetStorage('reflex_best', diff);
+                    document.getElementById('reflex-best').innerText = `${diff} ms`;
+                }
+            }
+        }
+
+        // التهيئة المبدئية والراوتينج
         document.addEventListener("DOMContentLoaded", () => {
             document.getElementById('theme-icon').className = savedTheme === 'light' ? 'fa-solid fa-sun theme-toggle' : 'fa-solid fa-moon theme-toggle';
-            changeLang(savedLang);
             
             const nSlider = document.getElementById('newsSlider');
             let isDown = false, startX, sLeft;
@@ -2109,9 +2851,41 @@
 
             loadDynamicData();
 
-            let savedView = safeGetStorage('currentView') || 'home';
-            switchView(savedView);
+            // =========================================================
+            // نظام قراءة وتوجيه الروابط (Smart Routing)
+            // =========================================================
+            const pathSegments = window.location.pathname.split('/').filter(Boolean);
             
+            let initLang, initView;
+
+            if (pathSegments.length === 0) {
+                initLang = 'en';
+                initView = 'home';
+            } else {
+                initLang = pathSegments[0];
+                initView = pathSegments[1];
+
+                if (initLang !== 'en' && initLang !== 'ar') {
+                    initLang = 'en';
+                }
+
+                if (initView !== 'home' && initView !== 'leaders' && initView !== 'explore') {
+                    initView = 'home';
+                }
+            }
+
+            changeLang(initLang, false);
+            switchView(initView, null, false);
+            window.history.replaceState({ view: initView, lang: initLang }, '', `/${initLang}/${initView}`);
+
+            window.addEventListener('popstate', (e) => {
+                if (e.state) {
+                    changeLang(e.state.lang, false);
+                    switchView(e.state.view, null, false);
+                }
+            });
+            // =========================================================
+
             if (typeof syncRealTime === "function") {
                 syncRealTime().then(() => { if (typeof updateSheetTimers === "function") updateSheetTimers(); });
                 setInterval(updateSheetTimers, 1000);
