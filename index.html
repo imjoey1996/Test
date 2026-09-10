@@ -513,7 +513,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            touch-action: none !important; /* يمنع تحريك المتصفح نهائياً عند لمس ألعاب الكانفاس */
+            touch-action: none !important;
         }
         .game-canvas-canvas {
             background: rgba(0, 0, 0, 0.5);
@@ -1274,6 +1274,9 @@
         let currentLatestWeekly = null;
 
         const tourSheetURL = "https://docs.google.com/spreadsheets/d/10Iuz3frTKBQaR2SZ2_GzSe7Sn5GzaefJ6szTebK91vE/gviz/tq?tqx=out:csv"; 
+
+        // الرابط المعتمد لإرسال وحفظ صدارة الألعاب بالشيت
+        const GAME_LEADERBOARD_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxp5Z9CrkKv9YZtB-H-zKWxp03QmdwWxKUxK2ZL7YdpXE3gSYL0kj6kwPT9QmPY9zCIlA/exec";
 
         function hashCode(str) {
             let hash = 0;
@@ -2575,7 +2578,7 @@
             if (gameId === 'wolf' && !wolfGameRunning) startWolfGame();
         }
 
-        // --- نظام حفظ ومعالجة اليوزر التلقائي والصدارة المشتركة ---
+        // --- نظام حفظ ومعالجة اليوزر التلقائي والصدارة المشتركة (شيت + محلي) ---
         let pendingProgression = null;
 
         function recordGameProgression(gameName, lvl) {
@@ -2641,6 +2644,21 @@
 
             list.sort((a, b) => b.lvl - a.lvl);
             safeSetStorage('unified_game_leaderboard', JSON.stringify(list));
+
+            // إرسال البيانات فورياً للشيت بدون إيقاف اللاعب
+            try {
+                const formData = new URLSearchParams();
+                formData.append("user", userId);
+                formData.append("lvl", lvl);
+                formData.append("game", game);
+
+                fetch(GAME_LEADERBOARD_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: formData.toString()
+                }).catch(() => {});
+            } catch(e) {}
         }
 
         function getLeaderboardData() {
@@ -2820,7 +2838,7 @@
         let snakeGrid = 15;
         let snake = [{x: 150, y: 150}];
         let snakeDir = {x: 15, y: 0};
-        let snakeQueue = []; // طابور الحركات الفورية
+        let snakeQueue = [];
         let snakeFood = {x: 60, y: 60};
         let snakeScore = 0;
         let snakeLevel = safeGetStorage('snake_lvl') ? parseInt(safeGetStorage('snake_lvl')) : 1;
@@ -2850,7 +2868,6 @@
         function updateSnakeGame() {
             if (!snakeCtx) return;
 
-            // معالجة الحركة من الطابور الفوري إن وُجدت
             if (snakeQueue.length > 0) {
                 snakeDir = snakeQueue.shift();
             }
@@ -2922,7 +2939,6 @@
             snakeCtx.shadowBlur = 0;
         }
 
-        // استجابة فورية للأزرار عبر المقارنة مع آخر حركة مسجلة في الطابور
         function handleSnakeDpad(dir) {
             let lastDir = snakeQueue.length > 0 ? snakeQueue[snakeQueue.length - 1] : snakeDir;
             if (dir === 'UP' && lastDir.y === 0) snakeQueue.push({x: 0, y: -snakeGrid});
@@ -3093,7 +3109,7 @@
                 breakerPaddle.x = Math.max(0, Math.min(300 - breakerPaddle.width, relativeX - breakerPaddle.width / 2));
             };
             breakerCanvas.addEventListener('touchmove', e => {
-                e.preventDefault(); // يمنع تحريك المتصفح نهائياً عند تحريك المضرب
+                e.preventDefault();
                 if (e.touches.length > 0) movePaddle(e.touches[0].clientX);
             }, { passive: false });
             breakerCanvas.addEventListener('touchstart', e => e.preventDefault(), { passive: false });
@@ -3112,7 +3128,7 @@
         let wolfLives = 3;
         let wolfLevel = 1;
         let wolfCoinsNeeded = 4;
-        let wolfSpeed = 2.6; // سرعة هادئة وسهلة بالبداية
+        let wolfSpeed = 2.6;
 
         function startWolfGame() {
             if (wolfAnimId) cancelAnimationFrame(wolfAnimId);
@@ -3121,10 +3137,8 @@
             wolf.grounded = true;
             wolfLives = 3;
             wolfCoinsNeeded = 4;
-            // تدرج سرعة مريح
             wolfSpeed = 2.6 + (wolfLevel * 0.06);
             wolfObstacles = [{ x: 380, w: 18, h: 22, type: 0 }];
-            // الكوين الأول يظهر في مكان آمن بعيداً عن الشوك
             wolfCoins = [{ x: 220, y: 175, collected: false }];
             
             document.getElementById('wolf-lives').innerText = '3';
@@ -3151,7 +3165,7 @@
 
         if (wolfCanvas) {
             wolfCanvas.addEventListener('touchstart', e => {
-                e.preventDefault(); // يمنع النزول والتمرير باللمس
+                e.preventDefault();
                 triggerWolfJump();
             }, { passive: false });
         }
@@ -3228,7 +3242,7 @@
             wolfCtx.fill();
             wolfCtx.restore();
 
-            // عقبات مع تدرج مسافات سهل بالبداية
+            // عقبات
             for (let i = 0; i < wolfObstacles.length; i++) {
                 let ob = wolfObstacles[i];
                 ob.x -= wolfSpeed;
@@ -3260,7 +3274,6 @@
                 }
                 wolfCtx.restore();
 
-                // اصطدام
                 if (wolf.x + wolf.w > ob.x && wolf.x < ob.x + ob.w && wolf.y + wolf.h > 248 - ob.h) {
                     wolfLives--;
                     document.getElementById('wolf-lives').innerText = wolfLives;
@@ -3279,7 +3292,6 @@
                 }
             }
 
-            // مسافات التوليد: بالبداية واسعة جداً (سهلة)، وتتقارب بالتدريج
             let minGap = Math.max(160, 240 - (wolfLevel * 2));
             if (wolfObstacles.length === 0 || wolfObstacles[wolfObstacles.length - 1].x < (300 - minGap)) {
                 let nextType = (wolfLevel % 3);
@@ -3292,7 +3304,7 @@
             }
             wolfObstacles = wolfObstacles.filter(ob => ob.x > -40);
 
-            // كوينز ذكية: التوليد يتم دائماً بعيداً عن الأشواك في الهواء أو بمسافة آمنة
+            // كوينز ذكية
             for (let coin of wolfCoins) {
                 coin.x -= wolfSpeed;
                 if (!coin.collected) {
@@ -3316,12 +3328,10 @@
                 }
             }
 
-            // ضمان أن الكوينز تتولد بمسافة آمنة عن أقرب شوك
             if (wolfCoins.length === 0 || wolfCoins[wolfCoins.length - 1].x < 110) {
                 let safeCoinX = 330;
                 let isNearObstacle = wolfObstacles.some(ob => Math.abs(ob.x - safeCoinX) < 45);
                 if (isNearObstacle) {
-                    // إذا كان قرب شوك نجعله في الهواء لكي يقفز اللاعب ويأخذه بأمان
                     wolfCoins.push({ x: safeCoinX, y: 160, collected: false });
                 } else {
                     wolfCoins.push({ x: safeCoinX, y: 228, collected: false });
