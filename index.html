@@ -358,7 +358,7 @@
         [data-theme="light"] .calc-input-wrapper input::placeholder { color: rgba(0,0,0,0.4); }
 
         /* =========================================================
-           ستايلات سكشن FOR FUN المحدثة بالكامل
+           ستايلات سكشن الألعاب (FOR FUN) الاحترافية
            ========================================================= */
         .games-hub-wrapper {
             width: 100%;
@@ -547,15 +547,54 @@
         .pad-btn-right { right: 4px; top: 49px; }
         .pad-center-core { width: 22px; height: 22px; border-radius: 50%; background: var(--glass-border); }
 
-        /* Wolf Platformer UI */
         .wolf-tap-hint {
-            margin-top: 12px;
+            margin-top: 10px;
             font-size: 12px;
             font-weight: 700;
             color: var(--text-muted);
             display: flex;
             align-items: center;
             gap: 6px;
+        }
+
+        /* Wolf Leaderboard Modal & Mini-List */
+        .wolf-rank-mini {
+            width: 100%;
+            max-width: 300px;
+            margin-top: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            padding: 10px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--glass-border);
+        }
+        .wolf-rank-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            font-weight: 800;
+            padding: 4px 8px;
+            border-radius: 6px;
+            background: rgba(255,255,255,0.03);
+        }
+
+        .wolf-modal-backdrop {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.75);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: 14px;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+            z-index: 20;
         }
 
         @media (max-width: 600px) {
@@ -999,13 +1038,12 @@
         <div class="cyber-divider"><div class="center-node"></div></div>
 
         <!-- ==============================================
-             قسم For Fun (أصبح الآن فوق النصائح مباشرة)
+             قسم الألعاب (فوق قسم النصائح مباشرة)
              ============================================== -->
         <section id="for-fun">
-            <h2 class="section-title num-font" data-i18n="fun_title">FOR FUN</h2>
+            <h2 class="section-title" data-i18n="fun_title">الألعاب</h2>
             <div class="games-hub-wrapper">
                 
-                <!-- تبويبات اختيار الألعاب -->
                 <div class="game-tabs-selector">
                     <button type="button" class="game-tab-btn active" onclick="switchGame('xo')">
                         <i class="fa-solid fa-xmark"></i> <span data-i18n="game_xo">تيك تاك تو</span>
@@ -1043,7 +1081,7 @@
                     </div>
                 </div>
 
-                <!-- 2. لعبة الأفعى Snake 2.0 الحديثة -->
+                <!-- 2. لعبة الأفعى Snake 2.0 -->
                 <div id="game-card-snake" class="game-display-card glass-panel">
                     <div class="game-header-bar">
                         <span class="game-stats-pill num-font"><i class="fa-solid fa-apple-whole" style="color:#ef4444;"></i> <span id="snake-score">0</span></span>
@@ -1052,7 +1090,6 @@
                     </div>
                     <div class="game-canvas-container">
                         <canvas id="snakeCanvas" class="game-canvas-canvas" width="300" height="300"></canvas>
-                        <!-- يد التحكم الدائرية الحديثة (Futuristic D-Pad) -->
                         <div class="modern-controller-pad">
                             <div class="pad-center-core"></div>
                             <button type="button" class="modern-pad-btn pad-btn-up" onclick="handleSnakeDpad('UP')"><i class="fa-solid fa-chevron-up"></i></button>
@@ -1063,7 +1100,7 @@
                     </div>
                 </div>
 
-                <!-- 3. لعبة كاسر الطوب Breaker (نظام مستويات تصاعدي وتراكمي) -->
+                <!-- 3. لعبة كاسر الطوب Breaker -->
                 <div id="game-card-breaker" class="game-display-card glass-panel">
                     <div class="game-header-bar">
                         <div style="display:flex; gap:6px;">
@@ -1080,16 +1117,46 @@
                     </div>
                 </div>
 
-                <!-- 4. لعبة مغامرة الذئب (Wolf Mario Platformer) -->
+                <!-- 4. لعبة مغامرة الذئب مع لوحة المتصدرين وتوثيق اليوزر -->
                 <div id="game-card-wolf" class="game-display-card glass-panel">
                     <div class="game-header-bar">
-                        <span class="game-stats-pill num-font"><i class="fa-solid fa-coins" style="color:#eab308;"></i> <span id="wolf-score">0</span></span>
+                        <div style="display:flex; gap:6px;">
+                            <span class="game-stats-pill num-font"><i class="fa-solid fa-coins" style="color:#eab308;"></i> <span id="wolf-score">0</span></span>
+                            <span class="game-stats-pill num-font"><i class="fa-solid fa-layer-group" style="color:#38bdf8;"></i> <span id="wolf-lvl">Lvl 1</span></span>
+                        </div>
                         <span class="game-stats-pill num-font"><i class="fa-solid fa-heart" style="color:#ef4444;"></i> <span id="wolf-lives">3</span></span>
                         <button type="button" class="nav-btn" onclick="startWolfGame()" style="padding:4px 10px; background:rgba(255,255,255,0.05); border:1px solid var(--glass-border); border-radius:8px;"><i class="fa-solid fa-rotate-right"></i></button>
                     </div>
+                    
                     <div class="game-canvas-container">
                         <canvas id="wolfCanvas" class="game-canvas-canvas" width="300" height="300" onclick="triggerWolfJump()"></canvas>
+                        
+                        <!-- نافذة تسجيل المتصدرين المنبثقة -->
+                        <div class="wolf-modal-backdrop" id="wolf-record-modal">
+                            <h3 style="font-size:1.15rem; font-weight:900; color:var(--primary); margin-bottom:4px;" data-i18n="wolf_congrats">إنجاز جديد! 🎉</h3>
+                            <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;" data-i18n="wolf_prompt">هل ترغب بتسجيل يوزرك في لوحة الشرف؟</p>
+                            
+                            <input type="text" id="wolf-input-user" class="bug-input num-font" placeholder="يوزرك في اللعبة" maxlength="12" dir="ltr" style="padding:8px 12px; font-size:14px; text-align:center; margin-bottom:4px;">
+                            <div id="wolf-user-err" class="input-error-msg" style="margin-bottom:8px; font-size:11px;"></div>
+                            
+                            <div style="display:flex; gap:8px; width:100%; max-width:240px;">
+                                <button type="button" class="submit-btn" style="height:35px; font-size:12px;" onclick="saveWolfLeader()" data-i18n="wolf_save">حفظ</button>
+                                <button type="button" class="cancel-btn" style="height:35px; font-size:12px;" onclick="closeWolfModal()" data-i18n="wolf_skip">تخطي</button>
+                            </div>
+                        </div>
+
                         <span class="wolf-tap-hint"><i class="fa-solid fa-hand-pointer"></i> <span data-i18n="wolf_tap_jump">انقر على الشاشة أو زر المسافة (Space) للقفز</span></span>
+                        
+                        <!-- لوحة شرف مصغرة وأنيقة -->
+                        <div class="wolf-rank-mini">
+                            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--glass-border); padding-bottom:4px; margin-bottom:4px;">
+                                <span style="font-size:11px; font-weight:900; color:var(--primary);"><i class="fa-solid fa-trophy" style="color:#d4af37;"></i> <span data-i18n="wolf_leaders">لوحة شرف الذئب</span></span>
+                                <span style="font-size:10px; color:var(--text-muted);" id="wolf-my-best">الأفضل: 0</span>
+                            </div>
+                            <div id="wolf-leaderboard-rows">
+                                <div style="text-align:center; font-size:11px; color:var(--text-muted); padding:4px;">لا يوجد أرقام مسجلة بعد</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -1641,8 +1708,8 @@
                 currCoins: "COINS", 
                 currPips: "PIPS",
 
-                // سكشن For Fun
-                fun_title: "قسم الألعاب (FOR FUN)",
+                // سكشن الألعاب
+                fun_title: "الألعاب",
                 game_xo: "تيك تاك تو",
                 game_snake: "الأفعى",
                 game_breaker: "كاسر الطوب",
@@ -1653,7 +1720,12 @@
                 xo_win_o: "فاز الكمبيوتر!",
                 xo_tie: "تعادل!",
                 breaker_drag: "اسحب المضرب لصد الكرة",
-                wolf_tap_jump: "انقر على الشاشة أو زر المسافة (Space) للقفز"
+                wolf_tap_jump: "انقر على الشاشة أو زر المسافة (Space) للقفز",
+                wolf_congrats: "إنجاز جديد! 🎉",
+                wolf_prompt: "هل ترغب بتسجيل يوزرك في لوحة الشرف؟",
+                wolf_save: "حفظ",
+                wolf_skip: "تخطي",
+                wolf_leaders: "لوحة شرف الذئب"
             },
             en: {
                 nav_home: "Home", nav_leaders: "About Leaders", nav_leaderboard: "Explore",
@@ -1729,7 +1801,12 @@
                 xo_win_o: "AI Won!",
                 xo_tie: "Draw!",
                 breaker_drag: "Drag paddle to bounce",
-                wolf_tap_jump: "Tap screen or Space to jump"
+                wolf_tap_jump: "Tap screen or Space to jump",
+                wolf_congrats: "New Record! 🎉",
+                wolf_prompt: "Would you like to register your ID on the leaderboard?",
+                wolf_save: "Save",
+                wolf_skip: "Skip",
+                wolf_leaders: "Wolf Hall of Fame"
             }
         };
 
@@ -2434,7 +2511,7 @@
         }
 
         /* =========================================================================
-           نظام ألعاب FOR FUN الحديثة والاحترافية
+           نظام ألعاب (الألعاب / FOR FUN)
            ========================================================================= */
         function switchGame(gameId) {
             document.querySelectorAll('.game-tab-btn').forEach(btn => btn.classList.remove('active'));
@@ -2448,7 +2525,10 @@
 
             if (gameId === 'snake' && !snakeGameRunning) startSnakeGame();
             if (gameId === 'breaker' && !breakerGameRunning) startBreakerGame(false);
-            if (gameId === 'wolf' && !wolfGameRunning) startWolfGame();
+            if (gameId === 'wolf') {
+                renderWolfLeaderboard();
+                if(!wolfGameRunning) startWolfGame();
+            }
         }
 
         // --- 1. لعبة X-O ---
@@ -2571,7 +2651,7 @@
             status.style.color = "inherit";
         }
 
-        // --- 2. لعبة الأفعى Snake 2.0 الحديثة ---
+        // --- 2. لعبة الأفعى Snake 2.0 ---
         let snakeCanvas = document.getElementById('snakeCanvas');
         let snakeCtx = snakeCanvas ? snakeCanvas.getContext('2d') : null;
         let snakeGrid = 15;
@@ -2608,11 +2688,9 @@
             snakeDir = snakeNextDir;
             let head = {x: snake[0].x + snakeDir.x, y: snake[0].y + snakeDir.y};
 
-            // اصطدام الجدران
             if (head.x < 0 || head.x >= 300 || head.y < 0 || head.y >= 300) {
                 endSnakeGame(); return;
             }
-            // اصطدام الجسم
             for (let part of snake) {
                 if (part.x === head.x && part.y === head.y) { endSnakeGame(); return; }
             }
@@ -2631,10 +2709,8 @@
                 snake.pop();
             }
 
-            // رسم اللعبة برؤية زجاجية حديثة
             snakeCtx.clearRect(0, 0, 300, 300);
             
-            // شبكة خفيفة نيون
             snakeCtx.strokeStyle = 'rgba(255,255,255,0.02)';
             snakeCtx.lineWidth = 1;
             for(let i=0; i<300; i+=snakeGrid){
@@ -2642,7 +2718,6 @@
                 snakeCtx.beginPath(); snakeCtx.moveTo(0, i); snakeCtx.lineTo(300, i); snakeCtx.stroke();
             }
 
-            // طعام الأفعى
             snakeCtx.fillStyle = '#ef4444';
             snakeCtx.shadowColor = '#ef4444';
             snakeCtx.shadowBlur = 12;
@@ -2651,7 +2726,6 @@
             snakeCtx.fill();
             snakeCtx.shadowBlur = 0;
 
-            // جسم الأفعى العصري
             snake.forEach((part, index) => {
                 if (index === 0) {
                     snakeCtx.fillStyle = '#10b981';
@@ -2665,7 +2739,6 @@
                 snakeCtx.roundRect(part.x + 1, part.y + 1, snakeGrid - 2, snakeGrid - 2, 4);
                 snakeCtx.fill();
 
-                // عيون لرأس الأفعى
                 if (index === 0) {
                     snakeCtx.fillStyle = '#0a0a0f';
                     snakeCtx.beginPath();
@@ -2684,7 +2757,6 @@
             if (dir === 'RIGHT' && snakeDir.x === 0) snakeNextDir = {x: snakeGrid, y: 0};
         }
 
-        // دعم السحب المباشر (Swipe) باللمس على شاشة لعبة الثعبان
         if(snakeCanvas) {
             let sTouchX = 0, sTouchY = 0;
             snakeCanvas.addEventListener('touchstart', e => {
@@ -2717,7 +2789,7 @@
             }
         }
 
-        // --- 3. لعبة كاسر الطوب Breaker (نظام مستويات مستمر) ---
+        // --- 3. لعبة كاسر الطوب Breaker ---
         let breakerCanvas = document.getElementById('breakerCanvas');
         let breakerCtx = breakerCanvas ? breakerCanvas.getContext('2d') : null;
         let breakerPaddle = { x: 120, width: 65, height: 8 };
@@ -2793,7 +2865,6 @@
                 }
             });
 
-            // الانتقال إلى المستوى التالي عند انتهاء الطوب
             if (remainingBricks === 0) {
                 breakerLevel++;
                 safeSetStorage('breaker_lvl', breakerLevel.toString());
@@ -2802,13 +2873,11 @@
                 return;
             }
 
-            // رسم المضرب
             breakerCtx.fillStyle = 'var(--primary)';
             breakerCtx.beginPath();
             breakerCtx.roundRect(breakerPaddle.x, 280, breakerPaddle.width, breakerPaddle.height, 4);
             breakerCtx.fill();
 
-            // رسم الكرة
             breakerCtx.fillStyle = '#ffffff';
             breakerCtx.beginPath();
             breakerCtx.arc(breakerBall.x, breakerBall.y, breakerBall.radius, 0, Math.PI * 2);
@@ -2820,12 +2889,10 @@
             if (breakerBall.x + breakerBall.radius > 300 || breakerBall.x - breakerBall.radius < 0) breakerBall.dx = -breakerBall.dx;
             if (breakerBall.y - breakerBall.radius < 0) breakerBall.dy = -breakerBall.dy;
 
-            // اصطدام المضرب
             if (breakerBall.y + breakerBall.radius >= 280 && breakerBall.x >= breakerPaddle.x && breakerBall.x <= breakerPaddle.x + breakerPaddle.width) {
                 breakerBall.dy = -Math.abs(breakerBall.dy);
             }
 
-            // سقوط الكرة
             if (breakerBall.y > 300) {
                 breakerGameRunning = false;
                 breakerCtx.fillStyle = 'rgba(0,0,0,0.7)';
@@ -2852,7 +2919,7 @@
             breakerCanvas.addEventListener('mousemove', e => movePaddle(e.clientX));
         }
 
-        // --- 4. لعبة مغامرة الذئب (Wolf Mario Platformer) ---
+        // --- 4. لعبة مغامرة الذئب مع التوثيق والمراحل ---
         let wolfCanvas = document.getElementById('wolfCanvas');
         let wolfCtx = wolfCanvas ? wolfCanvas.getContext('2d') : null;
         let wolfGameRunning = false;
@@ -2863,21 +2930,52 @@
         let wolfCoins = [];
         let wolfScore = 0;
         let wolfLives = 3;
+        let wolfLevel = 1;
+        let wolfDistance = 0;
         let wolfSpeed = 3.2;
 
+        function renderWolfLeaderboard() {
+            let data = safeGetStorage('wolf_leaderboard');
+            let list = data ? JSON.parse(data) : [];
+            let container = document.getElementById('wolf-leaderboard-rows');
+            let myBest = safeGetStorage('wolf_my_best') || 0;
+            document.getElementById('wolf-my-best').innerText = `${document.documentElement.lang === 'ar' ? 'الأفضل:' : 'Best:'} ${myBest}`;
+
+            if(list.length === 0) {
+                container.innerHTML = `<div style="text-align:center; font-size:11px; color:var(--text-muted); padding:4px;">${document.documentElement.lang === 'ar' ? 'لا يوجد أرقام مسجلة بعد' : 'No records yet'}</div>`;
+                return;
+            }
+
+            let html = '';
+            list.slice(0, 3).forEach((item, idx) => {
+                let badge = idx === 0 ? '🥇' : (idx === 1 ? '🥈' : '🥉');
+                html += `
+                    <div class="wolf-rank-row num-font">
+                        <span>${badge} ${escapeHTML(item.user)}</span>
+                        <span style="color:#eab308;">${item.score} pts</span>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
         function startWolfGame() {
+            closeWolfModal();
             if (wolfAnimId) cancelAnimationFrame(wolfAnimId);
             wolf.y = 220;
             wolf.vy = 0;
             wolf.grounded = true;
             wolfScore = 0;
             wolfLives = 3;
+            wolfLevel = 1;
+            wolfDistance = 0;
             wolfSpeed = 3.2;
             wolfObstacles = [{ x: 320, w: 18, h: 26 }];
             wolfCoins = [{ x: 230, y: 190, collected: false }];
             
             document.getElementById('wolf-score').innerText = '0';
             document.getElementById('wolf-lives').innerText = '3';
+            document.getElementById('wolf-lvl').innerText = 'Lvl 1';
             wolfGameRunning = true;
             updateWolfGame();
         }
@@ -2886,7 +2984,7 @@
             if (wolf.grounded && wolfGameRunning) {
                 wolf.vy = -8.8;
                 wolf.grounded = false;
-            } else if (!wolfGameRunning) {
+            } else if (!wolfGameRunning && document.getElementById('wolf-record-modal').style.display !== 'flex') {
                 startWolfGame();
             }
         }
@@ -2898,12 +2996,79 @@
             }
         });
 
+        function checkLevelProgression() {
+            wolfDistance += 1;
+            // كل 500 متر يتقدم مرحلة
+            if (wolfDistance % 500 === 0) {
+                wolfLevel++;
+                document.getElementById('wolf-lvl').innerText = `Lvl ${wolfLevel}`;
+                wolfSpeed += 0.4;
+                
+                // تنبيه ترقية المرحلة
+                const isAr = document.documentElement.lang === 'ar';
+                const toast = document.getElementById("toast");
+                toast.innerHTML = isAr ? `<i class="fa-solid fa-flag-checkered"></i> تقدمت للمستوى ${wolfLevel}!` : `<i class="fa-solid fa-flag-checkered"></i> Advanced to Level ${wolfLevel}!`;
+                toast.className = "show"; setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 2000);
+            }
+        }
+
+        function promptWolfRecord() {
+            let myBest = safeGetStorage('wolf_my_best') ? parseInt(safeGetStorage('wolf_my_best')) : 0;
+            if (wolfScore > myBest) {
+                safeSetStorage('wolf_my_best', wolfScore.toString());
+            }
+            // إظهار نافذة تسجيل اليوزر فقط إذا حقق نتيجة جيدة تفوق 30 نقطة أو مرحلة 2
+            if (wolfScore >= 30 || wolfLevel >= 2) {
+                document.getElementById('wolf-record-modal').style.display = 'flex';
+                document.getElementById('wolf-input-user').value = '';
+                document.getElementById('wolf-user-err').style.display = 'none';
+            }
+            renderWolfLeaderboard();
+        }
+
+        function closeWolfModal() {
+            document.getElementById('wolf-record-modal').style.display = 'none';
+        }
+
+        function saveWolfLeader() {
+            const input = document.getElementById('wolf-input-user');
+            const err = document.getElementById('wolf-user-err');
+            const val = input.value.trim();
+            const isAr = document.documentElement.lang === 'ar';
+
+            if (val.length < 3 || val.length > 12) {
+                err.innerText = isAr ? "يجب أن يكون اليوزر بين 3 و 12 حرفاً" : "ID must be 3-12 chars";
+                err.style.display = 'block';
+                return;
+            }
+            if (!/^[a-zA-Z0-9_]+$/.test(val)) {
+                err.innerText = isAr ? "استخدم أحرف A-Z و 0-9 و _ فقط" : "Use A-Z, 0-9 and _ only";
+                err.style.display = 'block';
+                return;
+            }
+
+            let data = safeGetStorage('wolf_leaderboard');
+            let list = data ? JSON.parse(data) : [];
+            list.push({ user: val, score: wolfScore, lvl: wolfLevel });
+            list.sort((a, b) => b.score - a.score);
+            list = list.slice(0, 5); // حفظ أفضل 5 متصدرين
+            safeSetStorage('wolf_leaderboard', JSON.stringify(list));
+
+            closeWolfModal();
+            renderWolfLeaderboard();
+
+            const toast = document.getElementById("toast");
+            toast.innerHTML = isAr ? `<i class="fa-solid fa-check"></i> تم توثيق يوزرك في المتصدرين!` : `<i class="fa-solid fa-check"></i> Registered successfully!`;
+            toast.className = "show"; setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 2500);
+        }
+
         function updateWolfGame() {
             if (!wolfGameRunning || !wolfCtx) return;
 
             wolfCtx.clearRect(0, 0, 300, 300);
+            checkLevelProgression();
 
-            // خط الأرضية النيون
+            // أرضية نيون
             wolfCtx.strokeStyle = 'rgba(255,255,255,0.2)';
             wolfCtx.lineWidth = 2;
             wolfCtx.beginPath();
@@ -2911,9 +3076,8 @@
             wolfCtx.lineTo(300, 248);
             wolfCtx.stroke();
 
-            // فيزياء الجاذبية
             wolf.y += wolf.vy;
-            wolf.vy += 0.48; // تسارع الجاذبية
+            wolf.vy += 0.48;
 
             if (wolf.y >= 220) {
                 wolf.y = 220;
@@ -2921,16 +3085,15 @@
                 wolf.grounded = true;
             }
 
-            // رسم بطل الذئب (Wolf)
+            // رسم الذئب
             wolfCtx.save();
             wolfCtx.fillStyle = '#e2e8f0';
             wolfCtx.shadowColor = '#60a5fa';
             wolfCtx.shadowBlur = 8;
-            // رأس وجسم الذئب
             wolfCtx.beginPath();
             wolfCtx.roundRect(wolf.x, wolf.y, wolf.w, wolf.h, 6);
             wolfCtx.fill();
-            // أذنا الذئب
+
             wolfCtx.fillStyle = '#94a3b8';
             wolfCtx.beginPath();
             wolfCtx.moveTo(wolf.x + 4, wolf.y);
@@ -2944,19 +3107,17 @@
             wolfCtx.lineTo(wolf.x + 26, wolf.y);
             wolfCtx.fill();
             
-            // عين الذئب
             wolfCtx.fillStyle = '#38bdf8';
             wolfCtx.beginPath();
             wolfCtx.arc(wolf.x + 21, wolf.y + 10, 2.2, 0, Math.PI*2);
             wolfCtx.fill();
             wolfCtx.restore();
 
-            // إدارة العقبات
+            // عقبات
             for (let i = 0; i < wolfObstacles.length; i++) {
                 let ob = wolfObstacles[i];
                 ob.x -= wolfSpeed;
 
-                // رسم العقبة
                 wolfCtx.fillStyle = '#ef4444';
                 wolfCtx.shadowColor = '#ef4444';
                 wolfCtx.shadowBlur = 8;
@@ -2965,11 +3126,10 @@
                 wolfCtx.fill();
                 wolfCtx.shadowBlur = 0;
 
-                // اصطدام الذئب بالعقبة
                 if (wolf.x + wolf.w > ob.x && wolf.x < ob.x + ob.w && wolf.y + wolf.h > 248 - ob.h) {
                     wolfLives--;
                     document.getElementById('wolf-lives').innerText = wolfLives;
-                    ob.x = -50; // إزالة العقبة بعد الضرر
+                    ob.x = -50;
                     if (wolfLives <= 0) {
                         wolfGameRunning = false;
                         wolfCtx.fillStyle = 'rgba(0,0,0,0.7)';
@@ -2977,7 +3137,8 @@
                         wolfCtx.fillStyle = '#fff';
                         wolfCtx.font = '900 16px Cairo, sans-serif';
                         wolfCtx.textAlign = 'center';
-                        wolfCtx.fillText("سقط الذئب! انقر للبدء مجدداً", 150, 150);
+                        wolfCtx.fillText("انتهت الجولة!", 150, 150);
+                        promptWolfRecord();
                         return;
                     }
                 }
@@ -2992,7 +3153,7 @@
             }
             wolfObstacles = wolfObstacles.filter(ob => ob.x > -40);
 
-            // إدارة الكوينز الذهبية
+            // كوينز
             for (let coin of wolfCoins) {
                 coin.x -= wolfSpeed;
                 if (!coin.collected) {
@@ -3020,7 +3181,6 @@
             }
             wolfCoins = wolfCoins.filter(c => c.x > -20);
 
-            wolfSpeed += 0.0006; // تدرج سرعة طفيف
             wolfAnimId = requestAnimationFrame(updateWolfGame);
         }
 
