@@ -504,7 +504,7 @@
             animation: pulse-ring 1s infinite;
         }
 
-        /* Generic Canvas Container - منع التمرير على اللمس تماماً */
+        /* Generic Canvas Container */
         .game-canvas-container {
             position: relative;
             width: 100%;
@@ -513,7 +513,6 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            touch-action: none !important;
         }
         .game-canvas-canvas {
             background: rgba(0, 0, 0, 0.5);
@@ -523,11 +522,16 @@
             display: block;
             width: 300px;
             height: 300px;
-            touch-action: none !important;
         }
         [data-theme="light"] .game-canvas-canvas {
             background: rgba(255, 255, 255, 0.6);
             box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+        }
+
+        /* قفل التمرير والحركة محصور حصراً بلعبة كسر الطوب فقط */
+        #game-card-breaker .game-canvas-container,
+        #breakerCanvas {
+            touch-action: none !important;
         }
 
         /* Snake Modern Futuristic Controller */
@@ -543,7 +547,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            touch-action: none !important;
         }
         .modern-pad-btn {
             position: absolute;
@@ -560,7 +563,6 @@
             cursor: pointer;
             transition: all 0.15s ease;
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            touch-action: none !important;
         }
         .modern-pad-btn:active {
             background: var(--primary);
@@ -1144,7 +1146,7 @@
                     </div>
                 </div>
 
-                <!-- 3. لعبة كاسر الطوب Breaker (منع تحريك المتصفح تماماً) -->
+                <!-- 3. لعبة كاسر الطوب Breaker (قفل التمرير محصور داخل هذا المربع فقط) -->
                 <div id="game-card-breaker" class="game-display-card glass-panel">
                     <div class="game-header-bar">
                         <span class="game-stats-pill num-font"><i class="fa-solid fa-layer-group" style="color:#a855f7;"></i> <span id="breaker-lvl">Lvl 1/50</span></span>
@@ -1157,7 +1159,7 @@
                     </div>
                 </div>
 
-                <!-- 4. لعبة مغامرة الذئب (كوينز متبقية ومسافات متوازنة) -->
+                <!-- 4. لعبة مغامرة الذئب (كوينز بمكان آمن ومسافات متوازنة) -->
                 <div id="game-card-wolf" class="game-display-card glass-panel">
                     <div class="game-header-bar">
                         <span class="game-stats-pill num-font"><i class="fa-solid fa-flag-checkered" style="color:#38bdf8;"></i> <span id="wolf-lvl">Lvl 1/50</span></span>
@@ -1191,7 +1193,7 @@
             </div>
         </div>
 
-        <!-- نافذة لوحة الصدارة المنبثقة المشتركة (Top 10 - بدون pts) -->
+        <!-- نافذة لوحة الصدارة المنبثقة المشتركة (Top 10 - من الشيت مباشرة) -->
         <div class="shared-leaderboard-popup" id="shared-lb-popup" onclick="if(event.target === this) closeSharedLeaderboard()">
             <div class="leaderboard-modal-card glass-panel">
                 <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--glass-border); padding-bottom:10px;">
@@ -1202,7 +1204,7 @@
                     <i class="fa-solid fa-xmark" style="cursor:pointer; font-size:18px; color:var(--text-muted);" onclick="closeSharedLeaderboard()"></i>
                 </div>
                 
-                <p style="font-size:11.5px; color:var(--text-muted); margin:0;" data-i18n="lb_desc">أعلى 10 متصدرين (مركز واحد لكل يوزر بأعلى إنجاز):</p>
+                <p style="font-size:11.5px; color:var(--text-muted); margin:0;" data-i18n="lb_desc">أعلى 10 متصدرين مرتبين حسب المستوى:</p>
 
                 <div style="display:flex; flex-direction:column; gap:6px;" id="shared-lb-content"></div>
 
@@ -1276,7 +1278,7 @@
         const tourSheetURL = "https://docs.google.com/spreadsheets/d/10Iuz3frTKBQaR2SZ2_GzSe7Sn5GzaefJ6szTebK91vE/gviz/tq?tqx=out:csv"; 
 
         // الرابط المعتمد لإرسال وحفظ صدارة الألعاب بالشيت
-        const GAME_LEADERBOARD_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxp5Z9CrkKv9YZtB-H-zKWxp03QmdwWxKUxK2ZL7YdpXE3gSYL0kj6kwPT9QmPY9zCIlA/exec";
+        const GAME_LEADERBOARD_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyBqGWVZ3o8d0Hw6Amsosd1Bte0XzSSmOMruOddIWpQI5flzSi5jwUr_iPx5TCZnZ6CDw/exec";
 
         function hashCode(str) {
             let hash = 0;
@@ -1773,7 +1775,7 @@
                 wolf_tap_jump: "انقر على الشاشة أو زر المسافة (Space) للقفز",
                 btn_open_lb: "لوحة الصدارة (Top 10)",
                 lb_title: "لوحة شرف الألعاب",
-                lb_desc: "أعلى 10 متصدرين (مركز واحد لكل يوزر بأعلى إنجاز):",
+                lb_desc: "أعلى 10 متصدرين مرتبين حسب المستوى:",
                 lb_close: "إغلاق",
                 snake_game_over: "انتهت اللعبة! انقر للبدء مجدداً"
             },
@@ -1854,7 +1856,7 @@
                 wolf_tap_jump: "Tap screen or Space to jump",
                 btn_open_lb: "Leaderboard (Top 10)",
                 lb_title: "Games Hall of Fame",
-                lb_desc: "Top 10 players (One top rank per player):",
+                lb_desc: "Top 10 players ranked by level:",
                 lb_close: "Close",
                 snake_game_over: "Game Over! Try Again"
             }
@@ -2561,7 +2563,7 @@
         }
 
         /* =========================================================================
-           نظام ألعاب (الألعاب / FOR FUN) والمراحل والصدارة المشتركة (Top 10)
+           نظام ألعاب (الألعاب / FOR FUN) والمراحل والصدارة من الشيت (AD, AE, AF)
            ========================================================================= */
         function switchGame(gameId) {
             document.querySelectorAll('.game-tab-btn').forEach(btn => btn.classList.remove('active'));
@@ -2578,7 +2580,6 @@
             if (gameId === 'wolf' && !wolfGameRunning) startWolfGame();
         }
 
-        // --- نظام حفظ ومعالجة اليوزر التلقائي والصدارة المشتركة (شيت + محلي) ---
         let pendingProgression = null;
 
         function recordGameProgression(gameName, lvl) {
@@ -2589,7 +2590,7 @@
                 document.getElementById('global-input-user').value = '';
                 document.getElementById('global-user-err').style.display = 'none';
             } else {
-                updateLeaderboardRecord(savedUserId, gameName, lvl);
+                sendRecordToSheet(savedUserId, gameName, lvl);
             }
         }
 
@@ -2614,7 +2615,7 @@
             closeGlobalUserModal();
 
             if (pendingProgression) {
-                updateLeaderboardRecord(val, pendingProgression.game, pendingProgression.lvl);
+                sendRecordToSheet(val, pendingProgression.game, pendingProgression.lvl);
                 pendingProgression = null;
             }
 
@@ -2627,25 +2628,7 @@
             document.getElementById('generic-user-modal').style.display = 'none';
         }
 
-        function updateLeaderboardRecord(userId, game, lvl) {
-            let raw = safeGetStorage('unified_game_leaderboard');
-            let list = [];
-            try { list = raw ? JSON.parse(raw) : []; } catch(e) { list = []; }
-
-            let existingIdx = list.findIndex(item => item.user.toLowerCase() === userId.toLowerCase());
-            if (existingIdx !== -1) {
-                if (lvl > list[existingIdx].lvl) {
-                    list[existingIdx].lvl = lvl;
-                    list[existingIdx].game = game;
-                }
-            } else {
-                list.push({ user: userId, lvl: lvl, game: game });
-            }
-
-            list.sort((a, b) => b.lvl - a.lvl);
-            safeSetStorage('unified_game_leaderboard', JSON.stringify(list));
-
-            // إرسال البيانات فورياً للشيت بدون إيقاف اللاعب
+        function sendRecordToSheet(userId, game, lvl) {
             try {
                 const formData = new URLSearchParams();
                 formData.append("user", userId);
@@ -2661,23 +2644,57 @@
             } catch(e) {}
         }
 
-        function getLeaderboardData() {
-            let defaultLeader = { user: "YYY", lvl: 50, game: "Wolf" };
-            let raw = safeGetStorage('unified_game_leaderboard');
-            let list = [];
-            try { list = raw ? JSON.parse(raw) : []; } catch(e) { list = []; }
-            
-            list = list.filter(item => item.user !== "YYY");
-            list.unshift(defaultLeader);
-            list.sort((a, b) => b.lvl - a.lvl);
-            return list.slice(0, 10);
+        // قراءة مباشرة من أعمدة الشيت (AD, AE, AF) مع الترتيب التلقائي حسب المستوى (Level)
+        async function fetchSheetLeaderboard() {
+            try {
+                const cacheBuster = Math.floor(Math.random() * 100000000);
+                const url = tourSheetURL.replace("gid=0", "sheet=Leaderboard&range=AD:AF") + "&_nocache=" + cacheBuster;
+                const res = await fetch(url, { cache: "no-store" });
+                if (!res.ok) return [];
+                const txt = await res.text();
+                if (txt.includes("<!DOCTYPE html>")) return [];
+
+                const rows = parseCSV(txt);
+                if (rows.length > 0) {
+                    let parsedList = [];
+                    for (let i = 0; i < rows.length; i++) {
+                        let u = rows[i][0] ? rows[i][0].trim() : "";
+                        let l = parseInt(rows[i][1] ? rows[i][1].trim() : "0", 10);
+                        let g = rows[i][2] ? rows[i][2].trim() : "Game";
+                        if (u && u.toLowerCase() !== "user" && !isNaN(l) && l > 0) {
+                            parsedList.push({ user: u, lvl: l, game: g });
+                        }
+                    }
+                    if (parsedList.length > 0) {
+                        let uniqueMap = {};
+                        parsedList.forEach(item => {
+                            let key = item.user.toLowerCase();
+                            if (!uniqueMap[key] || item.lvl > uniqueMap[key].lvl) {
+                                uniqueMap[key] = item;
+                            }
+                        });
+                        // ترتيب تلقائي حسب المستوى (Level) من الأعلى للأدنى
+                        let finalSorted = Object.values(uniqueMap).sort((a, b) => b.lvl - a.lvl);
+                        return finalSorted.slice(0, 10);
+                    }
+                }
+            } catch(e) {}
+            return [];
         }
 
-        function openSharedLeaderboard() {
-            const list = getLeaderboardData();
-            const container = document.getElementById('shared-lb-content');
-            let html = '';
+        async function openSharedLeaderboard() {
+            let container = document.getElementById('shared-lb-content');
+            container.innerHTML = `<div style="text-align:center; padding:15px; color:var(--text-muted); font-size:12px; font-weight:bold;">جاري جلب الصدارة من الشيت...</div>`;
+            document.getElementById('shared-lb-popup').style.display = 'flex';
 
+            let list = await fetchSheetLeaderboard();
+
+            if (!list || list.length === 0) {
+                container.innerHTML = `<div style="text-align:center; padding:15px; color:var(--text-muted); font-size:12px; font-weight:bold;">لا توجد أسماء مسجلة في الشيت حالياً.</div>`;
+                return;
+            }
+
+            let html = '';
             list.forEach((item, idx) => {
                 let badge = (idx === 0) ? '🥇' : ((idx === 1) ? '🥈' : ((idx === 2) ? '🥉' : `#${idx+1}`));
                 let topClass = (idx === 0) ? 'top-1' : ((idx === 1) ? 'top-2' : ((idx === 2) ? 'top-3' : ''));
@@ -2689,14 +2706,13 @@
                         </div>
                         <div style="display:flex; align-items:center; gap:6px;">
                             <span class="num-font" style="font-weight:900; color:#eab308; font-size:13px;">Lvl ${item.lvl}</span>
-                            <span style="font-size:11px; color:var(--text-muted); font-weight:700;">(${item.game})</span>
+                            <span style="font-size:11px; color:var(--text-muted); font-weight:700;">(${escapeHTML(item.game)})</span>
                         </div>
                     </div>
                 `;
             });
 
             container.innerHTML = html;
-            document.getElementById('shared-lb-popup').style.display = 'flex';
         }
 
         function closeSharedLeaderboard() {
@@ -2832,7 +2848,7 @@
             status.style.color = "inherit";
         }
 
-        // --- 2. لعبة الأفعى Snake 2.0 (نظام طابور حركة فوري لمنع أي بطء أو تجاهل) ---
+        // --- 2. لعبة الأفعى Snake 2.0 (استجابة فورية ونظام طابور أوامر دقيق) ---
         let snakeCanvas = document.getElementById('snakeCanvas');
         let snakeCtx = snakeCanvas ? snakeCanvas.getContext('2d') : null;
         let snakeGrid = 15;
@@ -2959,11 +2975,11 @@
                 let diffX = e.changedTouches[0].clientX - sTouchX;
                 let diffY = e.changedTouches[0].clientY - sTouchY;
                 if (Math.abs(diffX) > Math.abs(diffY)) {
-                    if (diffX > 20) handleSnakeDpad('RIGHT');
-                    else if (diffX < -20) handleSnakeDpad('LEFT');
+                    if (diffX > 15) handleSnakeDpad('RIGHT');
+                    else if (diffX < -15) handleSnakeDpad('LEFT');
                 } else {
-                    if (diffY > 20) handleSnakeDpad('DOWN');
-                    else if (diffY < -20) handleSnakeDpad('UP');
+                    if (diffY > 15) handleSnakeDpad('DOWN');
+                    else if (diffY < -15) handleSnakeDpad('UP');
                 }
             }, {passive: false});
         }
@@ -2982,7 +2998,7 @@
             }
         }
 
-        // --- 3. لعبة كاسر الطوب Breaker (منع تحريك وتمرير الصفحة نهائياً) ---
+        // --- 3. لعبة كاسر الطوب Breaker (قفل التمرير محصور حصراً داخل هذا الكانفاس فقط) ---
         let breakerCanvas = document.getElementById('breakerCanvas');
         let breakerCtx = breakerCanvas ? breakerCanvas.getContext('2d') : null;
         let breakerPaddle = { x: 120, width: 65, height: 8 };
@@ -3109,14 +3125,14 @@
                 breakerPaddle.x = Math.max(0, Math.min(300 - breakerPaddle.width, relativeX - breakerPaddle.width / 2));
             };
             breakerCanvas.addEventListener('touchmove', e => {
-                e.preventDefault();
+                e.preventDefault(); // يمنع تحريك المتصفح حصراً داخل المربع
                 if (e.touches.length > 0) movePaddle(e.touches[0].clientX);
             }, { passive: false });
             breakerCanvas.addEventListener('touchstart', e => e.preventDefault(), { passive: false });
             breakerCanvas.addEventListener('mousemove', e => movePaddle(e.clientX));
         }
 
-        // --- 4. لعبة مغامرة الذئب (كوينز بمكان آمن ومسافات متدرجة وسهلة بالبداية) ---
+        // --- 4. لعبة مغامرة الذئب (كوينز بمكان آمن ومسافات متوازنة) ---
         let wolfCanvas = document.getElementById('wolfCanvas');
         let wolfCtx = wolfCanvas ? wolfCanvas.getContext('2d') : null;
         let wolfGameRunning = false;
@@ -3304,7 +3320,7 @@
             }
             wolfObstacles = wolfObstacles.filter(ob => ob.x > -40);
 
-            // كوينز ذكية
+            // كوينز ذكية آمنة
             for (let coin of wolfCoins) {
                 coin.x -= wolfSpeed;
                 if (!coin.collected) {
