@@ -597,7 +597,7 @@
             z-index: 30;
         }
 
-        /* Leaderboard Modal System */
+        /* Leaderboard Modal System (Top 10) */
         .shared-leaderboard-popup {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100dvh;
@@ -612,17 +612,19 @@
         }
         .leaderboard-modal-card {
             width: 100%;
-            max-width: 360px;
+            max-width: 400px;
+            max-height: 80vh;
             padding: 25px 20px;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
+            overflow-y: auto;
         }
         .lb-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 14px;
+            padding: 8px 12px;
             border-radius: 10px;
             background: rgba(255,255,255,0.03);
             border: 1px solid var(--glass-border);
@@ -1096,17 +1098,15 @@
                 <!-- زر فتح لوحة الصدارة المنبثقة -->
                 <button type="button" class="leaderboard-toggle-btn" onclick="openSharedLeaderboard()">
                     <i class="fa-solid fa-trophy" style="color: #d4af37;"></i>
-                    <span data-i18n="btn_open_lb">لوحة الصدارة (Top 3)</span>
+                    <span data-i18n="btn_open_lb">لوحة الصدارة (Top 10)</span>
                 </button>
 
                 <!-- 1. لعبة X-O -->
                 <div id="game-card-xo" class="game-display-card glass-panel active-game">
                     <div class="game-header-bar">
+                        <span class="game-stats-pill num-font" id="xo-lvl">Lvl 1/50</span>
                         <span class="game-stats-pill num-font" id="xo-status" data-i18n="xo_turn_x">دورك (X)</span>
-                        <div style="display:flex; gap:8px;">
-                            <span class="game-stats-pill num-font"><i class="fa-solid fa-trophy" style="color:#f59e0b;"></i> <span id="xo-score">0 - 0</span></span>
-                            <button type="button" class="nav-btn" onclick="resetXOGame()" style="padding:4px 10px; background:rgba(255,255,255,0.05); border:1px solid var(--glass-border); border-radius:8px;"><i class="fa-solid fa-rotate-right"></i></button>
-                        </div>
+                        <button type="button" class="nav-btn" onclick="resetXOGame(true)" style="padding:4px 10px; background:rgba(255,255,255,0.05); border:1px solid var(--glass-border); border-radius:8px;"><i class="fa-solid fa-rotate-right"></i></button>
                     </div>
                     <div class="xo-board" id="xo-board">
                         <div class="xo-cell num-font" onclick="makeXOMove(0)"></div>
@@ -1121,11 +1121,11 @@
                     </div>
                 </div>
 
-                <!-- 2. لعبة الأفعى Snake 2.0 (أهدأ وأبطأ مع رسالة النهاية) -->
+                <!-- 2. لعبة الأفعى Snake 2.0 -->
                 <div id="game-card-snake" class="game-display-card glass-panel">
                     <div class="game-header-bar">
+                        <span class="game-stats-pill num-font" id="snake-lvl">Lvl 1/50</span>
                         <span class="game-stats-pill num-font"><i class="fa-solid fa-apple-whole" style="color:#ef4444;"></i> <span id="snake-score">0</span></span>
-                        <span class="game-stats-pill num-font"><i class="fa-solid fa-crown" style="color:#eab308;"></i> <span id="snake-best">0</span></span>
                         <button type="button" class="nav-btn" onclick="startSnakeGame()" style="padding:4px 10px; background:rgba(255,255,255,0.05); border:1px solid var(--glass-border); border-radius:8px;"><i class="fa-solid fa-rotate-right"></i></button>
                     </div>
                     <div class="game-canvas-container">
@@ -1143,13 +1143,9 @@
                 <!-- 3. لعبة كاسر الطوب Breaker -->
                 <div id="game-card-breaker" class="game-display-card glass-panel">
                     <div class="game-header-bar">
-                        <div style="display:flex; gap:6px;">
-                            <span class="game-stats-pill num-font"><i class="fa-solid fa-cubes" style="color:#38bdf8;"></i> <span id="breaker-score">0</span></span>
-                            <span class="game-stats-pill num-font"><i class="fa-solid fa-layer-group" style="color:#a855f7;"></i> <span id="breaker-lvl">Lvl 1</span></span>
-                        </div>
-                        <div style="display:flex; gap:6px;">
-                            <button type="button" class="nav-btn" onclick="startBreakerGame(true)" style="padding:4px 10px; background:rgba(255,255,255,0.05); border:1px solid var(--glass-border); border-radius:8px;" title="Reset"><i class="fa-solid fa-rotate-right"></i></button>
-                        </div>
+                        <span class="game-stats-pill num-font"><i class="fa-solid fa-layer-group" style="color:#a855f7;"></i> <span id="breaker-lvl">Lvl 1/50</span></span>
+                        <span class="game-stats-pill num-font"><i class="fa-solid fa-cubes" style="color:#38bdf8;"></i> <span id="breaker-score">0</span></span>
+                        <button type="button" class="nav-btn" onclick="startBreakerGame(true)" style="padding:4px 10px; background:rgba(255,255,255,0.05); border:1px solid var(--glass-border); border-radius:8px;" title="Reset"><i class="fa-solid fa-rotate-right"></i></button>
                     </div>
                     <div class="game-canvas-container">
                         <canvas id="breakerCanvas" class="game-canvas-canvas" width="300" height="300"></canvas>
@@ -1157,34 +1153,17 @@
                     </div>
                 </div>
 
-                <!-- 4. لعبة مغامرة الذئب (50 مرحلة مع التحقق وتوثيق الصدارة) -->
+                <!-- 4. لعبة مغامرة الذئب (مع كم باقي كوينز حتى تروح مرحلة ثانية) -->
                 <div id="game-card-wolf" class="game-display-card glass-panel">
                     <div class="game-header-bar">
-                        <div style="display:flex; gap:6px;">
-                            <span class="game-stats-pill num-font"><i class="fa-solid fa-coins" style="color:#eab308;"></i> <span id="wolf-score">0</span></span>
-                            <span class="game-stats-pill num-font"><i class="fa-solid fa-flag-checkered" style="color:#38bdf8;"></i> <span id="wolf-lvl">Lvl 1/50</span></span>
-                        </div>
+                        <span class="game-stats-pill num-font"><i class="fa-solid fa-flag-checkered" style="color:#38bdf8;"></i> <span id="wolf-lvl">Lvl 1/50</span></span>
+                        <span class="game-stats-pill num-font"><i class="fa-solid fa-coins" style="color:#eab308;"></i> <span id="wolf-needed">باقي: 5</span></span>
                         <span class="game-stats-pill num-font"><i class="fa-solid fa-heart" style="color:#ef4444;"></i> <span id="wolf-lives">3</span></span>
                         <button type="button" class="nav-btn" onclick="startWolfGame()" style="padding:4px 10px; background:rgba(255,255,255,0.05); border:1px solid var(--glass-border); border-radius:8px;"><i class="fa-solid fa-rotate-right"></i></button>
                     </div>
                     
                     <div class="game-canvas-container">
                         <canvas id="wolfCanvas" class="game-canvas-canvas" width="300" height="300" onclick="triggerWolfJump()"></canvas>
-                        
-                        <!-- نافذة تسجيل الصدارة المنبثقة بعد كل مرحلة أو نهاية جولة قياسية -->
-                        <div class="wolf-modal-backdrop" id="wolf-record-modal">
-                            <h3 style="font-size:1.15rem; font-weight:900; color:var(--primary); margin-bottom:4px;" id="wolf-modal-title">عبرت المرحلة! 🎉</h3>
-                            <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;" data-i18n="wolf_prompt">هل ترغب بتسجيل يوزرك في لوحة الشرف؟</p>
-                            
-                            <input type="text" id="wolf-input-user" class="bug-input num-font" placeholder="يوزرك في اللعبة" maxlength="12" dir="ltr" style="padding:8px 12px; font-size:14px; text-align:center; margin-bottom:4px;">
-                            <div id="wolf-user-err" class="input-error-msg" style="margin-bottom:8px; font-size:11px;"></div>
-                            
-                            <div style="display:flex; gap:8px; width:100%; max-width:240px;">
-                                <button type="button" class="submit-btn" style="height:35px; font-size:12px;" onclick="saveWolfLeader()" data-i18n="wolf_save">تسجيل</button>
-                                <button type="button" class="cancel-btn" style="height:35px; font-size:12px;" onclick="closeWolfModal()" data-i18n="wolf_skip">تخطي</button>
-                            </div>
-                        </div>
-
                         <span class="wolf-tap-hint"><i class="fa-solid fa-hand-pointer"></i> <span data-i18n="wolf_tap_jump">انقر على الشاشة أو زر المسافة (Space) للقفز</span></span>
                     </div>
                 </div>
@@ -1192,20 +1171,36 @@
             </div>
         </section>
 
-        <!-- نافذة لوحة الصدارة المنبثقة المشتركة (Top 3) -->
+        <!-- نافذة تسجيل اليوزر لمرة واحدة فقط لأي لعبة تعبر مرحلة -->
+        <div class="wolf-modal-backdrop" id="generic-user-modal" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100dvh; z-index: 3000;">
+            <div class="glass-panel" style="padding: 25px 20px; width: 90%; max-width: 320px; text-align: center;">
+                <h3 style="font-size:1.15rem; font-weight:900; color:var(--primary); margin-bottom:4px;">إنجاز جديد! 🎉</h3>
+                <p style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">سجّل يوزرك للمرة الأولى ليتم إضافتك للصدارة تلقائياً:</p>
+                
+                <input type="text" id="global-input-user" class="bug-input num-font" placeholder="Your ID" maxlength="12" dir="ltr" style="padding:8px 12px; font-size:14px; text-align:center; margin-bottom:4px;">
+                <div id="global-user-err" class="input-error-msg" style="margin-bottom:10px; font-size:11px;"></div>
+                
+                <div style="display:flex; gap:8px; width:100%;">
+                    <button type="button" class="submit-btn" style="height:36px; font-size:12px;" onclick="confirmGlobalUser()">حفظ</button>
+                    <button type="button" class="cancel-btn" style="height:36px; font-size:12px;" onclick="closeGlobalUserModal()">تخطي</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- نافذة لوحة الصدارة المنبثقة المشتركة (Top 10) -->
         <div class="shared-leaderboard-popup" id="shared-lb-popup" onclick="if(event.target === this) closeSharedLeaderboard()">
             <div class="leaderboard-modal-card glass-panel">
                 <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--glass-border); padding-bottom:10px;">
                     <div style="display:flex; align-items:center; gap:8px;">
-                        <i class="fa-solid fa-crown" style="color:#d4af37; font-size:18px;"></i>
+                        <i class="fa-solid fa-trophy" style="color:#d4af37; font-size:18px;"></i>
                         <h3 style="font-size:1.1rem; font-weight:900; margin:0;" data-i18n="lb_title">لوحة شرف الألعاب</h3>
                     </div>
                     <i class="fa-solid fa-xmark" style="cursor:pointer; font-size:18px; color:var(--text-muted);" onclick="closeSharedLeaderboard()"></i>
                 </div>
                 
-                <p style="font-size:11.5px; color:var(--text-muted); margin:0;" data-i18n="lb_desc">أعلى 3 متصدرين فقط (يحق لكل لاعب مركز واحد بأعلى إنجاز له):</p>
+                <p style="font-size:11.5px; color:var(--text-muted); margin:0;" data-i18n="lb_desc">أعلى 10 متصدرين (مركز واحد لكل يوزر بأعلى إنجاز):</p>
 
-                <div style="display:flex; flex-direction:column; gap:8px;" id="shared-lb-content"></div>
+                <div style="display:flex; flex-direction:column; gap:6px;" id="shared-lb-content"></div>
 
                 <button type="button" class="cancel-btn" onclick="closeSharedLeaderboard()" style="height:36px; margin-top:5px;" data-i18n="lb_close">إغلاق</button>
             </div>
@@ -1769,12 +1764,9 @@
                 xo_tie: "تعادل!",
                 breaker_drag: "اسحب المضرب لصد الكرة",
                 wolf_tap_jump: "انقر على الشاشة أو زر المسافة (Space) للقفز",
-                wolf_prompt: "هل ترغب بتسجيل يوزرك في لوحة الشرف؟",
-                wolf_save: "تسجيل",
-                wolf_skip: "تخطي",
-                btn_open_lb: "لوحة الصدارة (Top 3)",
+                btn_open_lb: "لوحة الصدارة (Top 10)",
                 lb_title: "لوحة شرف الألعاب",
-                lb_desc: "أعلى 3 متصدرين فقط (يحق لكل لاعب مركز واحد بأعلى إنجاز له):",
+                lb_desc: "أعلى 10 متصدرين (مركز واحد لكل يوزر بأعلى إنجاز):",
                 lb_close: "إغلاق",
                 snake_game_over: "انتهت اللعبة! انقر للبدء مجدداً"
             },
@@ -1853,12 +1845,9 @@
                 xo_tie: "Draw!",
                 breaker_drag: "Drag paddle to bounce",
                 wolf_tap_jump: "Tap screen or Space to jump",
-                wolf_prompt: "Would you like to register your ID on the leaderboard?",
-                wolf_save: "Register",
-                wolf_skip: "Skip",
-                btn_open_lb: "Leaderboard (Top 3)",
+                btn_open_lb: "Leaderboard (Top 10)",
                 lb_title: "Games Hall of Fame",
-                lb_desc: "Top 3 players only (One top rank per player):",
+                lb_desc: "Top 10 players (One top rank per player):",
                 lb_close: "Close",
                 snake_game_over: "Game Over! Try Again"
             }
@@ -2565,7 +2554,7 @@
         }
 
         /* =========================================================================
-           نظام ألعاب (الألعاب / FOR FUN) والمراحل والصدارة المشتركة
+           نظام ألعاب (الألعاب / FOR FUN) والمراحل والصدارة المشتركة (Top 10)
            ========================================================================= */
         function switchGame(gameId) {
             document.querySelectorAll('.game-tab-btn').forEach(btn => btn.classList.remove('active'));
@@ -2582,18 +2571,87 @@
             if (gameId === 'wolf' && !wolfGameRunning) startWolfGame();
         }
 
-        // --- نظام لوحة الصدارة المشتركة (Top 3 و YYY متصدر ثابت) ---
+        // --- نظام حفظ ومعالجة اليوزر التلقائي والصدارة المشتركة ---
+        let pendingProgression = null; // { game, lvl, score }
+
+        function recordGameProgression(gameName, lvl, score) {
+            let savedUserId = safeGetStorage('player_permanent_id');
+            if (!savedUserId) {
+                // المستخدم لم يسجل يوزره بعد -> إظهار نافذة التسجيل لمرة واحدة فقط
+                pendingProgression = { game: gameName, lvl: lvl, score: score };
+                document.getElementById('generic-user-modal').style.display = 'flex';
+                document.getElementById('global-input-user').value = '';
+                document.getElementById('global-user-err').style.display = 'none';
+            } else {
+                // مسجل مسبقاً -> تحديث فوري بالصدارة بصمت وسلاسة
+                updateLeaderboardRecord(savedUserId, gameName, lvl, score);
+            }
+        }
+
+        function confirmGlobalUser() {
+            const input = document.getElementById('global-input-user');
+            const err = document.getElementById('global-user-err');
+            const val = input.value.trim();
+            const isAr = document.documentElement.lang === 'ar';
+
+            if (val.length < 3 || val.length > 12) {
+                err.innerText = isAr ? "يجب أن يكون اليوزر بين 3 و 12 حرفاً" : "ID must be between 3 and 12 characters";
+                err.style.display = 'block';
+                return;
+            }
+            if (!/^[a-zA-Z0-9_]+$/.test(val)) {
+                err.innerText = isAr ? "يوزر غير صالح. استخدم A-Z و 0-9 و _ فقط" : "Invalid ID. Use A-Z, 0-9 and _ only";
+                err.style.display = 'block';
+                return;
+            }
+
+            safeSetStorage('player_permanent_id', val);
+            closeGlobalUserModal();
+
+            if (pendingProgression) {
+                updateLeaderboardRecord(val, pendingProgression.game, pendingProgression.lvl, pendingProgression.score);
+                pendingProgression = null;
+            }
+
+            const toast = document.getElementById("toast");
+            toast.innerHTML = isAr ? `<i class="fa-solid fa-check"></i> تم حفظ Your ID بنجاح!` : `<i class="fa-solid fa-check"></i> Your ID saved permanently!`;
+            toast.className = "show"; setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 2500);
+        }
+
+        function closeGlobalUserModal() {
+            document.getElementById('generic-user-modal').style.display = 'none';
+        }
+
+        function updateLeaderboardRecord(userId, game, lvl, score) {
+            let raw = safeGetStorage('unified_game_leaderboard');
+            let list = [];
+            try { list = raw ? JSON.parse(raw) : []; } catch(e) { list = []; }
+
+            let existingIdx = list.findIndex(item => item.user.toLowerCase() === userId.toLowerCase());
+            if (existingIdx !== -1) {
+                if (score > list[existingIdx].score) {
+                    list[existingIdx].score = score;
+                    list[existingIdx].lvl = lvl;
+                    list[existingIdx].game = game;
+                }
+            } else {
+                list.push({ user: userId, score: score, lvl: lvl, game: game });
+            }
+
+            list.sort((a, b) => b.score - a.score);
+            safeSetStorage('unified_game_leaderboard', JSON.stringify(list));
+        }
+
         function getLeaderboardData() {
             let defaultLeader = { user: "YYY", score: 5000, lvl: 50, game: "Wolf" };
             let raw = safeGetStorage('unified_game_leaderboard');
             let list = [];
             try { list = raw ? JSON.parse(raw) : []; } catch(e) { list = []; }
             
-            // التأكد من وجود YYY في المقدمة دائماً
             list = list.filter(item => item.user !== "YYY");
             list.unshift(defaultLeader);
             list.sort((a, b) => b.score - a.score);
-            return list.slice(0, 3);
+            return list.slice(0, 10); // أفضل 10 متصدرين
         }
 
         function openSharedLeaderboard() {
@@ -2602,17 +2660,17 @@
             let html = '';
 
             list.forEach((item, idx) => {
-                let badge = idx === 0 ? '🥇' : (idx === 1 ? '🥈' : '🥉');
-                let topClass = idx === 0 ? 'top-1' : (idx === 1 ? 'top-2' : 'top-3');
+                let badge = (idx === 0) ? '🥇' : ((idx === 1) ? '🥈' : ((idx === 2) ? '🥉' : `#${idx+1}`));
+                let topClass = (idx === 0) ? 'top-1' : ((idx === 1) ? 'top-2' : ((idx === 2) ? 'top-3' : ''));
                 html += `
                     <div class="lb-row ${topClass}">
                         <div style="display:flex; align-items:center; gap:8px;">
-                            <span style="font-size:16px;">${badge}</span>
-                            <span class="num-font" style="font-weight:900; font-size:14px;">${escapeHTML(item.user)}</span>
+                            <span style="font-size:14px; font-weight:bold; min-width:24px;">${badge}</span>
+                            <span class="num-font" style="font-weight:900; font-size:13.5px;">${escapeHTML(item.user)}</span>
                         </div>
                         <div style="display:flex; flex-direction:column; align-items:flex-end;">
                             <span class="num-font" style="font-weight:900; color:#eab308; font-size:13px;">${item.score} pts</span>
-                            <span style="font-size:10px; color:var(--text-muted); font-weight:700;">Lvl ${item.lvl} (${item.game})</span>
+                            <span style="font-size:9.5px; color:var(--text-muted); font-weight:700;">Lvl ${item.lvl} (${item.game})</span>
                         </div>
                     </div>
                 `;
@@ -2626,16 +2684,18 @@
             document.getElementById('shared-lb-popup').style.display = 'none';
         }
 
-        // --- 1. لعبة X-O ---
+        // --- 1. لعبة X-O (50 مرحلة كاملة) ---
         let xoBoardState = ["", "", "", "", "", "", "", "", ""];
         let xoPlayerTurn = "X";
         let xoGameActive = true;
-        let xoScores = { user: 0, ai: 0 };
+        let xoLevel = safeGetStorage('xo_lvl') ? parseInt(safeGetStorage('xo_lvl')) : 1;
         const winCombinations = [
             [0, 1, 2], [3, 4, 5], [6, 7, 8],
             [0, 3, 6], [1, 4, 7], [2, 5, 8],
             [0, 4, 8], [2, 4, 6]
         ];
+
+        document.getElementById('xo-lvl').innerText = `Lvl ${xoLevel}/50`;
 
         function makeXOMove(index) {
             if (!xoGameActive || xoBoardState[index] !== "" || xoPlayerTurn !== "X") return;
@@ -2693,18 +2753,20 @@
             const status = document.getElementById('xo-status');
             
             if (result === 'win') {
+                if (xoLevel < 50) xoLevel++;
+                safeSetStorage('xo_lvl', xoLevel.toString());
+                document.getElementById('xo-lvl').innerText = `Lvl ${xoLevel}/50`;
                 status.innerText = translations[lang].xo_win_x;
                 status.style.color = "#10b981";
-                xoScores.user++;
+
+                recordGameProgression("XO", xoLevel, xoLevel * 40);
             } else if (result === 'lose') {
                 status.innerText = translations[lang].xo_win_o;
                 status.style.color = "#ef4444";
-                xoScores.ai++;
             } else {
                 status.innerText = translations[lang].xo_tie;
                 status.style.color = "var(--text-muted)";
             }
-            document.getElementById('xo-score').innerText = `${xoScores.user} - ${xoScores.ai}`;
         }
 
         function getBestAIMove() {
@@ -2731,7 +2793,12 @@
             return empty[Math.floor(Math.random() * empty.length)];
         }
 
-        function resetXOGame() {
+        function resetXOGame(force = false) {
+            if(force) {
+                xoLevel = 1;
+                safeSetStorage('xo_lvl', '1');
+                document.getElementById('xo-lvl').innerText = `Lvl 1/50`;
+            }
             xoBoardState = ["", "", "", "", "", "", "", "", ""];
             xoPlayerTurn = "X";
             xoGameActive = true;
@@ -2746,7 +2813,7 @@
             status.style.color = "inherit";
         }
 
-        // --- 2. لعبة الأفعى Snake 2.0 (سرعة أخف ومريحة مع رسائل لغوية واضحة) ---
+        // --- 2. لعبة الأفعى Snake 2.0 (50 مرحلة) ---
         let snakeCanvas = document.getElementById('snakeCanvas');
         let snakeCtx = snakeCanvas ? snakeCanvas.getContext('2d') : null;
         let snakeGrid = 15;
@@ -2755,11 +2822,11 @@
         let snakeNextDir = {x: 15, y: 0};
         let snakeFood = {x: 60, y: 60};
         let snakeScore = 0;
-        let snakeBest = safeGetStorage('snake_best') || 0;
+        let snakeLevel = safeGetStorage('snake_lvl') ? parseInt(safeGetStorage('snake_lvl')) : 1;
         let snakeInterval = null;
         let snakeGameRunning = false;
 
-        document.getElementById('snake-best').innerText = snakeBest;
+        document.getElementById('snake-lvl').innerText = `Lvl ${snakeLevel}/50`;
 
         function startSnakeGame() {
             if (snakeInterval) clearInterval(snakeInterval);
@@ -2770,8 +2837,8 @@
             document.getElementById('snake-score').innerText = '0';
             placeSnakeFood();
             snakeGameRunning = true;
-            // تم تخفيف السرعة من 100ms إلى 145ms لتكون خفيفة وممتعة
-            snakeInterval = setInterval(updateSnakeGame, 145);
+            let speed = Math.max(80, 150 - (snakeLevel * 1.4));
+            snakeInterval = setInterval(updateSnakeGame, speed);
         }
 
         function placeSnakeFood() {
@@ -2795,11 +2862,15 @@
             if (head.x === snakeFood.x && head.y === snakeFood.y) {
                 snakeScore++;
                 document.getElementById('snake-score').innerText = snakeScore;
-                if (snakeScore > snakeBest) {
-                    snakeBest = snakeScore;
-                    safeSetStorage('snake_best', snakeBest);
-                    document.getElementById('snake-best').innerText = snakeBest;
+                
+                // الانتقال لمرحلة ثانية عند جمع 5 أطعمة في المستوى
+                if (snakeScore % 5 === 0 && snakeLevel < 50) {
+                    snakeLevel++;
+                    safeSetStorage('snake_lvl', snakeLevel.toString());
+                    document.getElementById('snake-lvl').innerText = `Lvl ${snakeLevel}/50`;
+                    recordGameProgression("Snake", snakeLevel, snakeLevel * 60 + snakeScore);
                 }
+
                 placeSnakeFood();
             } else {
                 snake.pop();
@@ -2886,7 +2957,7 @@
             }
         }
 
-        // --- 3. لعبة كاسر الطوب Breaker ---
+        // --- 3. لعبة كاسر الطوب Breaker (50 مرحلة) ---
         let breakerCanvas = document.getElementById('breakerCanvas');
         let breakerCtx = breakerCanvas ? breakerCanvas.getContext('2d') : null;
         let breakerPaddle = { x: 120, width: 65, height: 8 };
@@ -2898,11 +2969,11 @@
         let breakerGameRunning = false;
 
         document.getElementById('breaker-score').innerText = breakerScore;
-        document.getElementById('breaker-lvl').innerText = `Lvl ${breakerLevel}`;
+        document.getElementById('breaker-lvl').innerText = `Lvl ${breakerLevel}/50`;
 
         function initBreakerBricks(lvl) {
             breakerBricks = [];
-            const rows = Math.min(3 + lvl, 6);
+            const rows = Math.min(3 + Math.floor(lvl / 10), 6);
             const cols = 5;
             const brickW = 50, brickH = 12, pad = 8, offsetTop = 25, offsetLeft = 8;
             for (let r = 0; r < rows; r++) {
@@ -2924,14 +2995,14 @@
                 safeSetStorage('breaker_lvl', '1');
             }
             document.getElementById('breaker-score').innerText = breakerScore;
-            document.getElementById('breaker-lvl').innerText = `Lvl ${breakerLevel}`;
+            document.getElementById('breaker-lvl').innerText = `Lvl ${breakerLevel}/50`;
 
             if (breakerAnimId) cancelAnimationFrame(breakerAnimId);
             initBreakerBricks(breakerLevel);
             breakerPaddle.x = 120;
             breakerBall.x = 150;
             breakerBall.y = 220;
-            let speed = 2.4 + (breakerLevel * 0.2);
+            let speed = Math.min(5.5, 2.4 + (breakerLevel * 0.08));
             breakerBall.dx = (Math.random() > 0.5 ? speed : -speed);
             breakerBall.dy = -speed;
             breakerGameRunning = true;
@@ -2963,9 +3034,10 @@
             });
 
             if (remainingBricks === 0) {
-                breakerLevel++;
+                if (breakerLevel < 50) breakerLevel++;
                 safeSetStorage('breaker_lvl', breakerLevel.toString());
-                document.getElementById('breaker-lvl').innerText = `Lvl ${breakerLevel}`;
+                document.getElementById('breaker-lvl').innerText = `Lvl ${breakerLevel}/50`;
+                recordGameProgression("Breaker", breakerLevel, breakerScore);
                 startBreakerGame(false);
                 return;
             }
@@ -3017,7 +3089,7 @@
             breakerCanvas.addEventListener('mousemove', e => movePaddle(e.clientX));
         }
 
-        // --- 4. لعبة مغامرة الذئب (50 مرحلة، أشكال متعددة وتوثيق صدارة ذكي) ---
+        // --- 4. لعبة مغامرة الذئب (نظام الكوينز المتبقية و 50 مرحلة) ---
         let wolfCanvas = document.getElementById('wolfCanvas');
         let wolfCtx = wolfCanvas ? wolfCanvas.getContext('2d') : null;
         let wolfGameRunning = false;
@@ -3026,38 +3098,40 @@
         let wolf = { x: 35, y: 220, w: 28, h: 28, vy: 0, grounded: true };
         let wolfObstacles = [];
         let wolfCoins = [];
-        let wolfScore = 0;
         let wolfLives = 3;
         let wolfLevel = 1;
-        let wolfDistance = 0;
+        let wolfCoinsNeeded = 5; // كوينز متبقية للمرحلة الحالية
         let wolfSpeed = 3.0;
 
         function startWolfGame() {
-            closeWolfModal();
             if (wolfAnimId) cancelAnimationFrame(wolfAnimId);
             wolf.y = 220;
             wolf.vy = 0;
             wolf.grounded = true;
-            wolfScore = 0;
             wolfLives = 3;
-            wolfLevel = 1;
-            wolfDistance = 0;
-            wolfSpeed = 3.0;
+            wolfCoinsNeeded = 5;
+            wolfSpeed = 3.0 + (wolfLevel * 0.05);
             wolfObstacles = [{ x: 320, w: 18, h: 26, type: 0 }];
             wolfCoins = [{ x: 230, y: 190, collected: false }];
             
-            document.getElementById('wolf-score').innerText = '0';
             document.getElementById('wolf-lives').innerText = '3';
-            document.getElementById('wolf-lvl').innerText = 'Lvl 1/50';
+            document.getElementById('wolf-lvl').innerText = `Lvl ${wolfLevel}/50`;
+            updateWolfCoinsNeededUI();
+
             wolfGameRunning = true;
             updateWolfGame();
+        }
+
+        function updateWolfCoinsNeededUI() {
+            const isAr = document.documentElement.lang === 'ar';
+            document.getElementById('wolf-needed').innerText = isAr ? `باقي: ${wolfCoinsNeeded}` : `Left: ${wolfCoinsNeeded}`;
         }
 
         function triggerWolfJump() {
             if (wolf.grounded && wolfGameRunning) {
                 wolf.vy = -8.8;
                 wolf.grounded = false;
-            } else if (!wolfGameRunning && document.getElementById('wolf-record-modal').style.display !== 'flex') {
+            } else if (!wolfGameRunning) {
                 startWolfGame();
             }
         }
@@ -3069,82 +3143,27 @@
             }
         });
 
-        function checkLevelProgression() {
-            wolfDistance += 1;
-            // كل 400 مسافة يتقدم مرحلة حتى مرحلة 50
-            if (wolfDistance % 400 === 0 && wolfLevel < 50) {
-                wolfLevel++;
-                document.getElementById('wolf-lvl').innerText = `Lvl ${wolfLevel}/50`;
-                wolfSpeed = Math.min(6.5, 3.0 + (wolfLevel * 0.08)); // زيادة متوازنة للسرعة
-                
-                // إظهار خيار التسجيل بالصدارة بعد تجاوز كل مرحلة
-                wolfGameRunning = false;
-                const lang = document.documentElement.lang === 'ar';
-                document.getElementById('wolf-modal-title').innerText = lang ? `أنهيت المرحلة ${wolfLevel-1}! 🎉` : `Level ${wolfLevel-1} Complete! 🎉`;
-                document.getElementById('wolf-record-modal').style.display = 'flex';
-                document.getElementById('wolf-input-user').value = '';
-                document.getElementById('wolf-user-err').style.display = 'none';
-            }
-        }
+        function completeWolfLevel() {
+            if (wolfLevel < 50) wolfLevel++;
+            wolfCoinsNeeded = 5 + Math.min(10, Math.floor(wolfLevel / 5)); // متطلبات متدرجة لكل مستوى
+            wolfSpeed = Math.min(6.5, 3.0 + (wolfLevel * 0.07));
+            document.getElementById('wolf-lvl').innerText = `Lvl ${wolfLevel}/50`;
+            updateWolfCoinsNeededUI();
 
-        function closeWolfModal() {
-            document.getElementById('wolf-record-modal').style.display = 'none';
-            if(wolfLives > 0 && !wolfGameRunning) {
-                wolfGameRunning = true;
-                updateWolfGame();
-            }
-        }
-
-        function saveWolfLeader() {
-            const input = document.getElementById('wolf-input-user');
-            const err = document.getElementById('wolf-user-err');
-            const val = input.value.trim();
+            // تنبيه فوري بالعبور وتوثيق الصدارة تلقائياً
             const isAr = document.documentElement.lang === 'ar';
-
-            if (val.length < 3 || val.length > 12) {
-                err.innerText = isAr ? "يجب أن يكون اليوزر بين 3 و 12 حرفاً" : "ID must be between 3 and 12 characters";
-                err.style.display = 'block';
-                return;
-            }
-            if (!/^[a-zA-Z0-9_]+$/.test(val)) {
-                err.innerText = isAr ? "يوزر غير صالح. استخدم A-Z و 0-9 و _ فقط" : "Invalid ID. Use A-Z, 0-9 and _ only";
-                err.style.display = 'block';
-                return;
-            }
-
-            let raw = safeGetStorage('unified_game_leaderboard');
-            let list = [];
-            try { list = raw ? JSON.parse(raw) : []; } catch(e) { list = []; }
-
-            // الترتيب الذكي: إذا كان اليوزر مسجلاً سابقاً نأخذ أعلى سكور فقط له
-            let existingIdx = list.findIndex(item => item.user.toLowerCase() === val.toLowerCase());
-            if (existingIdx !== -1) {
-                if (wolfScore > list[existingIdx].score) {
-                    list[existingIdx].score = wolfScore;
-                    list[existingIdx].lvl = wolfLevel;
-                    list[existingIdx].game = "Wolf";
-                }
-            } else {
-                list.push({ user: val, score: wolfScore, lvl: wolfLevel, game: "Wolf" });
-            }
-
-            list.sort((a, b) => b.score - a.score);
-            safeSetStorage('unified_game_leaderboard', JSON.stringify(list));
-
-            closeWolfModal();
-
             const toast = document.getElementById("toast");
-            toast.innerHTML = isAr ? `<i class="fa-solid fa-check"></i> تم تسجيل إنجازك بنجاح!` : `<i class="fa-solid fa-check"></i> Registered successfully!`;
-            toast.className = "show"; setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 2500);
+            toast.innerHTML = isAr ? `<i class="fa-solid fa-flag-checkered"></i> عبرت للمرحلة ${wolfLevel}!` : `<i class="fa-solid fa-flag-checkered"></i> Advanced to Level ${wolfLevel}!`;
+            toast.className = "show"; setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 2000);
+
+            recordGameProgression("Wolf", wolfLevel, wolfLevel * 100);
         }
 
         function updateWolfGame() {
             if (!wolfGameRunning || !wolfCtx) return;
 
             wolfCtx.clearRect(0, 0, 300, 300);
-            checkLevelProgression();
 
-            // لون خلفية نيون وأرضية تتغير طفيفاً حسب تقدم المراحل
             let floorHue = (wolfLevel * 7) % 360;
             wolfCtx.strokeStyle = `hsla(${floorHue}, 70%, 65%, 0.4)`;
             wolfCtx.lineWidth = 2;
@@ -3162,7 +3181,7 @@
                 wolf.grounded = true;
             }
 
-            // رسم بطل الذئب
+            // رسم الذئب
             wolfCtx.save();
             wolfCtx.fillStyle = '#e2e8f0';
             wolfCtx.shadowColor = '#60a5fa';
@@ -3190,14 +3209,13 @@
             wolfCtx.fill();
             wolfCtx.restore();
 
-            // أشكال العقبات المتنوعة حسب المرحلة (عقبات كريستال، أشواك، كتل ليزر)
+            // عقبات
             for (let i = 0; i < wolfObstacles.length; i++) {
                 let ob = wolfObstacles[i];
                 ob.x -= wolfSpeed;
 
                 wolfCtx.save();
                 if (ob.type === 1) {
-                    // شوك حاد
                     wolfCtx.fillStyle = '#f43f5e';
                     wolfCtx.shadowColor = '#f43f5e';
                     wolfCtx.shadowBlur = 8;
@@ -3207,7 +3225,6 @@
                     wolfCtx.lineTo(ob.x + ob.w, 248);
                     wolfCtx.fill();
                 } else if (ob.type === 2) {
-                    // كتلة طاقة ليزرية
                     wolfCtx.fillStyle = '#a855f7';
                     wolfCtx.shadowColor = '#a855f7';
                     wolfCtx.shadowBlur = 10;
@@ -3215,7 +3232,6 @@
                     wolfCtx.roundRect(ob.x, 248 - ob.h, ob.w, ob.h, 6);
                     wolfCtx.fill();
                 } else {
-                    // كلاسيك
                     wolfCtx.fillStyle = '#ef4444';
                     wolfCtx.shadowColor = '#ef4444';
                     wolfCtx.shadowBlur = 8;
@@ -3225,7 +3241,6 @@
                 }
                 wolfCtx.restore();
 
-                // اصطدام
                 if (wolf.x + wolf.w > ob.x && wolf.x < ob.x + ob.w && wolf.y + wolf.h > 248 - ob.h) {
                     wolfLives--;
                     document.getElementById('wolf-lives').innerText = wolfLives;
@@ -3238,10 +3253,7 @@
                         const lang = document.documentElement.lang === 'ar';
                         wolfCtx.font = lang ? '900 16px Cairo, sans-serif' : '900 16px Rajdhani, sans-serif';
                         wolfCtx.textAlign = 'center';
-                        wolfCtx.fillText(lang ? "سقط الذئب! انقر للبدء مجدداً" : "Game Over! Tap to retry", 150, 150);
-                        
-                        document.getElementById('wolf-modal-title').innerText = lang ? "انتهت الجولة!" : "Round Over!";
-                        document.getElementById('wolf-record-modal').style.display = 'flex';
+                        wolfCtx.fillText(lang ? "سقط الذئب! انقر لإعادة المحاولة" : "Fell! Tap to Retry", 150, 150);
                         return;
                     }
                 }
@@ -3258,7 +3270,7 @@
             }
             wolfObstacles = wolfObstacles.filter(ob => ob.x > -40);
 
-            // كوينز
+            // كوينز المطلوب أكلها
             for (let coin of wolfCoins) {
                 coin.x -= wolfSpeed;
                 if (!coin.collected) {
@@ -3272,8 +3284,12 @@
 
                     if (wolf.x + wolf.w > coin.x - 6 && wolf.x < coin.x + 6 && wolf.y < coin.y + 6 && wolf.y + wolf.h > coin.y - 6) {
                         coin.collected = true;
-                        wolfScore += 10;
-                        document.getElementById('wolf-score').innerText = wolfScore;
+                        wolfCoinsNeeded--;
+                        updateWolfCoinsNeededUI();
+
+                        if (wolfCoinsNeeded <= 0) {
+                            completeWolfLevel();
+                        }
                     }
                 }
             }
