@@ -358,7 +358,7 @@
         [data-theme="light"] .calc-input-wrapper input::placeholder { color: rgba(0,0,0,0.4); }
 
         /* =========================================================
-           ستايلات سكشن الألعاب الحديث (For Fun Games Styles)
+           ستايلات سكشن FOR FUN المحدثة بالكامل
            ========================================================= */
         .games-hub-wrapper {
             width: 100%;
@@ -373,7 +373,7 @@
             gap: 8px;
             overflow-x: auto;
             scrollbar-width: none;
-            padding: 4px;
+            padding: 5px;
             background: rgba(0, 0, 0, 0.3);
             border-radius: 14px;
             border: 1px solid var(--glass-border);
@@ -384,7 +384,7 @@
         .game-tab-btn {
             flex: 1;
             min-width: 110px;
-            padding: 10px 12px;
+            padding: 10px 14px;
             border-radius: 10px;
             border: 1px solid transparent;
             background: transparent;
@@ -400,7 +400,6 @@
             gap: 8px;
             white-space: nowrap;
         }
-        .game-tab-btn i { font-size: 15px; }
         .game-tab-btn.active {
             background: var(--bg-card);
             color: var(--primary);
@@ -440,14 +439,14 @@
             gap: 8px;
             font-size: 13px;
             font-weight: 800;
-            padding: 5px 12px;
+            padding: 6px 14px;
             border-radius: 20px;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid var(--glass-border);
         }
         [data-theme="light"] .game-stats-pill { background: rgba(0,0,0,0.04); }
 
-        /* XO Game Styling */
+        /* XO Styling */
         .xo-board {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -482,7 +481,7 @@
             animation: pulse-ring 1s infinite;
         }
 
-        /* Snake & Breaker Canvas Styling */
+        /* Generic Canvas Container */
         .game-canvas-container {
             position: relative;
             width: 100%;
@@ -493,7 +492,7 @@
             justify-content: center;
         }
         .game-canvas-canvas {
-            background: rgba(0, 0, 0, 0.45);
+            background: rgba(0, 0, 0, 0.5);
             border: 1px solid var(--glass-border);
             border-radius: 14px;
             box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.6);
@@ -502,56 +501,62 @@
             height: 300px;
         }
         [data-theme="light"] .game-canvas-canvas {
-            background: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.6);
             box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
         }
 
-        .snake-dpad {
-            display: grid;
-            grid-template-columns: repeat(3, 48px);
-            grid-template-rows: repeat(2, 44px);
-            gap: 6px;
+        /* Snake Modern Futuristic Controller */
+        .modern-controller-pad {
+            position: relative;
+            width: 140px;
+            height: 140px;
             margin-top: 15px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 50%;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
             justify-content: center;
         }
-        .dpad-btn {
+        .modern-pad-btn {
+            position: absolute;
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
             background: var(--bg-card);
             border: 1px solid var(--glass-border);
-            border-radius: 10px;
             color: var(--text-main);
-            font-size: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 15px;
             cursor: pointer;
-            transition: 0.15s;
+            transition: all 0.15s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
-        .dpad-btn:active {
+        .modern-pad-btn:active {
             background: var(--primary);
             color: var(--bg-main);
-            transform: scale(0.92);
+            transform: scale(0.9);
+            box-shadow: 0 0 15px var(--btn-active-glow);
         }
+        .pad-btn-up { top: 4px; left: 49px; }
+        .pad-btn-down { bottom: 4px; left: 49px; }
+        .pad-btn-left { left: 4px; top: 49px; }
+        .pad-btn-right { right: 4px; top: 49px; }
+        .pad-center-core { width: 22px; height: 22px; border-radius: 50%; background: var(--glass-border); }
 
-        /* Reflex Game */
-        .reflex-box {
-            width: 100%;
-            max-width: 310px;
-            height: 250px;
-            border-radius: 16px;
-            border: 2px dashed var(--glass-border);
+        /* Wolf Platformer UI */
+        .wolf-tap-hint {
+            margin-top: 12px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-muted);
             display: flex;
-            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            gap: 12px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            margin: 15px auto;
-            text-align: center;
-            padding: 20px;
+            gap: 6px;
         }
-        .reflex-box.waiting { background: rgba(239, 68, 68, 0.15); border-color: #ef4444; }
-        .reflex-box.ready { background: rgba(16, 185, 129, 0.25); border-color: #10b981; box-shadow: 0 0 30px rgba(16, 185, 129, 0.3); }
 
         @media (max-width: 600px) {
             .main-lang-switch { margin-top: calc(85px + env(safe-area-inset-top)); margin-bottom: 10px; } 
@@ -589,7 +594,7 @@
             .brand-header { gap: 3px; }
 
             .game-tabs-selector { justify-content: flex-start; }
-            .game-tab-btn { min-width: 95px; font-size: 12.5px; padding: 8px 10px; }
+            .game-tab-btn { min-width: 95px; font-size: 12px; padding: 8px 10px; }
         }
     </style>
 </head>
@@ -993,19 +998,8 @@
 
         <div class="cyber-divider"><div class="center-node"></div></div>
 
-        <!-- قسم النصائح -->
-        <section id="daily-tips">
-            <h2 class="section-title" data-i18n="tips_title">نصائح</h2>
-            <div class="glass-panel" style="width: 100%; max-width: 750px; padding: 30px; border-radius: 16px; text-align: center; position: relative;">
-                <i class="fa-solid fa-quote-right" style="position: absolute; top: 15px; right: 20px; font-size: 25px; color: var(--glass-border);"></i>
-                <p id="tip-content" class="glass-desc-text" style="font-weight: 700; font-size: 1.1rem; line-height: 1.8; margin-top: 10px;" data-i18n="tips_loading">جاري تحميل النصيحة...</p>
-            </div>
-        </section>
-
-        <div class="cyber-divider"><div class="center-node"></div></div>
-
         <!-- ==============================================
-             قسم For Fun (ألعاب ترفيهية خفيفة)
+             قسم For Fun (أصبح الآن فوق النصائح مباشرة)
              ============================================== -->
         <section id="for-fun">
             <h2 class="section-title num-font" data-i18n="fun_title">FOR FUN</h2>
@@ -1017,13 +1011,13 @@
                         <i class="fa-solid fa-xmark"></i> <span data-i18n="game_xo">تيك تاك تو</span>
                     </button>
                     <button type="button" class="game-tab-btn" onclick="switchGame('snake')">
-                        <i class="fa-solid fa-staff-snake"></i> <span data-i18n="game_snake">الثعبان</span>
+                        <i class="fa-solid fa-staff-snake"></i> <span data-i18n="game_snake">الأفعى</span>
                     </button>
                     <button type="button" class="game-tab-btn" onclick="switchGame('breaker')">
                         <i class="fa-solid fa-shield-cat"></i> <span data-i18n="game_breaker">كاسر الطوب</span>
                     </button>
-                    <button type="button" class="game-tab-btn" onclick="switchGame('reflex')">
-                        <i class="fa-solid fa-bolt"></i> <span data-i18n="game_reflex">سرعة الرد</span>
+                    <button type="button" class="game-tab-btn" onclick="switchGame('wolf')">
+                        <i class="fa-solid fa-paw"></i> <span data-i18n="game_wolf">مغامرة الذئب</span>
                     </button>
                 </div>
 
@@ -1049,51 +1043,67 @@
                     </div>
                 </div>
 
-                <!-- 2. لعبة الأفعى Snake -->
+                <!-- 2. لعبة الأفعى Snake 2.0 الحديثة -->
                 <div id="game-card-snake" class="game-display-card glass-panel">
                     <div class="game-header-bar">
                         <span class="game-stats-pill num-font"><i class="fa-solid fa-apple-whole" style="color:#ef4444;"></i> <span id="snake-score">0</span></span>
                         <span class="game-stats-pill num-font"><i class="fa-solid fa-crown" style="color:#eab308;"></i> <span id="snake-best">0</span></span>
-                        <button type="button" class="nav-btn" onclick="startSnakeGame()" style="padding:4px 10px; background:rgba(255,255,255,0.05); border:1px solid var(--glass-border); border-radius:8px;"><i class="fa-solid fa-play"></i></button>
+                        <button type="button" class="nav-btn" onclick="startSnakeGame()" style="padding:4px 10px; background:rgba(255,255,255,0.05); border:1px solid var(--glass-border); border-radius:8px;"><i class="fa-solid fa-rotate-right"></i></button>
                     </div>
                     <div class="game-canvas-container">
                         <canvas id="snakeCanvas" class="game-canvas-canvas" width="300" height="300"></canvas>
-                        <!-- D-Pad للموبايل -->
-                        <div class="snake-dpad">
-                            <div></div>
-                            <button type="button" class="dpad-btn" onclick="handleSnakeDpad('UP')"><i class="fa-solid fa-chevron-up"></i></button>
-                            <div></div>
-                            <button type="button" class="dpad-btn" onclick="handleSnakeDpad('LEFT')"><i class="fa-solid fa-chevron-left"></i></button>
-                            <button type="button" class="dpad-btn" onclick="handleSnakeDpad('DOWN')"><i class="fa-solid fa-chevron-down"></i></button>
-                            <button type="button" class="dpad-btn" onclick="handleSnakeDpad('RIGHT')"><i class="fa-solid fa-chevron-right"></i></button>
+                        <!-- يد التحكم الدائرية الحديثة (Futuristic D-Pad) -->
+                        <div class="modern-controller-pad">
+                            <div class="pad-center-core"></div>
+                            <button type="button" class="modern-pad-btn pad-btn-up" onclick="handleSnakeDpad('UP')"><i class="fa-solid fa-chevron-up"></i></button>
+                            <button type="button" class="modern-pad-btn pad-btn-down" onclick="handleSnakeDpad('DOWN')"><i class="fa-solid fa-chevron-down"></i></button>
+                            <button type="button" class="modern-pad-btn pad-btn-left" onclick="handleSnakeDpad('LEFT')"><i class="fa-solid fa-chevron-left"></i></button>
+                            <button type="button" class="modern-pad-btn pad-btn-right" onclick="handleSnakeDpad('RIGHT')"><i class="fa-solid fa-chevron-right"></i></button>
                         </div>
                     </div>
                 </div>
 
-                <!-- 3. لعبة كاسر الطوب Breaker -->
+                <!-- 3. لعبة كاسر الطوب Breaker (نظام مستويات تصاعدي وتراكمي) -->
                 <div id="game-card-breaker" class="game-display-card glass-panel">
                     <div class="game-header-bar">
-                        <span class="game-stats-pill num-font"><i class="fa-solid fa-cubes" style="color:#38bdf8;"></i> <span id="breaker-score">0</span></span>
-                        <span class="game-stats-pill num-font" id="breaker-status" data-i18n="breaker_drag">اسحب للتحكم</span>
-                        <button type="button" class="nav-btn" onclick="startBreakerGame()" style="padding:4px 10px; background:rgba(255,255,255,0.05); border:1px solid var(--glass-border); border-radius:8px;"><i class="fa-solid fa-rotate-right"></i></button>
+                        <div style="display:flex; gap:6px;">
+                            <span class="game-stats-pill num-font"><i class="fa-solid fa-cubes" style="color:#38bdf8;"></i> <span id="breaker-score">0</span></span>
+                            <span class="game-stats-pill num-font"><i class="fa-solid fa-layer-group" style="color:#a855f7;"></i> <span id="breaker-lvl">Lvl 1</span></span>
+                        </div>
+                        <div style="display:flex; gap:6px;">
+                            <button type="button" class="nav-btn" onclick="startBreakerGame(true)" style="padding:4px 10px; background:rgba(255,255,255,0.05); border:1px solid var(--glass-border); border-radius:8px;" title="Reset"><i class="fa-solid fa-rotate-right"></i></button>
+                        </div>
                     </div>
                     <div class="game-canvas-container">
                         <canvas id="breakerCanvas" class="game-canvas-canvas" width="300" height="300"></canvas>
+                        <span class="wolf-tap-hint"><i class="fa-solid fa-arrows-left-right"></i> <span data-i18n="breaker_drag">اسحب المضرب لصد الكرة</span></span>
                     </div>
                 </div>
 
-                <!-- 4. لعبة سرعة الرد Reflex -->
-                <div id="game-card-reflex" class="game-display-card glass-panel">
+                <!-- 4. لعبة مغامرة الذئب (Wolf Mario Platformer) -->
+                <div id="game-card-wolf" class="game-display-card glass-panel">
                     <div class="game-header-bar">
-                        <span class="game-stats-pill num-font"><i class="fa-solid fa-stopwatch" style="color:#10b981;"></i> <span id="reflex-best">-- ms</span></span>
-                        <span class="game-stats-pill num-font" data-i18n="reflex_hint">انقر بالوقت المناسب</span>
+                        <span class="game-stats-pill num-font"><i class="fa-solid fa-coins" style="color:#eab308;"></i> <span id="wolf-score">0</span></span>
+                        <span class="game-stats-pill num-font"><i class="fa-solid fa-heart" style="color:#ef4444;"></i> <span id="wolf-lives">3</span></span>
+                        <button type="button" class="nav-btn" onclick="startWolfGame()" style="padding:4px 10px; background:rgba(255,255,255,0.05); border:1px solid var(--glass-border); border-radius:8px;"><i class="fa-solid fa-rotate-right"></i></button>
                     </div>
-                    <div class="reflex-box" id="reflexArea" onclick="handleReflexClick()">
-                        <i class="fa-solid fa-hand-pointer pro-icon-glow" style="font-size:35px;" id="reflex-icon"></i>
-                        <h3 id="reflex-text" style="font-size:1.15rem; font-weight:800;" data-i18n="reflex_start">اضغط هنا للبدء</h3>
+                    <div class="game-canvas-container">
+                        <canvas id="wolfCanvas" class="game-canvas-canvas" width="300" height="300" onclick="triggerWolfJump()"></canvas>
+                        <span class="wolf-tap-hint"><i class="fa-solid fa-hand-pointer"></i> <span data-i18n="wolf_tap_jump">انقر على الشاشة أو زر المسافة (Space) للقفز</span></span>
                     </div>
                 </div>
 
+            </div>
+        </section>
+
+        <div class="cyber-divider"><div class="center-node"></div></div>
+
+        <!-- قسم النصائح -->
+        <section id="daily-tips">
+            <h2 class="section-title" data-i18n="tips_title">نصائح</h2>
+            <div class="glass-panel" style="width: 100%; max-width: 750px; padding: 30px; border-radius: 16px; text-align: center; position: relative;">
+                <i class="fa-solid fa-quote-right" style="position: absolute; top: 15px; right: 20px; font-size: 25px; color: var(--glass-border);"></i>
+                <p id="tip-content" class="glass-desc-text" style="font-weight: 700; font-size: 1.1rem; line-height: 1.8; margin-top: 10px;" data-i18n="tips_loading">جاري تحميل النصيحة...</p>
             </div>
         </section>
 
@@ -1631,23 +1641,19 @@
                 currCoins: "COINS", 
                 currPips: "PIPS",
 
-                // ألعاب For Fun
+                // سكشن For Fun
                 fun_title: "قسم الألعاب (FOR FUN)",
                 game_xo: "تيك تاك تو",
                 game_snake: "الأفعى",
                 game_breaker: "كاسر الطوب",
-                game_reflex: "سرعة الرد",
+                game_wolf: "مغامرة الذئب",
                 xo_turn_x: "دورك (X)",
                 xo_turn_o: "دور الذكاء (O)...",
                 xo_win_x: "مبروك! فزت 🎉",
                 xo_win_o: "فاز الكمبيوتر!",
                 xo_tie: "تعادل!",
-                breaker_drag: "حرّك بإصبعك",
-                reflex_hint: "اختبر سرعة استجابتك",
-                reflex_start: "اضغط هنا للبدء",
-                reflex_wait: "انتظر اللون الأخضر...",
-                reflex_click: "اضغط الآن!",
-                reflex_early: "سريع جداً! اضغط للبدء مجدداً"
+                breaker_drag: "اسحب المضرب لصد الكرة",
+                wolf_tap_jump: "انقر على الشاشة أو زر المسافة (Space) للقفز"
             },
             en: {
                 nav_home: "Home", nav_leaders: "About Leaders", nav_leaderboard: "Explore",
@@ -1716,18 +1722,14 @@
                 game_xo: "Tic-Tac-Toe",
                 game_snake: "Snake",
                 game_breaker: "Breaker",
-                game_reflex: "Reflex Tap",
+                game_wolf: "Wolf Adventure",
                 xo_turn_x: "Your Turn (X)",
                 xo_turn_o: "AI Thinking (O)...",
                 xo_win_x: "You Won! 🎉",
                 xo_win_o: "AI Won!",
                 xo_tie: "Draw!",
-                breaker_drag: "Drag paddle",
-                reflex_hint: "Test your reflex speed",
-                reflex_start: "Tap to Start",
-                reflex_wait: "Wait for green...",
-                reflex_click: "TAP NOW!",
-                reflex_early: "Too early! Tap to retry"
+                breaker_drag: "Drag paddle to bounce",
+                wolf_tap_jump: "Tap screen or Space to jump"
             }
         };
 
@@ -2338,7 +2340,7 @@
         }
 
         const convertArabicNumerals = (str) => {
-            return str.replace(/[٠-٩]/g, d => '٠١٢٣٥٦٧٨٩'.indexOf(d));
+            return str.replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d));
         };
 
         function handleCalcInput(e) {
@@ -2432,7 +2434,7 @@
         }
 
         /* =========================================================================
-           ألعاب FOR FUN (سريعة وخفيفة جداً)
+           نظام ألعاب FOR FUN الحديثة والاحترافية
            ========================================================================= */
         function switchGame(gameId) {
             document.querySelectorAll('.game-tab-btn').forEach(btn => btn.classList.remove('active'));
@@ -2444,9 +2446,9 @@
             const targetCard = document.getElementById(`game-card-${gameId}`);
             if (targetCard) targetCard.classList.add('active-game');
 
-            // إيقاف أو تشغيل الحلقات الخاصة بكل لعبة للحفاظ على الموارد
             if (gameId === 'snake' && !snakeGameRunning) startSnakeGame();
-            if (gameId === 'breaker' && !breakerGameRunning) startBreakerGame();
+            if (gameId === 'breaker' && !breakerGameRunning) startBreakerGame(false);
+            if (gameId === 'wolf' && !wolfGameRunning) startWolfGame();
         }
 
         // --- 1. لعبة X-O ---
@@ -2476,7 +2478,6 @@
             const lang = document.documentElement.getAttribute('lang') || 'en';
             document.getElementById('xo-status').innerText = translations[lang].xo_turn_o;
 
-            // ذكاء اصطناعي ذكي وسريع (تأخير 300ms لمحاكاة التفكير)
             setTimeout(() => {
                 if (!xoGameActive) return;
                 let aiMove = getBestAIMove();
@@ -2532,7 +2533,6 @@
         }
 
         function getBestAIMove() {
-            // محاولة الفوز أولاً
             for (let i = 0; i < 9; i++) {
                 if (xoBoardState[i] === "") {
                     xoBoardState[i] = "O";
@@ -2542,7 +2542,6 @@
                     xoBoardState[i] = "";
                 }
             }
-            // إيقاف فوز اللاعب
             for (let i = 0; i < 9; i++) {
                 if (xoBoardState[i] === "") {
                     xoBoardState[i] = "X";
@@ -2552,9 +2551,7 @@
                     xoBoardState[i] = "";
                 }
             }
-            // اختيار المنتصف
             if (xoBoardState[4] === "") return 4;
-            // اختيار عشوائي من المتاح
             const empty = xoBoardState.map((v, idx) => v === "" ? idx : null).filter(v => v !== null);
             return empty[Math.floor(Math.random() * empty.length)];
         }
@@ -2574,12 +2571,13 @@
             status.style.color = "inherit";
         }
 
-        // --- 2. لعبة الأفعى Snake ---
+        // --- 2. لعبة الأفعى Snake 2.0 الحديثة ---
         let snakeCanvas = document.getElementById('snakeCanvas');
         let snakeCtx = snakeCanvas ? snakeCanvas.getContext('2d') : null;
         let snakeGrid = 15;
         let snake = [{x: 150, y: 150}];
         let snakeDir = {x: 15, y: 0};
+        let snakeNextDir = {x: 15, y: 0};
         let snakeFood = {x: 60, y: 60};
         let snakeScore = 0;
         let snakeBest = safeGetStorage('snake_best') || 0;
@@ -2592,6 +2590,7 @@
             if (snakeInterval) clearInterval(snakeInterval);
             snake = [{x: 150, y: 150}, {x: 135, y: 150}, {x: 120, y: 150}];
             snakeDir = {x: snakeGrid, y: 0};
+            snakeNextDir = {x: snakeGrid, y: 0};
             snakeScore = 0;
             document.getElementById('snake-score').innerText = '0';
             placeSnakeFood();
@@ -2606,13 +2605,14 @@
 
         function updateSnakeGame() {
             if (!snakeCtx) return;
+            snakeDir = snakeNextDir;
             let head = {x: snake[0].x + snakeDir.x, y: snake[0].y + snakeDir.y};
 
-            // اصطدام بالجدران
+            // اصطدام الجدران
             if (head.x < 0 || head.x >= 300 || head.y < 0 || head.y >= 300) {
                 endSnakeGame(); return;
             }
-            // اصطدام بالجسم
+            // اصطدام الجسم
             for (let part of snake) {
                 if (part.x === head.x && part.y === head.y) { endSnakeGame(); return; }
             }
@@ -2631,60 +2631,111 @@
                 snake.pop();
             }
 
-            // رسم اللعبة
+            // رسم اللعبة برؤية زجاجية حديثة
             snakeCtx.clearRect(0, 0, 300, 300);
             
+            // شبكة خفيفة نيون
+            snakeCtx.strokeStyle = 'rgba(255,255,255,0.02)';
+            snakeCtx.lineWidth = 1;
+            for(let i=0; i<300; i+=snakeGrid){
+                snakeCtx.beginPath(); snakeCtx.moveTo(i, 0); snakeCtx.lineTo(i, 300); snakeCtx.stroke();
+                snakeCtx.beginPath(); snakeCtx.moveTo(0, i); snakeCtx.lineTo(300, i); snakeCtx.stroke();
+            }
+
             // طعام الأفعى
             snakeCtx.fillStyle = '#ef4444';
+            snakeCtx.shadowColor = '#ef4444';
+            snakeCtx.shadowBlur = 12;
             snakeCtx.beginPath();
             snakeCtx.arc(snakeFood.x + snakeGrid/2, snakeFood.y + snakeGrid/2, snakeGrid/2 - 2, 0, Math.PI * 2);
             snakeCtx.fill();
+            snakeCtx.shadowBlur = 0;
 
-            // جسم الأفعى
+            // جسم الأفعى العصري
             snake.forEach((part, index) => {
-                snakeCtx.fillStyle = index === 0 ? '#10b981' : 'rgba(16, 185, 129, 0.65)';
-                snakeCtx.shadowColor = index === 0 ? '#10b981' : 'transparent';
-                snakeCtx.shadowBlur = index === 0 ? 8 : 0;
+                if (index === 0) {
+                    snakeCtx.fillStyle = '#10b981';
+                    snakeCtx.shadowColor = '#10b981';
+                    snakeCtx.shadowBlur = 10;
+                } else {
+                    snakeCtx.fillStyle = 'rgba(16, 185, 129, 0.7)';
+                    snakeCtx.shadowBlur = 0;
+                }
                 snakeCtx.beginPath();
                 snakeCtx.roundRect(part.x + 1, part.y + 1, snakeGrid - 2, snakeGrid - 2, 4);
                 snakeCtx.fill();
+
+                // عيون لرأس الأفعى
+                if (index === 0) {
+                    snakeCtx.fillStyle = '#0a0a0f';
+                    snakeCtx.beginPath();
+                    snakeCtx.arc(part.x + 5, part.y + 5, 1.8, 0, Math.PI*2);
+                    snakeCtx.arc(part.x + 10, part.y + 5, 1.8, 0, Math.PI*2);
+                    snakeCtx.fill();
+                }
             });
             snakeCtx.shadowBlur = 0;
         }
 
         function handleSnakeDpad(dir) {
-            if (dir === 'UP' && snakeDir.y === 0) snakeDir = {x: 0, y: -snakeGrid};
-            if (dir === 'DOWN' && snakeDir.y === 0) snakeDir = {x: 0, y: snakeGrid};
-            if (dir === 'LEFT' && snakeDir.x === 0) snakeDir = {x: -snakeGrid, y: 0};
-            if (dir === 'RIGHT' && snakeDir.x === 0) snakeDir = {x: snakeGrid, y: 0};
+            if (dir === 'UP' && snakeDir.y === 0) snakeNextDir = {x: 0, y: -snakeGrid};
+            if (dir === 'DOWN' && snakeDir.y === 0) snakeNextDir = {x: 0, y: snakeGrid};
+            if (dir === 'LEFT' && snakeDir.x === 0) snakeNextDir = {x: -snakeGrid, y: 0};
+            if (dir === 'RIGHT' && snakeDir.x === 0) snakeNextDir = {x: snakeGrid, y: 0};
+        }
+
+        // دعم السحب المباشر (Swipe) باللمس على شاشة لعبة الثعبان
+        if(snakeCanvas) {
+            let sTouchX = 0, sTouchY = 0;
+            snakeCanvas.addEventListener('touchstart', e => {
+                sTouchX = e.touches[0].clientX;
+                sTouchY = e.touches[0].clientY;
+            }, {passive: true});
+            snakeCanvas.addEventListener('touchend', e => {
+                let diffX = e.changedTouches[0].clientX - sTouchX;
+                let diffY = e.changedTouches[0].clientY - sTouchY;
+                if (Math.abs(diffX) > Math.abs(diffY)) {
+                    if (diffX > 25) handleSnakeDpad('RIGHT');
+                    else if (diffX < -25) handleSnakeDpad('LEFT');
+                } else {
+                    if (diffY > 25) handleSnakeDpad('DOWN');
+                    else if (diffY < -25) handleSnakeDpad('UP');
+                }
+            }, {passive: true});
         }
 
         function endSnakeGame() {
             clearInterval(snakeInterval);
             snakeGameRunning = false;
             if (snakeCtx) {
-                snakeCtx.fillStyle = 'rgba(0,0,0,0.6)';
+                snakeCtx.fillStyle = 'rgba(0,0,0,0.7)';
                 snakeCtx.fillRect(0, 0, 300, 300);
                 snakeCtx.fillStyle = '#fff';
-                snakeCtx.font = '900 18px Cairo, sans-serif';
+                snakeCtx.font = '900 16px Cairo, sans-serif';
                 snakeCtx.textAlign = 'center';
-                snakeCtx.fillText("انتهت اللعبة! اضغط تشغيل للبدء", 150, 150);
+                snakeCtx.fillText("انتهت اللعبة! انقر للبدء مجدداً", 150, 150);
             }
         }
 
-        // --- 3. لعبة كاسر الطوب Breaker ---
+        // --- 3. لعبة كاسر الطوب Breaker (نظام مستويات مستمر) ---
         let breakerCanvas = document.getElementById('breakerCanvas');
         let breakerCtx = breakerCanvas ? breakerCanvas.getContext('2d') : null;
-        let breakerPaddle = { x: 120, width: 60, height: 8 };
-        let breakerBall = { x: 150, y: 200, dx: 2.5, dy: -2.5, radius: 5 };
+        let breakerPaddle = { x: 120, width: 65, height: 8 };
+        let breakerBall = { x: 150, y: 220, dx: 2.5, dy: -2.5, radius: 5 };
         let breakerBricks = [];
-        let breakerScore = 0;
+        let breakerScore = safeGetStorage('breaker_score') ? parseInt(safeGetStorage('breaker_score')) : 0;
+        let breakerLevel = safeGetStorage('breaker_lvl') ? parseInt(safeGetStorage('breaker_lvl')) : 1;
         let breakerAnimId = null;
         let breakerGameRunning = false;
 
-        function initBreakerBricks() {
+        document.getElementById('breaker-score').innerText = breakerScore;
+        document.getElementById('breaker-lvl').innerText = `Lvl ${breakerLevel}`;
+
+        function initBreakerBricks(lvl) {
             breakerBricks = [];
-            const rows = 4, cols = 5, brickW = 50, brickH = 12, pad = 8, offsetTop = 25, offsetLeft = 8;
+            const rows = Math.min(3 + lvl, 6);
+            const cols = 5;
+            const brickW = 50, brickH = 12, pad = 8, offsetTop = 25, offsetLeft = 8;
             for (let r = 0; r < rows; r++) {
                 for (let c = 0; c < cols; c++) {
                     breakerBricks.push({
@@ -2696,16 +2747,24 @@
             }
         }
 
-        function startBreakerGame() {
+        function startBreakerGame(forceReset = false) {
+            if (forceReset) {
+                breakerScore = 0;
+                breakerLevel = 1;
+                safeSetStorage('breaker_score', '0');
+                safeSetStorage('breaker_lvl', '1');
+            }
+            document.getElementById('breaker-score').innerText = breakerScore;
+            document.getElementById('breaker-lvl').innerText = `Lvl ${breakerLevel}`;
+
             if (breakerAnimId) cancelAnimationFrame(breakerAnimId);
-            initBreakerBricks();
+            initBreakerBricks(breakerLevel);
             breakerPaddle.x = 120;
             breakerBall.x = 150;
             breakerBall.y = 220;
-            breakerBall.dx = (Math.random() > 0.5 ? 2.5 : -2.5);
-            breakerBall.dy = -2.5;
-            breakerScore = 0;
-            document.getElementById('breaker-score').innerText = '0';
+            let speed = 2.4 + (breakerLevel * 0.3);
+            breakerBall.dx = (Math.random() > 0.5 ? speed : -speed);
+            breakerBall.dy = -speed;
             breakerGameRunning = true;
             updateBreaker();
         }
@@ -2715,23 +2774,33 @@
 
             breakerCtx.clearRect(0, 0, 300, 300);
 
-            // رسم الطوب
+            let remainingBricks = 0;
             breakerBricks.forEach(b => {
                 if (b.status === 1) {
+                    remainingBricks++;
                     breakerCtx.fillStyle = '#38bdf8';
                     breakerCtx.beginPath();
                     breakerCtx.roundRect(b.x, b.y, 50, 12, 3);
                     breakerCtx.fill();
 
-                    // تصادم الكرة بالطوب
                     if (breakerBall.x > b.x && breakerBall.x < b.x + 50 && breakerBall.y > b.y && breakerBall.y < b.y + 12) {
                         breakerBall.dy = -breakerBall.dy;
                         b.status = 0;
-                        breakerScore += 10;
+                        breakerScore += 15;
+                        safeSetStorage('breaker_score', breakerScore.toString());
                         document.getElementById('breaker-score').innerText = breakerScore;
                     }
                 }
             });
+
+            // الانتقال إلى المستوى التالي عند انتهاء الطوب
+            if (remainingBricks === 0) {
+                breakerLevel++;
+                safeSetStorage('breaker_lvl', breakerLevel.toString());
+                document.getElementById('breaker-lvl').innerText = `Lvl ${breakerLevel}`;
+                startBreakerGame(false);
+                return;
+            }
 
             // رسم المضرب
             breakerCtx.fillStyle = 'var(--primary)';
@@ -2745,34 +2814,32 @@
             breakerCtx.arc(breakerBall.x, breakerBall.y, breakerBall.radius, 0, Math.PI * 2);
             breakerCtx.fill();
 
-            // حركة وتصادم الكرة
             breakerBall.x += breakerBall.dx;
             breakerBall.y += breakerBall.dy;
 
             if (breakerBall.x + breakerBall.radius > 300 || breakerBall.x - breakerBall.radius < 0) breakerBall.dx = -breakerBall.dx;
             if (breakerBall.y - breakerBall.radius < 0) breakerBall.dy = -breakerBall.dy;
 
-            // تصادم المضرب
+            // اصطدام المضرب
             if (breakerBall.y + breakerBall.radius >= 280 && breakerBall.x >= breakerPaddle.x && breakerBall.x <= breakerPaddle.x + breakerPaddle.width) {
                 breakerBall.dy = -Math.abs(breakerBall.dy);
             }
 
-            // سقوط الكرة بالأسفل
+            // سقوط الكرة
             if (breakerBall.y > 300) {
                 breakerGameRunning = false;
-                breakerCtx.fillStyle = 'rgba(0,0,0,0.6)';
+                breakerCtx.fillStyle = 'rgba(0,0,0,0.7)';
                 breakerCtx.fillRect(0, 0, 300, 300);
                 breakerCtx.fillStyle = '#fff';
                 breakerCtx.font = '900 16px Cairo, sans-serif';
                 breakerCtx.textAlign = 'center';
-                breakerCtx.fillText("حاول مجدداً!", 150, 150);
+                breakerCtx.fillText("سقطت الكرة! اضغط زر التحديث", 150, 150);
                 return;
             }
 
             breakerAnimId = requestAnimationFrame(updateBreaker);
         }
 
-        // تحكم المضرب باللمس والماوس
         if (breakerCanvas) {
             const movePaddle = (clientX) => {
                 const rect = breakerCanvas.getBoundingClientRect();
@@ -2785,56 +2852,176 @@
             breakerCanvas.addEventListener('mousemove', e => movePaddle(e.clientX));
         }
 
-        // --- 4. لعبة سرعة الرد Reflex ---
-        let reflexState = 'idle'; // idle, waiting, ready
-        let reflexTimer = null;
-        let reflexStartTime = 0;
-        let reflexBestTime = safeGetStorage('reflex_best') || null;
+        // --- 4. لعبة مغامرة الذئب (Wolf Mario Platformer) ---
+        let wolfCanvas = document.getElementById('wolfCanvas');
+        let wolfCtx = wolfCanvas ? wolfCanvas.getContext('2d') : null;
+        let wolfGameRunning = false;
+        let wolfAnimId = null;
 
-        if (reflexBestTime) document.getElementById('reflex-best').innerText = `${reflexBestTime} ms`;
+        let wolf = { x: 35, y: 220, w: 28, h: 28, vy: 0, grounded: true };
+        let wolfObstacles = [];
+        let wolfCoins = [];
+        let wolfScore = 0;
+        let wolfLives = 3;
+        let wolfSpeed = 3.2;
 
-        function handleReflexClick() {
-            const box = document.getElementById('reflexArea');
-            const text = document.getElementById('reflex-text');
-            const icon = document.getElementById('reflex-icon');
-            const lang = document.documentElement.getAttribute('lang') || 'en';
+        function startWolfGame() {
+            if (wolfAnimId) cancelAnimationFrame(wolfAnimId);
+            wolf.y = 220;
+            wolf.vy = 0;
+            wolf.grounded = true;
+            wolfScore = 0;
+            wolfLives = 3;
+            wolfSpeed = 3.2;
+            wolfObstacles = [{ x: 320, w: 18, h: 26 }];
+            wolfCoins = [{ x: 230, y: 190, collected: false }];
+            
+            document.getElementById('wolf-score').innerText = '0';
+            document.getElementById('wolf-lives').innerText = '3';
+            wolfGameRunning = true;
+            updateWolfGame();
+        }
 
-            if (reflexState === 'idle') {
-                reflexState = 'waiting';
-                box.className = 'reflex-box waiting';
-                text.innerText = translations[lang].reflex_wait;
-                icon.className = 'fa-solid fa-hourglass-half';
+        function triggerWolfJump() {
+            if (wolf.grounded && wolfGameRunning) {
+                wolf.vy = -8.8;
+                wolf.grounded = false;
+            } else if (!wolfGameRunning) {
+                startWolfGame();
+            }
+        }
 
-                const randomDelay = Math.floor(Math.random() * 2500) + 1200;
-                reflexTimer = setTimeout(() => {
-                    reflexState = 'ready';
-                    box.className = 'reflex-box ready';
-                    text.innerText = translations[lang].reflex_click;
-                    icon.className = 'fa-solid fa-bolt';
-                    reflexStartTime = Date.now();
-                }, randomDelay);
+        document.addEventListener('keydown', e => {
+            if ((e.code === 'Space' || e.code === 'ArrowUp') && document.getElementById('game-card-wolf').classList.contains('active-game')) {
+                e.preventDefault();
+                triggerWolfJump();
+            }
+        });
 
-            } else if (reflexState === 'waiting') {
-                // نقر مبكر جداً
-                clearTimeout(reflexTimer);
-                reflexState = 'idle';
-                box.className = 'reflex-box';
-                text.innerText = translations[lang].reflex_early;
-                icon.className = 'fa-solid fa-triangle-exclamation';
-            } else if (reflexState === 'ready') {
-                // استجابة صحيحة
-                const diff = Date.now() - reflexStartTime;
-                reflexState = 'idle';
-                box.className = 'reflex-box';
-                text.innerText = `${diff} ms! اضغط لإعادة المحاولة`;
-                icon.className = 'fa-solid fa-check';
+        function updateWolfGame() {
+            if (!wolfGameRunning || !wolfCtx) return;
 
-                if (!reflexBestTime || diff < reflexBestTime) {
-                    reflexBestTime = diff;
-                    safeSetStorage('reflex_best', diff);
-                    document.getElementById('reflex-best').innerText = `${diff} ms`;
+            wolfCtx.clearRect(0, 0, 300, 300);
+
+            // خط الأرضية النيون
+            wolfCtx.strokeStyle = 'rgba(255,255,255,0.2)';
+            wolfCtx.lineWidth = 2;
+            wolfCtx.beginPath();
+            wolfCtx.moveTo(0, 248);
+            wolfCtx.lineTo(300, 248);
+            wolfCtx.stroke();
+
+            // فيزياء الجاذبية
+            wolf.y += wolf.vy;
+            wolf.vy += 0.48; // تسارع الجاذبية
+
+            if (wolf.y >= 220) {
+                wolf.y = 220;
+                wolf.vy = 0;
+                wolf.grounded = true;
+            }
+
+            // رسم بطل الذئب (Wolf)
+            wolfCtx.save();
+            wolfCtx.fillStyle = '#e2e8f0';
+            wolfCtx.shadowColor = '#60a5fa';
+            wolfCtx.shadowBlur = 8;
+            // رأس وجسم الذئب
+            wolfCtx.beginPath();
+            wolfCtx.roundRect(wolf.x, wolf.y, wolf.w, wolf.h, 6);
+            wolfCtx.fill();
+            // أذنا الذئب
+            wolfCtx.fillStyle = '#94a3b8';
+            wolfCtx.beginPath();
+            wolfCtx.moveTo(wolf.x + 4, wolf.y);
+            wolfCtx.lineTo(wolf.x + 10, wolf.y - 8);
+            wolfCtx.lineTo(wolf.x + 14, wolf.y);
+            wolfCtx.fill();
+
+            wolfCtx.beginPath();
+            wolfCtx.moveTo(wolf.x + 16, wolf.y);
+            wolfCtx.lineTo(wolf.x + 22, wolf.y - 8);
+            wolfCtx.lineTo(wolf.x + 26, wolf.y);
+            wolfCtx.fill();
+            
+            // عين الذئب
+            wolfCtx.fillStyle = '#38bdf8';
+            wolfCtx.beginPath();
+            wolfCtx.arc(wolf.x + 21, wolf.y + 10, 2.2, 0, Math.PI*2);
+            wolfCtx.fill();
+            wolfCtx.restore();
+
+            // إدارة العقبات
+            for (let i = 0; i < wolfObstacles.length; i++) {
+                let ob = wolfObstacles[i];
+                ob.x -= wolfSpeed;
+
+                // رسم العقبة
+                wolfCtx.fillStyle = '#ef4444';
+                wolfCtx.shadowColor = '#ef4444';
+                wolfCtx.shadowBlur = 8;
+                wolfCtx.beginPath();
+                wolfCtx.roundRect(ob.x, 248 - ob.h, ob.w, ob.h, 4);
+                wolfCtx.fill();
+                wolfCtx.shadowBlur = 0;
+
+                // اصطدام الذئب بالعقبة
+                if (wolf.x + wolf.w > ob.x && wolf.x < ob.x + ob.w && wolf.y + wolf.h > 248 - ob.h) {
+                    wolfLives--;
+                    document.getElementById('wolf-lives').innerText = wolfLives;
+                    ob.x = -50; // إزالة العقبة بعد الضرر
+                    if (wolfLives <= 0) {
+                        wolfGameRunning = false;
+                        wolfCtx.fillStyle = 'rgba(0,0,0,0.7)';
+                        wolfCtx.fillRect(0, 0, 300, 300);
+                        wolfCtx.fillStyle = '#fff';
+                        wolfCtx.font = '900 16px Cairo, sans-serif';
+                        wolfCtx.textAlign = 'center';
+                        wolfCtx.fillText("سقط الذئب! انقر للبدء مجدداً", 150, 150);
+                        return;
+                    }
                 }
             }
+
+            if (wolfObstacles.length === 0 || wolfObstacles[wolfObstacles.length - 1].x < 140) {
+                wolfObstacles.push({
+                    x: 320 + Math.random() * 50,
+                    w: 16 + Math.random() * 8,
+                    h: 22 + Math.random() * 12
+                });
+            }
+            wolfObstacles = wolfObstacles.filter(ob => ob.x > -40);
+
+            // إدارة الكوينز الذهبية
+            for (let coin of wolfCoins) {
+                coin.x -= wolfSpeed;
+                if (!coin.collected) {
+                    wolfCtx.fillStyle = '#eab308';
+                    wolfCtx.shadowColor = '#eab308';
+                    wolfCtx.shadowBlur = 10;
+                    wolfCtx.beginPath();
+                    wolfCtx.arc(coin.x, coin.y, 6, 0, Math.PI*2);
+                    wolfCtx.fill();
+                    wolfCtx.shadowBlur = 0;
+
+                    if (wolf.x + wolf.w > coin.x - 6 && wolf.x < coin.x + 6 && wolf.y < coin.y + 6 && wolf.y + wolf.h > coin.y - 6) {
+                        coin.collected = true;
+                        wolfScore += 10;
+                        document.getElementById('wolf-score').innerText = wolfScore;
+                    }
+                }
+            }
+            if (wolfCoins.length === 0 || wolfCoins[wolfCoins.length - 1].x < 120) {
+                wolfCoins.push({
+                    x: 330,
+                    y: 175 - Math.random() * 40,
+                    collected: false
+                });
+            }
+            wolfCoins = wolfCoins.filter(c => c.x > -20);
+
+            wolfSpeed += 0.0006; // تدرج سرعة طفيف
+            wolfAnimId = requestAnimationFrame(updateWolfGame);
         }
 
         // التهيئة المبدئية والراوتينج
