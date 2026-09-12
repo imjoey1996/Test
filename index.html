@@ -82,13 +82,13 @@
         
         img { -webkit-user-drag: none; pointer-events: none; user-select: none; -webkit-user-select: none; }
         
-        html { scroll-behavior: smooth; scroll-padding-top: calc(85px + env(safe-area-inset-top)); background-color: var(--bg-main); overscroll-behavior-y: none; visibility: hidden; opacity: 0; transition: opacity 0.2s ease-in; }
-        html.loaded { visibility: visible; opacity: 1; }
+        html { scroll-behavior: smooth; scroll-padding-top: calc(85px + env(safe-area-inset-top)); background-color: var(--bg-main); overscroll-behavior-y: none; }
+        body { color: var(--text-main); font-family: 'Cairo', sans-serif; overflow-x: clip; width: 100%; background-color: transparent; position: relative; padding-bottom: calc(115px + env(safe-area-inset-bottom)); padding-top: env(safe-area-inset-top); -webkit-font-smoothing: antialiased; opacity: 0; animation: fadeIn 0.4s ease-in forwards; }
+        
+        @keyframes fadeIn { to { opacity: 1; } }
 
         html[lang="ar"] body { font-size: 14px; }
         html[lang="en"] body { font-size: 15.5px; }
-
-        body { color: var(--text-main); font-family: 'Cairo', sans-serif; overflow-x: clip; width: 100%; background-color: transparent; position: relative; padding-bottom: calc(115px + env(safe-area-inset-bottom)); padding-top: env(safe-area-inset-top); -webkit-font-smoothing: antialiased; }
         html[dir="ltr"] body, .num-font, .navbar h1 { font-family: 'Rajdhani', sans-serif; }
 
         .static-gaming-bg {
@@ -324,42 +324,22 @@
         .hidden-player { display: none !important; }
 
         /* --- Custom Styles for Calculator --- */
-        .custom-calc-icon {
-            width: 22px; height: 22px; object-fit: contain;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
-        }
-        
+        .custom-calc-icon { width: 22px; height: 22px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
         .calc-input-wrapper { position: relative; width: 100%; }
-        .calc-input-wrapper input {
-            width: 100%; background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border);
-            border-radius: 12px; padding: 15px 45px 15px 15px; color: var(--text-main);
-            font-size: 22px; font-weight: 900; outline: none; transition: 0.3s;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
-        }
+        .calc-input-wrapper input { width: 100%; background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border); border-radius: 12px; padding: 15px 45px 15px 15px; color: var(--text-main); font-size: 22px; font-weight: 900; outline: none; transition: 0.3s; box-shadow: inset 0 0 10px rgba(0,0,0,0.5); }
         html[dir="rtl"] .calc-input-wrapper input { padding: 15px 15px 15px 45px; text-align: right; }
         html[dir="ltr"] .calc-input-wrapper input { padding: 15px 45px 15px 15px; text-align: left; }
-        
         .calc-input-wrapper input:focus { border-color: var(--primary); background: rgba(0,0,0,0.6); }
         .calc-input-wrapper input::placeholder { font-size: 15px; font-weight: 600; color: rgba(255,255,255,0.2); font-family: 'Cairo', sans-serif; }
-        
-        .calc-input-wrapper i, .calc-input-wrapper img.custom-input-icon {
-            position: absolute; top: 50%; transform: translateY(-50%);
-            transition: 0.3s;
-        }
-        .calc-input-wrapper img.custom-input-icon {
-            width: 24px; height: 24px; object-fit: contain;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
-        }
-        
+        .calc-input-wrapper i, .calc-input-wrapper img.custom-input-icon { position: absolute; top: 50%; transform: translateY(-50%); transition: 0.3s; }
+        .calc-input-wrapper img.custom-input-icon { width: 24px; height: 24px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
         html[dir="rtl"] .calc-input-wrapper i, html[dir="rtl"] .calc-input-wrapper img.custom-input-icon { left: 15px; right: auto; }
         html[dir="ltr"] .calc-input-wrapper i, html[dir="ltr"] .calc-input-wrapper img.custom-input-icon { right: 15px; left: auto; }
         [data-theme="light"] .calc-input-wrapper input { background: rgba(255,255,255,0.5); color: #000; box-shadow: inset 0 0 5px rgba(0,0,0,0.1); border-color: rgba(0,0,0,0.1); }
         [data-theme="light"] .calc-input-wrapper input:focus { background: #fff; border-color: var(--primary); }
         [data-theme="light"] .calc-input-wrapper input::placeholder { color: rgba(0,0,0,0.4); }
 
-        /* =========================================================
-           ستايلات قسم شروحات الألعاب
-           ========================================================= */
+        /* --- Styles for Game Guides --- */
         .guide-grid { display: grid; grid-template-columns: 1fr; gap: 15px; width: 100%; margin-top: 15px; }
         .guide-col { background: rgba(0, 0, 0, 0.2); padding: 20px 15px; border-radius: 12px; border: 1px solid var(--glass-border); }
         [data-theme="light"] .guide-col { background: rgba(255, 255, 255, 0.4); }
@@ -368,8 +348,7 @@
         .guide-item:last-child { margin-bottom: 0; }
         .guide-badge { background: var(--bg-card); border: 1px solid var(--glass-border); padding: 4px 8px; border-radius: 6px; font-weight: 900; font-size: 14px; min-width: 45px; text-align: center; color: var(--text-main); flex-shrink: 0; }
         .guide-text { font-size: 13.5px; color: var(--text-muted); line-height: 1.6; font-weight: 600; }
-        .guide-text strong { color: var(--text-main); font-weight: 800; }
-
+        
         @media (min-width: 768px) { .guide-grid-double { grid-template-columns: 1fr 1fr; } }
         
         @media (max-width: 600px) {
@@ -406,6 +385,8 @@
             .nav-main-logo { width: 42px; height: 42px; }
             .navbar h1 { font-size: 24px; padding-top: 2px; }
             .brand-header { gap: 3px; }
+            
+            .guide-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -595,7 +576,7 @@
         <div class="cyber-divider"><div class="center-node"></div></div>
 
         <!-- ==============================================
-             قسم شروحات الألعاب (قائمة منسدلة لكل الألعاب)
+             قسم شروحات الألعاب (قائمة منسدلة لكل الألعاب 16)
              ============================================== -->
         <section id="games-guide">
             <h2 class="section-title" data-i18n="guide_title_sec">دليل الألعاب</h2>
@@ -1056,18 +1037,23 @@
             document.getElementById('btn-en').classList.toggle('active', lang === 'en');
             
             document.querySelectorAll('[data-i18n]').forEach(el => { 
-                if(translations[lang][el.getAttribute('data-i18n')]) {
-                    el.innerHTML = translations[lang][el.getAttribute('data-i18n')]; 
+                const key = el.getAttribute('data-i18n');
+                if(translations[lang] && translations[lang][key]) {
+                    el.innerHTML = translations[lang][key]; 
                 }
             });
             
-            document.getElementById('plato-id').placeholder = lang === 'ar' ? 'يوزرك في اللعبة' : 'Your Plato ID';
-            document.getElementById('bug-desc').placeholder = lang === 'ar' ? 'وصف المشكلة...' : 'Issue description...';
+            const pId = document.getElementById('plato-id');
+            if (pId) pId.placeholder = lang === 'ar' ? 'يوزرك في اللعبة' : 'Your Plato ID';
+            
+            const bDesc = document.getElementById('bug-desc');
+            if (bDesc) bDesc.placeholder = lang === 'ar' ? 'وصف المشكلة...' : 'Issue description...';
             
             const calcInput = document.getElementById('calcInput');
             if (calcInput) {
                 calcInput.placeholder = calcMode === 'coins' ? translations[lang].placeholderCoins : translations[lang].placeholderPips;
-                document.getElementById('calcResultCurrency').innerText = calcMode === 'coins' ? translations[lang].currPips : translations[lang].currCoins;
+                const calcCurr = document.getElementById('calcResultCurrency');
+                if (calcCurr) calcCurr.innerText = calcMode === 'coins' ? translations[lang].currPips : translations[lang].currCoins;
             }
 
             clearInputError('plato-id'); clearInputError('bug-desc');
@@ -1164,19 +1150,28 @@
                     updateNotificationsDropdown(); 
                 } else {
                     const isLtr = document.documentElement.getAttribute('lang') === 'en';
-                    document.getElementById('tournaments-container').innerHTML = `<p style="text-align:center; width:100%; color: var(--text-muted);" data-i18n="no_tournaments">${isLtr ? "No tournaments at the moment." : "لا بطولات في الوقت الحالي."}</p>`;
-                    document.getElementById('spenders-container').innerHTML = `<p style="text-align:center; width:100%; color: var(--text-muted);">بيانات الإنفاق غير متوفرة حالياً.</p>`;
-                    document.getElementById('newsSlider').innerHTML = `<p style="text-align:center; width:100%; color: var(--text-muted);">تعذر الاتصال بالشبكة.</p>`;
-                    document.getElementById('tip-content').innerText = "لا توجد نصائح متوفرة حالياً.";
-                    document.getElementById('oldest-players-container').innerHTML = `<p style="text-align:center; width:100%; color: var(--text-muted);">${isLtr ? "Data not available at the moment." : "بيانات اللاعبين غير متوفرة حالياً."}</p>`;
-                    document.getElementById('show-more-players').style.display = 'none';
-                    document.getElementById('arabic-leaders-grid').innerHTML = `<p style="text-align:center; width:100%; color: var(--text-muted);">${isLtr ? "Data not available at the moment." : "بيانات القادة غير متوفرة حالياً."}</p>`;
+                    const tContainer = document.getElementById('tournaments-container');
+                    const sContainer = document.getElementById('spenders-container');
+                    const nSlider = document.getElementById('newsSlider');
+                    const tContent = document.getElementById('tip-content');
+                    const pContainer = document.getElementById('oldest-players-container');
+                    const aGrid = document.getElementById('arabic-leaders-grid');
+                    const smBtn = document.getElementById('show-more-players');
+                    
+                    if (tContainer) tContainer.innerHTML = `<p style="text-align:center; width:100%; color: var(--text-muted);" data-i18n="no_tournaments">${isLtr ? "No tournaments at the moment." : "لا بطولات في الوقت الحالي."}</p>`;
+                    if (sContainer) sContainer.innerHTML = `<p style="text-align:center; width:100%; color: var(--text-muted);">بيانات الإنفاق غير متوفرة حالياً.</p>`;
+                    if (nSlider) nSlider.innerHTML = `<p style="text-align:center; width:100%; color: var(--text-muted);">تعذر الاتصال بالشبكة.</p>`;
+                    if (tContent) tContent.innerText = "لا توجد نصائح متوفرة حالياً.";
+                    if (pContainer) pContainer.innerHTML = `<p style="text-align:center; width:100%; color: var(--text-muted);">${isLtr ? "Data not available at the moment." : "بيانات اللاعبين غير متوفرة حالياً."}</p>`;
+                    if (smBtn) smBtn.style.display = 'none';
+                    if (aGrid) aGrid.innerHTML = `<p style="text-align:center; width:100%; color: var(--text-muted);">${isLtr ? "Data not available at the moment." : "بيانات القادة غير متوفرة حالياً."}</p>`;
                 }
             }
         }
 
         function renderDailyTip() {
             const tipEl = document.getElementById('tip-content');
+            if (!tipEl) return;
             const currentLang = document.documentElement.getAttribute('lang') || 'en';
             
             if (validTips.length > 0 && randomTipIndex !== -1) {
@@ -1210,8 +1205,10 @@
                 navigator.clipboard.writeText(window.location.href);
                 const isAr = document.documentElement.lang === 'ar';
                 const toast = document.getElementById("toast");
-                toast.innerHTML = isAr ? `<i class="fa-solid fa-check"></i> تم نسخ الرابط!` : `<i class="fa-solid fa-check"></i> Link Copied!`;
-                toast.className = "show"; setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 2500);
+                if(toast) {
+                    toast.innerHTML = isAr ? `<i class="fa-solid fa-check"></i> تم نسخ الرابط!` : `<i class="fa-solid fa-check"></i> Link Copied!`;
+                    toast.className = "show"; setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 2500);
+                }
             }
         }
 
@@ -1223,14 +1220,18 @@
                 navigator.clipboard.writeText(pageUrl);
                 const isAr = document.documentElement.lang === 'ar';
                 const toast = document.getElementById("toast");
-                toast.innerHTML = isAr ? `<i class="fa-solid fa-check"></i> تم نسخ رابط الصفحة!` : `<i class="fa-solid fa-check"></i> Page Link Copied!`;
-                toast.className = "show"; setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 2500);
+                if(toast) {
+                    toast.innerHTML = isAr ? `<i class="fa-solid fa-check"></i> تم نسخ رابط الصفحة!` : `<i class="fa-solid fa-check"></i> Page Link Copied!`;
+                    toast.className = "show"; setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 2500);
+                }
             }
         }
 
         function buildNewsHTML() {
             const slider = document.getElementById('newsSlider');
             const dotsContainer = document.getElementById('newsDots');
+            if (!slider) return;
+            
             const isAr = document.documentElement.getAttribute('lang') === 'ar';
             let sliderHTML = ''; let dotsHTML = '';
 
@@ -1292,6 +1293,7 @@
 
         function slideNews(direction) {
             const slider = document.getElementById('newsSlider');
+            if(!slider) return;
             const cards = slider.querySelectorAll('.news-slide-card');
             if(cards.length === 0) return;
             let scrollAmount = cards[0].offsetWidth + 15; 
@@ -1309,6 +1311,7 @@
 
         function updateCarouselButtons() {
             const slider = document.getElementById('newsSlider');
+            if(!slider) return;
             const dots = document.querySelectorAll('.dot');
             const cardElement = slider.querySelector('.news-slide-card');
             if(!cardElement || !dots.length) return;
@@ -1317,22 +1320,25 @@
             if (index >= dots.length) index = dots.length - 1;
             
             dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
-            const btnNewer = document.getElementById('btnNewer'); const btnOlder = document.getElementById('btnOlder');
+            const btnNewer = document.getElementById('btnNewer'); 
+            const btnOlder = document.getElementById('btnOlder');
             if (btnNewer) { btnNewer.classList.toggle('disabled', index === 0); btnNewer.disabled = (index === 0); }
             if (btnOlder) { btnOlder.classList.toggle('disabled', index === dots.length - 1); btnOlder.disabled = (index === dots.length - 1); }
         }
 
         let scrollTimeout;
-        document.getElementById('newsSlider')?.addEventListener('scroll', () => {
-            if (scrollTimeout) window.cancelAnimationFrame(scrollTimeout);
-            scrollTimeout = window.requestAnimationFrame(updateCarouselButtons);
-        });
+        const nSliderScroll = document.getElementById('newsSlider');
+        if (nSliderScroll) {
+            nSliderScroll.addEventListener('scroll', () => {
+                if (scrollTimeout) window.cancelAnimationFrame(scrollTimeout);
+                scrollTimeout = window.requestAnimationFrame(updateCarouselButtons);
+            });
+        }
 
         function showMorePlayers() {
-            document.querySelectorAll('.hidden-player').forEach(el => {
-                el.classList.remove('hidden-player');
-            });
-            document.getElementById('show-more-players').style.display = 'none';
+            document.querySelectorAll('.hidden-player').forEach(el => el.classList.remove('hidden-player'));
+            const smBtn = document.getElementById('show-more-players');
+            if(smBtn) smBtn.style.display = 'none';
         }
 
         function renderDynamicData() {
@@ -1342,13 +1348,16 @@
             if (firstRow) {
                 const videoUrl = firstRow[6] ? escapeHTML(firstRow[6].trim()) : ""; 
                 const weekName = escapeHTML(firstRow[7] ? firstRow[7].trim() : ""); 
-                const vidEl = document.getElementById('weekly-video'); const showcaseSec = document.getElementById('weekly-showcase'); const showcaseDiv = document.getElementById('weekly-divider'); const weekNameEl = document.getElementById('weekly-week-name');
-                if (videoUrl) { 
+                const vidEl = document.getElementById('weekly-video'); 
+                const showcaseSec = document.getElementById('weekly-showcase'); 
+                const showcaseDiv = document.getElementById('weekly-divider'); 
+                const weekNameEl = document.getElementById('weekly-week-name');
+                if (videoUrl && vidEl && showcaseSec) { 
                     if (vidEl.getAttribute('src') !== videoUrl) vidEl.src = videoUrl;
-                    if (weekName) { 
+                    if (weekName && weekNameEl) { 
                         weekNameEl.innerText = weekName; 
                         weekNameEl.style.display = 'block'; 
-                    } else { 
+                    } else if (weekNameEl) { 
                         weekNameEl.style.display = 'none'; 
                     }
                     currentLatestWeekly = { 
@@ -1356,7 +1365,7 @@
                         display: weekName || 'عناصر جديدة'
                     };
                     showcaseSec.style.display = 'flex'; if(showcaseDiv) showcaseDiv.style.display = 'flex';
-                } else { 
+                } else if(showcaseSec) { 
                     showcaseSec.style.display = 'none'; if(showcaseDiv) showcaseDiv.style.display = 'none'; 
                     currentLatestWeekly = null;
                 }
@@ -1388,19 +1397,9 @@
                     const lBdayAr = escapeHTML(cols[28] ? cols[28].trim() : "");
                     
                     if (lName && lServer) {
-                        let leaderObj = {
-                            name: lName,
-                            server: lServer,
-                            img: lImg,
-                            desc: { en: lDescEn, ar: lDescAr },
-                            birthday: { en: lBdayEn, ar: lBdayAr }
-                        };
-
-                        if (lServer === 'arabic') {
-                            arabicLeadersData.push(leaderObj);
-                        } else if (serverThemes[lServer]) {
-                            globalLeadersData.push(leaderObj);
-                        }
+                        let leaderObj = { name: lName, server: lServer, img: lImg, desc: { en: lDescEn, ar: lDescAr }, birthday: { en: lBdayEn, ar: lBdayAr } };
+                        if (lServer === 'arabic') arabicLeadersData.push(leaderObj);
+                        else if (serverThemes[lServer]) globalLeadersData.push(leaderObj);
                     }
                 }
 
@@ -1413,10 +1412,7 @@
                     const pUser = escapeHTML(cols[19] ? cols[19].trim() : "");
                     const pImg = escapeHTML(cols[20] ? cols[20].trim() : "");
                     const pDays = parseInt(cols[21] ? cols[21].trim() : "0", 10);
-                    
-                    if (pUser && !isNaN(pDays) && pDays > 0) {
-                        oldestPlayersList.push({ user: pUser, img: pImg, baseDays: pDays });
-                    }
+                    if (pUser && !isNaN(pDays) && pDays > 0) oldestPlayersList.push({ user: pUser, img: pImg, baseDays: pDays });
                 }
 
                 if (!nameAr) return;
@@ -1479,25 +1475,27 @@
             const playersContainer = document.getElementById('oldest-players-container');
             const showMoreBtn = document.getElementById('show-more-players');
 
-            if (playersHTML === '') {
-                playersContainer.innerHTML = `<p style="text-align:center; width:100%; color: var(--text-muted);" data-i18n="no_tournaments">${isLtr ? "No data available." : "لا توجد بيانات حالياً."}</p>`;
-                showMoreBtn.style.display = 'none';
-            } else {
-                playersContainer.innerHTML = playersHTML;
-                if (oldestPlayersList.length > 3) {
-                    showMoreBtn.style.display = 'inline-flex';
-                    showMoreBtn.innerHTML = `<span data-i18n="show_more">${isLtr ? 'Show More' : 'عرض المزيد'}</span> <i class="fa-solid fa-chevron-down"></i>`;
+            if (playersContainer) {
+                if (playersHTML === '') {
+                    playersContainer.innerHTML = `<p style="text-align:center; width:100%; color: var(--text-muted);" data-i18n="no_tournaments">${isLtr ? "No data available." : "لا توجد بيانات حالياً."}</p>`;
+                    if(showMoreBtn) showMoreBtn.style.display = 'none';
                 } else {
-                    showMoreBtn.style.display = 'none';
+                    playersContainer.innerHTML = playersHTML;
+                    if (oldestPlayersList.length > 3) {
+                        if(showMoreBtn) {
+                            showMoreBtn.style.display = 'inline-flex';
+                            showMoreBtn.innerHTML = `<span data-i18n="show_more">${isLtr ? 'Show More' : 'عرض المزيد'}</span> <i class="fa-solid fa-chevron-down"></i>`;
+                        }
+                    } else {
+                        if(showMoreBtn) showMoreBtn.style.display = 'none';
+                    }
                 }
             }
 
             let upcomingTours = tournamentsList.filter(t => t.diff > 0).sort((a, b) => a.targetTimeMs - b.targetTimeMs);
             if (tournamentsList.length > 0) {
                 const allToursHash = tournamentsList.map(t => t.nameAr + t.targetTimeMs + t.prizeStr + t.game + t.admin).join('|');
-                currentLatestTour = {
-                    id: 'tour_' + hashCode(allToursHash)
-                };
+                currentLatestTour = { id: 'tour_' + hashCode(allToursHash) };
             } else {
                 currentLatestTour = null;
             }
@@ -1559,8 +1557,11 @@
             if (tourHTML === '') tourHTML = `<p style="text-align:center; width:100%; color: var(--text-muted);" data-i18n="no_tournaments">${isLtr ? "No tournaments at the moment." : "لا بطولات في الوقت الحالي."}</p>`;
             if (spendHTML === '') spendHTML = `<p style="text-align:center; width:100%; color: var(--text-muted);">لم يتم تسجيل بيانات إنفاق حتى الآن.</p>`;
 
-            tourContainer.innerHTML = tourHTML; spendContainer.innerHTML = spendHTML;
-            activeTourTimers = Array.from(tourContainer.querySelectorAll('.sheet-timer')).map(el => ({ el: el, valSpan: el.querySelector('.countdown-val'), targetMs: parseInt(el.getAttribute('data-time')) }));
+            if(tourContainer) {
+                tourContainer.innerHTML = tourHTML; 
+                activeTourTimers = Array.from(tourContainer.querySelectorAll('.sheet-timer')).map(el => ({ el: el, valSpan: el.querySelector('.countdown-val'), targetMs: parseInt(el.getAttribute('data-time')) }));
+            }
+            if(spendContainer) spendContainer.innerHTML = spendHTML;
             
             if (typeof updateSheetTimers === "function") updateSheetTimers(); 
         }
@@ -1570,7 +1571,7 @@
         
         document.addEventListener('touchstart', e => { if(window.scrollY <= 5) { ptrStartX = e.touches[0].screenX; ptrStartY = e.touches[0].screenY; ptrCurrentY = ptrStartY; isPulling = true; isHorizontal = false; } }, {passive: true});
         document.addEventListener('touchmove', e => {
-            if(!isPulling) return;
+            if(!isPulling || !ptrEl) return;
             let currentX = e.touches[0].screenX; ptrCurrentY = e.touches[0].screenY;
             let pullY = ptrCurrentY - ptrStartY; let pullX = currentX - ptrStartX;
             
@@ -1582,7 +1583,7 @@
             }
         }, {passive: true});
         document.addEventListener('touchend', e => {
-            if(!isPulling) return;
+            if(!isPulling || !ptrEl) return;
             isPulling = false; let pull = ptrCurrentY - ptrStartY;
             if(pull > 80 && window.scrollY <= 5 && !isHorizontal) { ptrEl.classList.add('refreshing'); ptrEl.style.transform = 'translateY(0)'; setTimeout(() => { window.location.reload(true); }, 400); } else { ptrEl.style.transform = 'translateY(-100%)'; }
         }, {passive: true});
@@ -1635,30 +1636,20 @@
             const resultCurr = document.getElementById('calcResultCurrency');
             
             if (mode === 'coins') {
-                btnCoins.classList.add('active');
-                btnCoins.style.background = 'rgba(255,255,255,0.1)';
-                btnCoins.style.color = 'var(--primary)';
-                btnPips.classList.remove('active');
-                btnPips.style.background = 'transparent';
-                btnPips.style.color = 'var(--text-muted)';
-                
-                input.placeholder = t.placeholderCoins;
-                icon.src = 'IMG_0571.png';
-                resultCurr.innerText = t.currPips;
+                if(btnCoins) { btnCoins.classList.add('active'); btnCoins.style.background = 'rgba(255,255,255,0.1)'; btnCoins.style.color = 'var(--primary)'; }
+                if(btnPips) { btnPips.classList.remove('active'); btnPips.style.background = 'transparent'; btnPips.style.color = 'var(--text-muted)'; }
+                if(input) input.placeholder = t.placeholderCoins;
+                if(icon) icon.src = 'IMG_0571.png';
+                if(resultCurr) resultCurr.innerText = t.currPips;
             } else {
-                btnPips.classList.add('active');
-                btnPips.style.background = 'rgba(255,255,255,0.1)';
-                btnPips.style.color = 'var(--primary)';
-                btnCoins.classList.remove('active');
-                btnCoins.style.background = 'transparent';
-                btnCoins.style.color = 'var(--text-muted)';
-                
-                input.placeholder = t.placeholderPips;
-                icon.src = 'IMG_0569.png';
-                resultCurr.innerText = t.currCoins;
+                if(btnPips) { btnPips.classList.add('active'); btnPips.style.background = 'rgba(255,255,255,0.1)'; btnPips.style.color = 'var(--primary)'; }
+                if(btnCoins) { btnCoins.classList.remove('active'); btnCoins.style.background = 'transparent'; btnCoins.style.color = 'var(--text-muted)'; }
+                if(input) input.placeholder = t.placeholderPips;
+                if(icon) icon.src = 'IMG_0569.png';
+                if(resultCurr) resultCurr.innerText = t.currCoins;
             }
             
-            input.value = ''; 
+            if(input) input.value = ''; 
             runCalculation();
         }
 
@@ -1670,11 +1661,7 @@
             let val = e.target.value;
             val = convertArabicNumerals(val);
             val = val.replace(/\D/g, ''); 
-            
-            if(val !== '') {
-                val = parseInt(val, 10).toLocaleString('en-US');
-            }
-            
+            if(val !== '') val = parseInt(val, 10).toLocaleString('en-US');
             e.target.value = val;
             runCalculation();
         }
@@ -1711,17 +1698,18 @@
             };
             
             if(calcAnimationReq) window.cancelAnimationFrame(calcAnimationReq);
-            
             obj.style.color = colorHex;
             obj.style.textShadow = shadowValue;
-            
             calcAnimationReq = window.requestAnimationFrame(step);
         }
 
         function runCalculation() {
-            let rawValue = document.getElementById('calcInput').value.replace(/,/g, '');
-            let val = parseFloat(rawValue);
+            const inputEl = document.getElementById('calcInput');
             const outVal = document.getElementById('calcResultValue');
+            if(!inputEl || !outVal) return;
+            
+            let rawValue = inputEl.value.replace(/,/g, '');
+            let val = parseFloat(rawValue);
 
             if (isNaN(val) || val <= 0) {
                 if(calcAnimationReq) window.cancelAnimationFrame(calcAnimationReq);
@@ -1759,7 +1747,9 @@
         document.addEventListener("DOMContentLoaded", () => {
             document.documentElement.setAttribute('lang', savedLang);
             document.documentElement.setAttribute('dir', savedLang === 'ar' ? 'rtl' : 'ltr');
-            document.getElementById('theme-icon').className = savedTheme === 'light' ? 'fa-solid fa-sun theme-toggle' : 'fa-solid fa-moon theme-toggle';
+            
+            const thIcon = document.getElementById('theme-icon');
+            if(thIcon) thIcon.className = savedTheme === 'light' ? 'fa-solid fa-sun theme-toggle' : 'fa-solid fa-moon theme-toggle';
             
             const nSlider = document.getElementById('newsSlider');
             let isDown = false, startX, sLeft;
@@ -1797,8 +1787,6 @@
                 syncRealTime().then(() => { if (typeof updateSheetTimers === "function") updateSheetTimers(); });
                 setInterval(updateSheetTimers, 1000);
             }
-
-            document.documentElement.classList.add('loaded');
         });
 
         document.addEventListener('touchstart', function(e) { if (e.touches.length > 1) e.preventDefault(); }, { passive: false });
