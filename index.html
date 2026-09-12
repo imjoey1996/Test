@@ -677,6 +677,25 @@
             .game-tabs-selector { justify-content: flex-start; }
             .game-tab-btn { min-width: 90px; font-size: 12px; padding: 8px 10px; }
         }
+                .game-tabs-selector { justify-content: flex-start; }
+        .game-tab-btn { min-width: 90px; font-size: 12px; padding: 8px 10px; }
+    }
+
+    /* =========================================================
+       ستايلات قسم شروحات الألعاب
+       ========================================================= */
+    .guide-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 100%; margin-top: 15px; }
+    .guide-col { background: rgba(0, 0, 0, 0.2); padding: 20px 15px; border-radius: 12px; border: 1px solid var(--glass-border); }
+    [data-theme="light"] .guide-col { background: rgba(255, 255, 255, 0.4); }
+    .guide-col-title { font-size: 1.1rem; font-weight: 900; color: var(--primary); margin-bottom: 15px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid var(--glass-border); padding-bottom: 10px; }
+    .guide-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 15px; }
+    .guide-item:last-child { margin-bottom: 0; }
+    .guide-badge { background: var(--bg-card); border: 1px solid var(--glass-border); padding: 4px 8px; border-radius: 6px; font-weight: 900; font-size: 14px; min-width: 45px; text-align: center; color: var(--text-main); flex-shrink: 0; }
+    .guide-text { font-size: 13.5px; color: var(--text-muted); line-height: 1.6; font-weight: 600; }
+    .guide-text strong { color: var(--text-main); font-weight: 800; }
+
+    @media (max-width: 600px) { .guide-grid { grid-template-columns: 1fr; } }
+
     </style>
 </head>
 <body>
@@ -863,7 +882,51 @@
         </section>
 
         <div class="cyber-divider"><div class="center-node"></div></div>
+        <!-- ==============================================
+             قسم شروحات الألعاب
+             ============================================== -->
+        <section id="games-guide">
+            <h2 class="section-title" data-i18n="guide_title_sec">دليل الألعاب</h2>
+            <div class="games-hub-wrapper">
+                
+                <!-- أزرار التنقل بين الشروحات -->
+                <div class="game-tabs-selector">
+                    <button type="button" class="game-tab-btn guide-tab-btn active" onclick="switchGuide('dice')">
+                        <i class="fa-solid fa-dice"></i> <span data-i18n="guide_dice">دايس</span>
+                    </button>
+                </div>
 
+                <!-- 1. شرح لعبة دايس -->
+                <div id="guide-card-dice" class="game-display-card glass-panel active-game" style="align-items: flex-start;">
+                    <p style="color: var(--text-muted); font-weight: 700; line-height: 1.6; margin-bottom: 15px; text-align: start; width: 100%;" data-i18n="guide_dice_intro">
+                        شرح مبسط ومفصل لكيفية احتساب النقاط في لعبة دايس (Dice Party). اللوحة تنقسم إلى جهتين رئيسيتين:
+                    </p>
+                    <div class="guide-grid">
+                        
+                        <!-- الجهة اليمنى -->
+                        <div class="guide-col">
+                            <h3 class="guide-col-title"><i class="fa-solid fa-list-ol"></i> <span data-i18n="guide_right_side">الجهة اليمنى (التشكيلات)</span></h3>
+                            <div class="guide-item"><div class="guide-badge num-font">3X</div><div class="guide-text" data-i18n="guide_3x">يجب أن يظهر لك <strong>نفس الرقم 3 مرات</strong>.</div></div>
+                            <div class="guide-item"><div class="guide-badge num-font">4X</div><div class="guide-text" data-i18n="guide_4x">يجب أن يظهر لك <strong>نفس الرقم 4 مرات</strong> للحصول على نقاط إضافية.</div></div>
+                            <div class="guide-item"><div class="guide-badge num-font">FH</div><div class="guide-text" data-i18n="guide_fh"><strong>(Full House):</strong> رقمين متشابهين وثلاثة أرقام متشابهة (مثل 5,5 و 3,3,3).</div></div>
+                            <div class="guide-item"><div class="guide-badge num-font">SM</div><div class="guide-text" data-i18n="guide_sm"><strong>(تسلسل صغير):</strong> 4 أرقام متسلسلة (مثل 1,2,3,4). وتقدر تختارها حتى لو ظهرت أرقام متكررة.</div></div>
+                            <div class="guide-item"><div class="guide-badge num-font">LG</div><div class="guide-text" data-i18n="guide_lg"><strong>(تسلسل كبير):</strong> 5 أرقام متسلسلة (مثل 1,2,3,4,5). تذكر: الرقم 1 و 6 لا يجتمعان معاً.</div></div>
+                            <div class="guide-item"><div class="guide-badge num-font">5X</div><div class="guide-text" data-i18n="guide_5x"><strong>(دايس):</strong> 5 أرقام متشابهة تماماً. وفي كل مرة تتكرر تمنحك بونس مضاعف لـ 3 مرات (50 ثم 150 ثم 350).</div></div>
+                            <div class="guide-item"><div class="guide-badge num-font">CH</div><div class="guide-text" data-i18n="guide_ch"><strong>(الفرصة):</strong> مجموع كل النرد. تستخدمها كفرصة أخيرة إذا لم يطابق النرد أي تشكيلة.</div></div>
+                        </div>
+
+                        <!-- الجهة اليسرى -->
+                        <div class="guide-col">
+                            <h3 class="guide-col-title"><i class="fa-solid fa-calculator"></i> <span data-i18n="guide_left_side">الجهة اليسرى (الأرقام)</span></h3>
+                            <div class="guide-item"><div class="guide-badge num-font"><i class="fa-solid fa-dice-six"></i></div><div class="guide-text" data-i18n="guide_numbers">تعتمد على <strong>جمع الأرقام من 1 إلى 6</strong>. كل خانة مخصصة لجمع رقمها فقط (مثلاً خانة 6 تجمع نرد الـ 6 فقط).</div></div>
+                            <div class="guide-item" style="margin-top: 15px;"><div class="guide-badge num-font" style="color: #eab308; border-color: #eab308;">BONUS</div><div class="guide-text" data-i18n="guide_bonus">إذا كان مجموع الأرقام في هذه الجهة <strong>63 نقطة فأكثر</strong>، ستحصل على بونس إضافي يعزز فرصك بالفوز!</div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="cyber-divider"><div class="center-node"></div></div>
         <section id="related-links">
             <h2 class="section-title" data-i18n="links_title">مواقع ذات صلة</h2>
             <div class="links-grid">
@@ -1749,7 +1812,21 @@
                 link_werepedia_desc: "موقع متخصص في لعبة الذئب، يقدّم شرحًا مفصلًا للبطاقات والأدوار، بالإضافة إلى استراتيجيات ونصائح تساعد على تطوير أسلوب اللعب.",
                 link_monsterpedia_desc: "موسوعة متخصصة في لعبة الوحوش، تشرح محتوى اللعبة بالتفصيل.",
                 no_tournaments: "لا بطولات في الوقت الحالي.",
-                
+                                guide_title_sec: "دليل الألعاب",
+                guide_dice: "دايس",
+                guide_dice_intro: "شرح مبسط ومفصل لكيفية احتساب النقاط في لعبة دايس (Dice Party). اللوحة تنقسم إلى جهتين رئيسيتين:",
+                guide_right_side: "الجهة اليمنى (التشكيلات)",
+                guide_3x: "يجب أن يظهر لك <strong>نفس الرقم 3 مرات</strong>.",
+                guide_4x: "يجب أن يظهر لك <strong>نفس الرقم 4 مرات</strong> للحصول على نقاط إضافية.",
+                guide_fh: "<strong>(Full House):</strong> رقمين متشابهين وثلاثة أرقام متشابهة (مثل 5,5 و 3,3,3).",
+                guide_sm: "<strong>(تسلسل صغير):</strong> 4 أرقام متسلسلة (مثل 1,2,3,4). وتقدر تختارها حتى لو ظهرت أرقام متكررة.",
+                guide_lg: "<strong>(تسلسل كبير):</strong> 5 أرقام متسلسلة (مثل 1,2,3,4,5). تذكر: الرقم 1 و 6 لا يجتمعان معاً.",
+                guide_5x: "<strong>(دايس):</strong> 5 أرقام متشابهة تماماً. وفي كل مرة تتكرر تمنحك بونس مضاعف لـ 3 مرات (50 ثم 150 ثم 350).",
+                guide_ch: "<strong>(الفرصة):</strong> مجموع كل النرد. تستخدمها كفرصة أخيرة إذا لم يطابق النرد أي تشكيلة.",
+                guide_left_side: "الجهة اليسرى (الأرقام)",
+                guide_numbers: "تعتمد على <strong>جمع الأرقام من 1 إلى 6</strong>. كل خانة مخصصة لجمع رقمها فقط (مثلاً خانة 6 تجمع نرد الـ 6 فقط).",
+                guide_bonus: "إذا كان مجموع الأرقام في هذه الجهة <strong>63 نقطة فأكثر</strong>، ستحصل على بونس إضافي يعزز فرصك بالفوز!",
+
                 // كلمات الحاسبة الذكية
                 calc_title: "الحاسبة الذكية",
                 tabCoins: "كوينز",
@@ -1830,6 +1907,20 @@
                 link_werepedia_desc: "A Werewolf guide covering cards, roles, and gameplay strategies.",
                 link_monsterpedia_desc: "A Monster guide covering the game's content in detail.",
                 no_tournaments: "No tournaments at the moment.",
+                guide_title_sec: "GAMES GUIDE",
+                guide_dice: "Dice Party",
+                guide_dice_intro: "A simple and detailed guide on how to score in Dice Party. The board is divided into two main sections:",
+                guide_right_side: "Right Side (Combos)",
+                guide_3x: "You need <strong>3 of the same number</strong>.",
+                guide_4x: "You need <strong>4 of the same number</strong> for extra points.",
+                guide_fh: "<strong>(Full House):</strong> A three-of-a-kind and a pair (e.g., 5,5 and 3,3,3).",
+                guide_sm: "<strong>(Small Straight):</strong> A sequence of 4 numbers (e.g., 1,2,3,4).",
+                guide_lg: "<strong>(Large Straight):</strong> A sequence of 5 numbers. Note: 1 and 6 can never be in the same straight.",
+                guide_5x: "<strong>(Dice/5X):</strong> 5 identical numbers. Hitting it multiple times gives massive bonuses (50, 150, 350).",
+                guide_ch: "<strong>(Chance):</strong> Sum of all dice. Used as a backup when no other combos match.",
+                guide_left_side: "Left Side (Numbers)",
+                guide_numbers: "Based on <strong>summing up numbers from 1 to 6</strong>. Each slot strictly sums its specific number.",
+                guide_bonus: "If the total score of this side reaches <strong>63 points or more</strong>, you'll receive a massive bonus to secure your win!",
 
                 // Calculator words
                 calc_title: "SMART CALCULATOR",
@@ -2565,6 +2656,22 @@
         /* =========================================================================
            نظام ألعاب (الألعاب / FOR FUN) والمراحل والصدارة (قراءة مباشرة من الشيت AD, AE, AF)
            ========================================================================= */
+                function switchGuide(guideId) {
+            document.querySelectorAll('.guide-tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.game-display-card[id^="guide-card-"]').forEach(card => {
+                card.classList.remove('active-game');
+                card.style.display = 'none';
+            });
+            
+            const selectedBtn = event.currentTarget;
+            if (selectedBtn) selectedBtn.classList.add('active');
+            
+            const targetCard = document.getElementById(`guide-card-${guideId}`);
+            if (targetCard) {
+                targetCard.classList.add('active-game');
+                targetCard.style.display = 'flex';
+            }
+        }
         function switchGame(gameId) {
             document.querySelectorAll('.game-tab-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.game-display-card').forEach(card => card.classList.remove('active-game'));
