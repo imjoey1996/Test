@@ -1793,7 +1793,7 @@
             });
         }
 
-        const translations = {
+                const translations = {
             ar: {
                 nav_home: "الرئيسية", nav_leaders: "حول القادة", nav_leaderboard: "استكشف",
                 pull_refresh: "جاري التحديث...", menu_guidelines: "القوانين",
@@ -1811,7 +1811,7 @@
                 task_5: "رفع طلبات الحظر للانتهاكات المتكررة للقوانين.",
                 task_6: "الإشراف على الغرف واتخاذ الإجراءات المناسبة.",
                 how_to_be_leader: "كيف تصبح قائدًا؟",
-                be_leader_1: "ي يتم اختيار القادة بناءً على تفاعلهم الإيجابي ومشاركتهم الفعالة في المجتمع.",
+                be_leader_1: "يتم اختيار القادة بناءً على تفاعلهم الإيجابي ومشاركتهم الفعالة في المجتمع.",
                 be_leader_2: "يتم ترشيح المرشحين من قِبل القادة الحاليين ويجب الموافقة عليهم من قِبل مطور اللعبة.",
                 be_leader_note: "يتم تعيين قادة جدد عند الحاجة، بحد أقصى 4 قادة لكل خادم.",
                 feedback_title: "آراء المجتمع",
@@ -1845,8 +1845,32 @@
                 link_werepedia_desc: "موقع متخصص في لعبة الذئب، يقدّم شرحًا مفصلًا للبطاقات والأدوار، بالإضافة إلى استراتيجيات ونصائح تساعد على تطوير أسلوب اللعب.",
                 link_monsterpedia_desc: "موسوعة متخصصة في لعبة الوحوش، تشرح محتوى اللعبة بالتفصيل.",
                 no_tournaments: "لا بطولات في الوقت الحالي.",
-                                guide_title_sec: "دليل الألعاب",
-                                guide_title_sec: "دليل الألعاب",
+                
+                calc_title: "الحاسبة الذكية",
+                tabCoins: "كوينز",
+                tabPips: "بيبس",
+                placeholderCoins: "أدخل عدد الكوينز...",
+                placeholderPips: "أدخل عدد البيبس...",
+                resultTitle: "القيمة التقديرية العادلة",
+                currCoins: "COINS", 
+                currPips: "PIPS",
+
+                fun_title: "الألعاب",
+                game_xo: "تيك تاك تو",
+                game_snake: "الأفعى",
+                game_breaker: "كاسر الطوب",
+                game_wolf: "مغامرة الذئب",
+                xo_mode_classic: "VS AI",
+                xo_turn_x: "دورك (X)",
+                xo_turn_o: "دور الذكاء (O)...",
+                xo_win_x: "مبروك! فزت 🎉",
+                xo_win_o: "فاز الكمبيوتر!",
+                xo_tie: "تعادل!",
+                breaker_drag: "اسحب المضرب لصد الكرة",
+                wolf_tap_jump: "انقر على الشاشة أو زر المسافة (Space) للقفز",
+                snake_game_over: "انتهت اللعبة! انقر للبدء مجدداً",
+
+                guide_title_sec: "دليل الألعاب",
                 guide_dice: "دايس (Dice Party)",
                 guide_dice_intro: "شرح مبسط لكيفية احتساب النقاط في لعبة دايس. اللوحة تنقسم إلى جهتين رئيسيتين:",
                 guide_right_side: "الجهة اليمنى (التشكيلات)",
@@ -1871,36 +1895,7 @@
                 guide_rev_2: "طريقة اللعب: يبدأ اللاعب الأسود أولاً.",
                 guide_rev_3: "كيفية الأسر: يجب أن تضع قرصك بحيث يحصر أقراص الخصم بين قرصك الجديد وقرص آخر من لونك موجود مسبقاً (أفقياً، عمودياً، أو قطرياً).",
                 guide_rev_4: "النتيجة: تنقلب جميع أقراص الخصم المحصورة لتصبح بلونك.",
-                guide_rev_5: "نصيحة ذهبية: حاول دائماً السيطرة على زوايا اللوحة (الأركان الأربعة)، لأن القرص في الزاوية لا يمكن للخصم قلبه أبداً!",
-
-                // كلمات الحاسبة الذكية
-                calc_title: "الحاسبة الذكية",
-                tabCoins: "كوينز",
-                tabPips: "بيبس",
-                placeholderCoins: "أدخل عدد الكوينز...",
-                placeholderPips: "أدخل عدد البيبس...",
-                resultTitle: "القيمة التقديرية العادلة",
-                currCoins: "COINS", 
-                currPips: "PIPS",
-
-                // سكشن الألعاب
-                fun_title: "الألعاب",
-                game_xo: "تيك تاك تو",
-                game_snake: "الأفعى",
-                game_breaker: "كاسر الطوب",
-                game_wolf: "مغامرة الذئب",
-                xo_turn_x: "دورك (X)",
-                xo_turn_o: "دور الذكاء (O)...",
-                xo_win_x: "مبروك! فزت 🎉",
-                xo_win_o: "فاز الكمبيوتر!",
-                xo_tie: "تعادل!",
-                breaker_drag: "اسحب المضرب لصد الكرة",
-                wolf_tap_jump: "انقر على الشاشة أو زر المسافة (Space) للقفز",
-                btn_open_lb: "لوحة الصدارة (Top 10)",
-                lb_title: "لوحة شرف الألعاب",
-                lb_desc: "أعلى 10 متصدرين مرتبين حسب المستوى:",
-                lb_close: "إغلاق",
-                snake_game_over: "انتهت اللعبة! انقر للبدء مجدداً"
+                guide_rev_5: "نصيحة ذهبية: حاول دائماً السيطرة على زوايا اللوحة (الأركان الأربعة)، لأن القرص في الزاوية لا يمكن للخصم قلبه أبداً!"
             },
             en: {
                 nav_home: "Home", nav_leaders: "About Leaders", nav_leaderboard: "Explore",
@@ -1953,7 +1948,32 @@
                 link_werepedia_desc: "A Werewolf guide covering cards, roles, and gameplay strategies.",
                 link_monsterpedia_desc: "A Monster guide covering the game's content in detail.",
                 no_tournaments: "No tournaments at the moment.",
-                                guide_title_sec: "GAMES GUIDE",
+
+                calc_title: "SMART CALCULATOR",
+                tabCoins: "Coins",
+                tabPips: "Pips",
+                placeholderCoins: "Enter Coins...",
+                placeholderPips: "Enter Pips...",
+                resultTitle: "ESTIMATED VALUE",
+                currCoins: "COINS",
+                currPips: "PIPS",
+
+                fun_title: "FOR FUN",
+                game_xo: "Tic-Tac-Toe",
+                game_snake: "Snake",
+                game_breaker: "Breaker",
+                game_wolf: "Wolf Adventure",
+                xo_mode_classic: "VS AI",
+                xo_turn_x: "Your Turn (X)",
+                xo_turn_o: "AI Thinking (O)...",
+                xo_win_x: "You Won! 🎉",
+                xo_win_o: "AI Won!",
+                xo_tie: "Draw!",
+                breaker_drag: "Drag paddle to bounce",
+                wolf_tap_jump: "Tap screen or Space to jump",
+                snake_game_over: "Game Over! Try Again",
+
+                guide_title_sec: "GAMES GUIDE",
                 guide_dice: "Dice Party",
                 guide_dice_intro: "A simple guide on how to score in Dice Party. The board is divided into two main sections:",
                 guide_right_side: "Right Side (Combos)",
@@ -1978,39 +1998,9 @@
                 guide_rev_2: "Gameplay: Black moves first.",
                 guide_rev_3: "Capturing: You must place your disc so that your opponent's discs are flanked (trapped) between your new disc and another disc of your color.",
                 guide_rev_4: "Result: All flanked opponent discs flip to your color.",
-                guide_rev_5: "Pro Tip: Always try to capture the four corners of the board. A disc in the corner can never be flipped!",
-
-                // Calculator words
-                calc_title: "SMART CALCULATOR",
-                tabCoins: "Coins",
-                tabPips: "Pips",
-                placeholderCoins: "Enter Coins...",
-                placeholderPips: "Enter Pips...",
-                resultTitle: "ESTIMATED VALUE",
-                currCoins: "COINS",
-                currPips: "PIPS",
-
-                // Games
-                fun_title: "FOR FUN",
-                game_xo: "Tic-Tac-Toe",
-                game_snake: "Snake",
-                game_breaker: "Breaker",
-                game_wolf: "Wolf Adventure",
-                xo_turn_x: "Your Turn (X)",
-                xo_turn_o: "AI Thinking (O)...",
-                xo_win_x: "You Won! 🎉",
-                xo_win_o: "AI Won!",
-                xo_tie: "Draw!",
-                breaker_drag: "Drag paddle to bounce",
-                wolf_tap_jump: "Tap screen or Space to jump",
-                btn_open_lb: "Leaderboard (Top 10)",
-                lb_title: "Games Hall of Fame",
-                lb_desc: "Top 10 players ranked by level:",
-                lb_close: "Close",
-                snake_game_over: "Game Over! Try Again"
+                guide_rev_5: "Pro Tip: Always try to capture the four corners of the board. A disc in the corner can never be flipped!"
             }
         };
-
         function changeLang(lang, updateUrl = true) {
             document.documentElement.setAttribute('lang', lang); 
             document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
