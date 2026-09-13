@@ -362,5 +362,56 @@
             setTimeout(() => { document.documentElement.classList.add('loaded'); }, 300);
         });
     </script>
+        <!-- ==============================================
+         سكربت فايربيس اللحظي (متوافق مع تصميمك الأصلي)
+         ============================================== -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+          apiKey: "AIzaSyDkdesYmm9NjIxpG02qcprtKdG-0SaPyTI",
+          authDomain: "test-59d0f.firebaseapp.com",
+          projectId: "test-59d0f",
+          storageBucket: "test-59d0f.firebasestorage.app",
+          messagingSenderId: "472596925428",
+          appId: "1:472596925428:web:9b7d824b92300edd1d07a1"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // جلب الأخبار لحظياً ودمجها مع تصميمك الفخم
+        const q = query(collection(db, "news"), orderBy("timestamp", "desc"));
+        onSnapshot(q, (snapshot) => {
+            const firebaseNews = [];
+            snapshot.forEach((doc) => {
+                const data = doc.data();
+                firebaseNews.push([
+                    data.date || "", data.tag || "", data.titleAr || "", 
+                    data.bodyAr || "", data.titleEn || "", data.bodyEn || ""
+                ]);
+            });
+            
+            // دمج الأخبار الجديدة في تصميمك الأصلي
+            if(typeof newsCardsData !== 'undefined') {
+                newsCardsData.length = 0; // مسح الأخبار القديمة
+                firebaseNews.forEach(item => newsCardsData.push(item)); 
+            }
+            
+            // تشغيل تأثيرات بطاقات الأخبار الأصلية
+            if(typeof buildNewsHTML === "function") buildNewsHTML();
+
+            // إجبار الشاشة السوداء على الاختفاء
+            document.documentElement.classList.add('loaded');
+            document.body.classList.add('loaded');
+        });
+
+        // حماية إضافية لضمان فتح الموقع فوراً
+        setTimeout(() => {
+            document.documentElement.classList.add('loaded');
+            document.body.classList.add('loaded');
+        }, 1000);
+    </script>
 </body>
 </html>
