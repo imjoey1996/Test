@@ -2215,12 +2215,10 @@
         document.addEventListener('keydown', function(e) { if ((e.ctrlKey || e.metaKey) && (e.key === '+' || e.key === '-' || e.key === '=')) e.preventDefault(); });
         document.addEventListener('wheel', function(e) { if (e.ctrlKey || e.metaKey) e.preventDefault(); }, { passive: false });
     <script type="module">
-    // 1. استيراد مكتبات فايربيس
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getFirestore, collection, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
     import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-    // 2. إعدادات مشروعك
     const firebaseConfig = {
       apiKey: "AIzaSyDkdesYmm9NjIxpG02qcprtKdG-0SaPyTI",
       authDomain: "test-59d0f.firebaseapp.com",
@@ -2230,117 +2228,109 @@
       appId: "1:472596925428:web:9b7d824b92300edd1d07a1"
     };
 
-    // 3. تهيئة فايربيس
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const auth = getAuth(app);
+    window.db = db;
 
-    window.db = db; // جعل قاعدة البيانات متاحة عالمياً في الكود
+    // تهيئة المصفوفات فارغة لتجنب أي أخطاء في كود موقعك الأصلي
+    window.newsCardsData = [];
+    window.tournamentsList = [];
+    window.groupsSpendingData = {};
+    window.arabicLeadersData = [];
+    window.globalLeadersData = [];
 
-    // 4. نظام التحقق من الأدمن (تسجيل الدخول المخفي)
     onAuthStateChanged(auth, (user) => {
-        if (user) {
-            document.body.classList.add('is-admin');
-            console.log("Admin logged in:", user.email);
-            // يمكنك لاحقاً إضافة أزرار تعديل تظهر فقط للأدمن هنا
-        } else {
-            document.body.classList.remove('is-admin');
-        }
+        if (user) document.body.classList.add('is-admin');
+        else document.body.classList.remove('is-admin');
     });
 
-    // 5. جلب الأخبار لحظياً من Firestore
     function listenToNews() {
-        const q = query(collection(db, "news"), orderBy("timestamp", "desc"));
-        onSnapshot(q, (snapshot) => {
-            window.newsCardsData = [];
-            snapshot.forEach((doc) => {
-                const data = doc.data();
-                // ترتيب المصفوفة ليتوافق مع كود الواجهة الخاص بك: [التاريخ, التاج, عنوان عربي, تفاصيل عربي, عنوان انجليزي, تفاصيل انجليزي]
-                window.newsCardsData.push([
-                    data.date, data.tag, data.titleAr, data.bodyAr, data.titleEn, data.bodyEn
-                ]);
-            });
-            if(typeof buildNewsHTML === "function") buildNewsHTML();
-        });
-    }
-
-    // 6. جلب البطولات والإنفاق لحظياً
-    function listenToTournaments() {
-        onSnapshot(collection(db, "tournaments"), (snapshot) => {
-            window.tournamentsList = [];
-            let groupsSpending = {};
-            
-            snapshot.forEach((doc) => {
-                const data = doc.data();
-                const targetTimeMs = data.targetTimeMs || 0;
-                const diff = targetTimeMs - Date.now();
-                
-                window.tournamentsList.push({
-                    targetTimeMs: targetTimeMs,
-                    nameAr: data.nameAr,
-                    nameEn: data.nameEn,
-                    image: data.image,
-                    prizeStr: data.prizeStr,
-                    game: data.game,
-                    admin: data.admin,
-                    diff: diff
+        try {
+            const q = query(collection(db, "news"), orderBy("timestamp", "desc"));
+            onSnapshot(q, (snapshot) => {
+                window.newsCardsData = [];
+                snapshot.forEach((doc) => {
+                    const data = doc.data();
+                    // استخدام || "" لتجنب الأخطاء إذا كان الحقل غير موجود
+                    window.newsCardsData.push([
+                        data.date || "", 
+                        data.tag || "", 
+                        data.titleAr || "", 
+                        data.bodyAr || "", 
+                        data.titleEn || "", 
+                        data.bodyEn || ""
+                    ]);
                 });
-
-                // حساب الإنفاق (كما في كودك الأصلي)
-                let numValue = 0; 
-                let cleanStr = (data.prizeStr || "").toUpperCase().replace(/[^0-9.K]/g, '');
-                if (cleanStr.includes('K')) numValue = parseFloat(cleanStr.replace('K', '')) * 1000; 
-                else numValue = parseFloat(cleanStr) || 0;
-
-                if (!groupsSpending[data.nameAr]) groupsSpending[data.nameAr] = { nameAr: data.nameAr, nameEn: data.nameEn, image: data.image, total: 0 };
-                groupsSpending[data.nameAr].total += numValue;
-            });
-            
-            // تمرير البيانات لواجهة الإنفاق
-            window.groupsSpendingData = groupsSpending;
-            if(typeof renderDynamicData === "function") renderDynamicData();
-        });
+                if(typeof buildNewsHTML === "function") buildNewsHTML();
+            }, (error) => console.error("News Error:", error));
+        } catch(e) { console.error(e); }
     }
 
-    // 7. جلب القادة لحظياً
+    function listenToTournaments() {
+        try {
+            onSnapshot(collection(db, "tournaments"), (snapshot) => {
+                window.tournamentsList = [];
+                let groupsSpending = {};
+                snapshot.forEach((doc) => {
+                    const data = doc.data();
+                    const targetTimeMs = data.targetTimeMs || 0;
+                    window.tournamentsList.push({
+                        targetTimeMs: targetTimeMs,
+                        nameAr: data.nameAr || "", nameEn: data.nameEn || "",
+                        image: data.image || "", prizeStr: data.prizeStr || "0",
+                        game: data.game || "", admin: data.admin || "",
+                        diff: targetTimeMs - Date.now()
+                    });
+                    
+                    let numValue = 0; 
+                    let cleanStr = (data.prizeStr || "").toUpperCase().replace(/[^0-9.K]/g, '');
+                    if (cleanStr.includes('K')) numValue = parseFloat(cleanStr.replace('K', '')) * 1000; 
+                    else numValue = parseFloat(cleanStr) || 0;
+
+                    if (!groupsSpending[data.nameAr]) groupsSpending[data.nameAr] = { nameAr: data.nameAr, nameEn: data.nameEn, image: data.image, total: 0 };
+                    groupsSpending[data.nameAr].total += numValue;
+                });
+                window.groupsSpendingData = groupsSpending;
+                if(typeof renderDynamicData === "function") renderDynamicData();
+            }, (error) => console.error("Tournaments Error:", error));
+        } catch(e) { console.error(e); }
+    }
+
     function listenToLeaders() {
-        onSnapshot(collection(db, "leaders"), (snapshot) => {
-            window.arabicLeadersData = [];
-            window.globalLeadersData = [];
-            
-            snapshot.forEach((doc) => {
-                const data = doc.data();
-                let leaderObj = {
-                    name: data.name,
-                    server: data.server,
-                    img: data.img,
-                    desc: { en: data.descEn, ar: data.descAr },
-                    birthday: { en: data.bdayEn, ar: data.bdayAr }
-                };
-
-                if (data.server === 'arabic') {
-                    window.arabicLeadersData.push(leaderObj);
-                } else {
-                    window.globalLeadersData.push(leaderObj);
-                }
-            });
-            
-            if(typeof renderArabicLeaders === "function") renderArabicLeaders();
-            if(typeof renderGlobalLeaders === "function") renderGlobalLeaders();
-        });
+        try {
+            onSnapshot(collection(db, "leaders"), (snapshot) => {
+                window.arabicLeadersData = [];
+                window.globalLeadersData = [];
+                snapshot.forEach((doc) => {
+                    const data = doc.data();
+                    let leaderObj = {
+                        name: data.name || "", server: data.server || "", img: data.img || "",
+                        desc: { en: data.descEn || "", ar: data.descAr || "" },
+                        birthday: { en: data.bdayEn || "", ar: data.bdayAr || "" }
+                    };
+                    if (data.server === 'arabic') window.arabicLeadersData.push(leaderObj);
+                    else window.globalLeadersData.push(leaderObj);
+                });
+                if(typeof renderArabicLeaders === "function") renderArabicLeaders();
+                if(typeof renderGlobalLeaders === "function") renderGlobalLeaders();
+            }, (error) => console.error("Leaders Error:", error));
+        } catch(e) { console.error(e); }
     }
 
-    // 8. تشغيل المستمعين عند تحميل الصفحة
     document.addEventListener("DOMContentLoaded", () => {
         listenToNews();
         listenToTournaments();
         listenToLeaders();
         
-        // إعدادات الثيم واللغة
         document.documentElement.setAttribute('lang', window.savedLang || 'en');
         document.documentElement.setAttribute('dir', window.savedLang === 'ar' ? 'rtl' : 'ltr');
         
-        setTimeout(() => document.documentElement.classList.add('loaded'), 100);
+        // إجبار الشاشة السوداء على الاختفاء مهما حدث
+        setTimeout(() => {
+            document.documentElement.classList.add('loaded');
+            document.body.classList.add('loaded'); // احتياط إضافي
+        }, 500);
     });
 </script>
 </body>
