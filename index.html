@@ -2264,6 +2264,8 @@
         function openBracketSetup() {
             document.getElementById('bracket-step-0').style.display = 'none';
             document.getElementById('bracket-step-1').style.display = 'block';
+            const manualBtn = document.querySelector('.size-btn[onclick*="manual"]');
+            if(manualBtn) selectBracketSize('manual', manualBtn);
         }
 
         function closeBracketSetup() {
@@ -2307,14 +2309,22 @@
 
             let validPlayers = [];
             let seen = new Set();
+            let duplicateFound = false;
+            
             for (let p of lines) {
-                if (/^[a-zA-Z0-9_]{3,}$/.test(p)) {
-                    let lower = p.toLowerCase();
-                    if (!seen.has(lower)) {
-                        seen.add(lower);
-                        validPlayers.push(p);
-                    }
+                let lower = p.toLowerCase();
+                if (!seen.has(lower)) {
+                    seen.add(lower);
+                    validPlayers.push(p);
+                } else {
+                    duplicateFound = true;
                 }
+            }
+
+            if(duplicateFound) {
+                const toast = document.getElementById("toast");
+                toast.innerHTML = isAr ? `<i class="fa-solid fa-circle-exclamation"></i> تم حذف اليوزرات المكررة تلقائياً` : `<i class="fa-solid fa-circle-exclamation"></i> Duplicates automatically removed`;
+                toast.className = "show"; setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000);
             }
 
             if (chosenBracketCap !== 'manual' && typeof chosenBracketCap === 'number') {
@@ -2607,18 +2617,8 @@
             cbGroup = '';
             cbHost = '';
             
-            chosenBracketCap = 'manual';
-            document.querySelectorAll('.size-btn').forEach(b => {
-                b.classList.remove('active');
-                b.style.backgroundColor = 'transparent';
-                b.style.color = '';
-            });
             const manualBtn = document.querySelector('.size-btn[onclick*="manual"]');
-            if(manualBtn) {
-                manualBtn.classList.add('active');
-                manualBtn.style.backgroundColor = 'var(--primary)';
-                manualBtn.style.color = 'var(--bg-main)';
-            }
+            if(manualBtn) selectBracketSize('manual', manualBtn);
             
             const isAr = document.documentElement.lang === 'ar';
             const hint = document.getElementById('bracket-counter-hint');
