@@ -356,28 +356,6 @@
         [data-theme="light"] .calc-input-wrapper input:focus { background: #fff; border-color: var(--primary); }
         [data-theme="light"] .calc-input-wrapper input::placeholder { color: rgba(0,0,0,0.4); }
 
-        .cb-wrapper { width: 100%; display: flex; gap: 40px; overflow-x: auto; padding: 20px 0 40px 0; scroll-snap-type: x mandatory; }
-        .cb-round { display: flex; flex-direction: column; justify-content: space-around; gap: 20px; min-width: 200px; scroll-snap-align: center; }
-        .cb-match { background: var(--bg-card); border: 1px solid var(--glass-border); border-radius: 12px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.2); position: relative; }
-        .cb-match-inner { padding: 8px 12px; border-bottom: 1px solid var(--glass-border); display: flex; justify-content: space-between; align-items: center; transition: 0.2s; cursor: pointer; }
-        .cb-match-inner:last-child { border-bottom: none; }
-        .cb-match-inner:hover { background: rgba(255,255,255,0.05); }
-        [data-theme="light"] .cb-match-inner:hover { background: rgba(0,0,0,0.03); }
-        .cb-match-inner.winner { background: rgba(255,255,255,0.1); font-weight: 900; color: var(--primary); }
-        [data-theme="light"] .cb-match-inner.winner { background: rgba(0,0,0,0.08); color: var(--primary); }
-        .cb-match-inner.loser { opacity: 0.5; }
-        .cb-match-inner.readonly { cursor: default; }
-        .cb-match-inner.readonly:hover { background: transparent; }
-        .cb-player-name { font-size: 15px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 140px; }
-        .cb-sort-list { display: flex; flex-direction: column; gap: 8px; width: 100%; margin-bottom: 20px; max-height: 300px; overflow-y: auto; padding-right: 5px;}
-        .cb-sort-item { display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); padding: 10px 15px; border-radius: 8px; }
-        [data-theme="light"] .cb-sort-item { background: rgba(255,255,255,0.5); }
-        .cb-sort-btns { display: flex; gap: 10px; }
-        .cb-sort-btn { background: transparent; border: none; color: var(--text-muted); cursor: pointer; font-size: 18px; padding: 0 5px; }
-        .cb-sort-btn:hover { color: var(--primary); }
-        .cb-winner-crown { display: none; color: #fdd74e; text-shadow: 0 0 10px rgba(253,215,78,0.5); }
-        .cb-match-inner.winner .cb-winner-crown { display: inline-block; }
-
         @media (max-width: 600px) {
             .main-lang-switch { margin-top: calc(85px + env(safe-area-inset-top)); margin-bottom: 10px; } 
             .main-lang-switch .lang-btn { padding: 6px 15px; }
@@ -413,9 +391,8 @@
             .navbar h1 { font-size: 24px; padding-top: 2px; }
             .brand-header { gap: 3px; }
 
-            .cb-wrapper { gap: 20px; }
-            .cb-round { min-width: 160px; }
-            .cb-player-name { font-size: 14px; max-width: 100px; }
+            .game-tabs-selector { justify-content: flex-start; }
+            .game-tab-btn { min-width: 90px; font-size: 12px; padding: 8px 10px; }
         }
     </style>
 </head>
@@ -806,38 +783,6 @@
 
         <div class="cyber-divider"><div class="center-node"></div></div>
 
-        <section id="custom-bracket">
-            <h2 class="section-title" data-i18n="bracket_title">البطولات المصغرة</h2>
-            
-            <div id="bracket-step-1" class="glass-panel" style="width: 100%; max-width: 650px; padding: 30px; border-radius: 16px; text-align: center;">
-                <i class="fa-solid fa-sitemap pro-icon-glow" style="font-size: 35px; margin-bottom: 15px;"></i>
-                <p class="glass-desc-text" style="font-weight: 600; margin-bottom: 20px;" data-i18n="bracket_intro_desc">أداة مبسطة لإنشاء وإدارة وتتبع البطولات الخاصة بك بسهولة وسرعة، مع إمكانية مشاركتها مع الآخرين.</p>
-                
-                <textarea id="bracket-input" class="bug-input num-font" style="min-height: 120px; margin-bottom: 15px; resize: vertical;" dir="ltr" data-i18n-placeholder="bracket_textarea_placeholder" placeholder="اكتب يوزرات اللاعبين هنا (يوزر واحد في كل سطر)"></textarea>
-                
-                <button type="button" class="submit-btn" style="width: 100%;" onclick="prepareBracket()" data-i18n="bracket_btn_prepare">تجهيز البطولة</button>
-            </div>
-
-            <div id="bracket-step-2" class="glass-panel" style="display: none; width: 100%; max-width: 650px; padding: 30px; border-radius: 16px;">
-                <h3 class="pro-title-glow" style="font-size: 18px; margin-bottom: 15px; text-align: center;" data-i18n="bracket_setup_title">ترتيب اللاعبين</h3>
-                <div id="cb-sortable-list" class="cb-sort-list"></div>
-                <div style="display: flex; gap: 10px;">
-                    <button type="button" class="cancel-btn" onclick="shuffleBracket()" data-i18n="bracket_btn_shuffle"><i class="fa-solid fa-shuffle"></i> خلط عشوائي</button>
-                    <button type="button" class="submit-btn" onclick="startCustomTournament()" data-i18n="bracket_btn_start">بدء البطولة</button>
-                </div>
-            </div>
-
-            <div id="bracket-step-3" class="glass-panel" style="display: none; width: 100%; max-width: 900px; padding: 25px 15px; border-radius: 16px; position: relative;">
-                <h3 id="cb-readonly-title" class="pro-title-glow" style="display: none; font-size: 18px; margin-bottom: 20px; text-align: center;" data-i18n="bracket_readonly_title">عرض البطولة</h3>
-                <div id="cb-bracket-view" class="cb-wrapper" dir="ltr"></div>
-                <div id="cb-share-box" style="display: flex; justify-content: center; margin-top: 20px;">
-                    <button type="button" class="submit-btn" style="max-width: 300px;" onclick="shareBracket()" data-i18n="bracket_btn_share"><i class="fa-solid fa-share-nodes"></i> نسخ رابط البطولة</button>
-                </div>
-            </div>
-        </section>
-
-        <div class="cyber-divider"><div class="center-node"></div></div>
-
         <section id="accounts">
             <h2 class="section-title" data-i18n="players_title">اللاعبين الاقدم</h2>
             <div class="premium-list" id="oldest-players-container"></div>
@@ -908,11 +853,6 @@
         let currentLatestTour = null;
         let currentLatestWeekly = null;
 
-        let cbPlayers = [];
-        let cbMatches = [];
-        let cbIsReadOnly = false;
-        let cbTotalRounds = 0;
-
         const tourSheetURL = "https://docs.google.com/spreadsheets/d/10Iuz3frTKBQaR2SZ2_GzSe7Sn5GzaefJ6szTebK91vE/gviz/tq?tqx=out:csv"; 
 
         function hashCode(str) {
@@ -962,6 +902,21 @@
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
             if (viewName === 'home') setTimeout(updateCarouselButtons, 80);
+
+            if (viewName !== 'explore') {
+                if (typeof snakeInterval !== 'undefined' && snakeInterval) {
+                    clearInterval(snakeInterval);
+                    snakeGameRunning = false;
+                }
+                if (typeof breakerAnimId !== 'undefined' && breakerAnimId) {
+                    cancelAnimationFrame(breakerAnimId);
+                    breakerGameRunning = false;
+                }
+                if (typeof wolfAnimId !== 'undefined' && wolfAnimId) {
+                    cancelAnimationFrame(wolfAnimId);
+                    wolfGameRunning = false;
+                }
+            }
         }
 
         function toggleNotif() {
@@ -1394,16 +1349,20 @@
                 currCoins: "COINS", 
                 currPips: "PIPS",
 
-                bracket_title: "البطولات المصغرة",
-                bracket_intro_desc: "أداة مبسطة لإنشاء وإدارة وتتبع البطولات الخاصة بك بسهولة وسرعة، مع إمكانية مشاركتها مع الآخرين.",
-                bracket_textarea_placeholder: "اكتب يوزرات اللاعبين هنا (يوزر واحد في كل سطر)",
-                bracket_btn_prepare: "تجهيز البطولة",
-                bracket_setup_title: "ترتيب اللاعبين",
-                bracket_btn_shuffle: "خلط عشوائي",
-                bracket_btn_start: "بدء البطولة",
-                bracket_readonly_title: "عرض البطولة",
-                bracket_btn_share: "نسخ رابط البطولة",
-                bracket_bye: "تأهل تلقائي"
+                fun_title: "الألعاب",
+                game_xo: "تيك تاك تو",
+                game_snake: "الأفعى",
+                game_breaker: "كاسر الطوب",
+                game_wolf: "مغامرة الذئب",
+                xo_mode_classic: "VS AI",
+                xo_turn_x: "دورك (X)",
+                xo_turn_o: "دور الذكاء (O)...",
+                xo_win_x: "مبروك! فزت 🎉",
+                xo_win_o: "فاز الكمبيوتر!",
+                xo_tie: "تعادل!",
+                breaker_drag: "اسحب المضرب لصد الكرة",
+                wolf_tap_jump: "انقر على الشاشة أو زر المسافة (Space) للقفز",
+                snake_game_over: "انتهت اللعبة! انقر للبدء مجدداً"
             },
             en: {
                 nav_home: "Home", nav_leaders: "About Leaders", nav_leaderboard: "Explore",
@@ -1466,16 +1425,20 @@
                 currCoins: "COINS",
                 currPips: "PIPS",
 
-                bracket_title: "MINI TOURNAMENTS",
-                bracket_intro_desc: "A simple tool to create, manage, and track your custom tournaments easily, and share them with others.",
-                bracket_textarea_placeholder: "Enter player usernames here (one per line)",
-                bracket_btn_prepare: "Prepare Bracket",
-                bracket_setup_title: "Arrange Players",
-                bracket_btn_shuffle: "Random Shuffle",
-                bracket_btn_start: "Start Tournament",
-                bracket_readonly_title: "Tournament View",
-                bracket_btn_share: "Copy Share Link",
-                bracket_bye: "Bye"
+                fun_title: "FOR FUN",
+                game_xo: "Tic-Tac-Toe",
+                game_snake: "Snake",
+                game_breaker: "Breaker",
+                game_wolf: "Wolf Adventure",
+                xo_mode_classic: "VS AI",
+                xo_turn_x: "Your Turn (X)",
+                xo_turn_o: "AI Thinking (O)...",
+                xo_win_x: "You Won! 🎉",
+                xo_win_o: "AI Won!",
+                xo_tie: "Draw!",
+                breaker_drag: "Drag paddle to bounce",
+                wolf_tap_jump: "Tap screen or Space to jump",
+                snake_game_over: "Game Over! Try Again"
             }
         };
 
@@ -1492,12 +1455,6 @@
                 }
             });
             
-            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-                if(translations[lang][el.getAttribute('data-i18n-placeholder')]) {
-                    el.placeholder = translations[lang][el.getAttribute('data-i18n-placeholder')];
-                }
-            });
-
             document.getElementById('plato-id').placeholder = lang === 'ar' ? 'يوزرك في اللعبة' : 'Your Plato ID';
             document.getElementById('bug-desc').placeholder = lang === 'ar' ? 'وصف المشكلة...' : 'Issue description...';
             
@@ -1523,15 +1480,9 @@
             }
             safeSetStorage('lang', lang);
 
-            if (cbMatches.length > 0) {
-                renderActiveBracket();
-            }
-
             if (updateUrl) {
                 const currentView = safeGetSession('currentView') || 'home';
-                if (!window.location.search.includes('t=')) {
-                    window.history.pushState({ view: currentView, lang: lang }, '', `/${lang}/${currentView}`);
-                }
+                window.history.pushState({ view: currentView, lang: lang }, '', `/${lang}/${currentView}`);
             }
         }
 
@@ -2187,196 +2138,6 @@
             animateCalcValue(outVal, currentDisplay, targetValue, 400, isResultFloat, targetColor, targetShadow);
         }
 
-        function prepareBracket() {
-            const textarea = document.getElementById('bracket-input');
-            const lines = textarea.value.split('\n').map(l => l.trim()).filter(l => l.length > 0);
-            
-            if(lines.length < 2) {
-                const isAr = document.documentElement.lang === 'ar';
-                const toast = document.getElementById("toast");
-                toast.innerHTML = isAr ? `<i class="fa-solid fa-circle-exclamation"></i> يجب إدخال لاعبين اثنين على الأقل` : `<i class="fa-solid fa-circle-exclamation"></i> Enter at least 2 players`;
-                toast.className = "show"; setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 2500);
-                return;
-            }
-            
-            cbPlayers = lines;
-            document.getElementById('bracket-step-1').style.display = 'none';
-            document.getElementById('bracket-step-2').style.display = 'block';
-            renderBracketSortList();
-        }
-
-        function renderBracketSortList() {
-            const list = document.getElementById('cb-sortable-list');
-            list.innerHTML = '';
-            cbPlayers.forEach((p, index) => {
-                const item = document.createElement('div');
-                item.className = 'cb-sort-item';
-                item.innerHTML = `
-                    <span class="num-font" style="font-weight:700;">${escapeHTML(p)}</span>
-                    <div class="cb-sort-btns">
-                        <button type="button" class="cb-sort-btn" onclick="moveBracketPlayer(${index}, -1)" ${index === 0 ? 'style="opacity:0.2;pointer-events:none;"' : ''}><i class="fa-solid fa-caret-up"></i></button>
-                        <button type="button" class="cb-sort-btn" onclick="moveBracketPlayer(${index}, 1)" ${index === cbPlayers.length - 1 ? 'style="opacity:0.2;pointer-events:none;"' : ''}><i class="fa-solid fa-caret-down"></i></button>
-                    </div>
-                `;
-                list.appendChild(item);
-            });
-        }
-
-        function moveBracketPlayer(index, dir) {
-            if(index + dir < 0 || index + dir >= cbPlayers.length) return;
-            const temp = cbPlayers[index];
-            cbPlayers[index] = cbPlayers[index + dir];
-            cbPlayers[index + dir] = temp;
-            renderBracketSortList();
-        }
-
-        function shuffleBracket() {
-            for (let i = cbPlayers.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [cbPlayers[i], cbPlayers[j]] = [cbPlayers[j], cbPlayers[i]];
-            }
-            renderBracketSortList();
-        }
-
-        function startCustomTournament() {
-            const isAr = document.documentElement.lang === 'ar';
-            const byeText = isAr ? 'تأهل تلقائي' : 'Bye';
-            
-            let n = cbPlayers.length;
-            let nextPow2 = Math.pow(2, Math.ceil(Math.log2(n)));
-            if(nextPow2 < 2) nextPow2 = 2;
-            
-            while(cbPlayers.length < nextPow2) {
-                cbPlayers.push(byeText);
-            }
-            
-            cbTotalRounds = Math.log2(cbPlayers.length);
-            cbMatches = [];
-            
-            for(let r = 0; r < cbTotalRounds; r++) {
-                let matchesInRound = Math.pow(2, cbTotalRounds - r - 1);
-                let roundArr = [];
-                for(let m = 0; m < matchesInRound; m++) {
-                    roundArr.push(null); 
-                }
-                cbMatches.push(roundArr);
-            }
-            
-            for(let m = 0; m < cbMatches[0].length; m++) {
-                let p1 = cbPlayers[m * 2];
-                let p2 = cbPlayers[m * 2 + 1];
-                if(p1 === byeText && p2 !== byeText) cbMatches[0][m] = 1;
-                else if(p2 === byeText && p1 !== byeText) cbMatches[0][m] = 0;
-                else if(p1 === byeText && p2 === byeText) cbMatches[0][m] = 0;
-            }
-            
-            document.getElementById('bracket-step-2').style.display = 'none';
-            document.getElementById('bracket-step-3').style.display = 'block';
-            cbIsReadOnly = false;
-            
-            renderActiveBracket();
-        }
-
-        function getPlayerNameForMatch(r, m, pos) {
-            if(r === 0) {
-                return cbPlayers[m * 2 + pos];
-            } else {
-                let prevMatchIndex = m * 2 + pos;
-                let prevWinnerPos = cbMatches[r-1][prevMatchIndex];
-                if(prevWinnerPos === null) return null;
-                return getPlayerNameForMatch(r-1, prevMatchIndex, prevWinnerPos);
-            }
-        }
-
-        function renderActiveBracket() {
-            const container = document.getElementById('cb-bracket-view');
-            container.innerHTML = '';
-            
-            const isAr = document.documentElement.lang === 'ar';
-            const byeText = isAr ? 'تأهل تلقائي' : 'Bye';
-            
-            for(let r = 0; r < cbTotalRounds; r++) {
-                const col = document.createElement('div');
-                col.className = 'cb-round';
-                
-                for(let m = 0; m < cbMatches[r].length; m++) {
-                    const matchDiv = document.createElement('div');
-                    matchDiv.className = 'cb-match';
-                    
-                    let p1Name = getPlayerNameForMatch(r, m, 0);
-                    let p2Name = getPlayerNameForMatch(r, m, 1);
-                    let winnerPos = cbMatches[r][m];
-                    
-                    const p1Display = p1Name ? escapeHTML(p1Name) : '---';
-                    const p2Display = p2Name ? escapeHTML(p2Name) : '---';
-                    
-                    let p1Class = 'cb-match-inner' + (cbIsReadOnly ? ' readonly' : '');
-                    let p2Class = 'cb-match-inner' + (cbIsReadOnly ? ' readonly' : '');
-                    
-                    if(winnerPos === 0) { p1Class += ' winner'; p2Class += ' loser'; }
-                    else if(winnerPos === 1) { p2Class += ' winner'; p1Class += ' loser'; }
-                    
-                    const p1OnClick = (!cbIsReadOnly && p1Name && p1Name !== byeText) ? `onclick="advanceBracket(${r}, ${m}, 0)"` : '';
-                    const p2OnClick = (!cbIsReadOnly && p2Name && p2Name !== byeText) ? `onclick="advanceBracket(${r}, ${m}, 1)"` : '';
-
-                    matchDiv.innerHTML = `
-                        <div class="${p1Class}" ${p1OnClick}>
-                            <span class="cb-player-name num-font" dir="auto">${p1Display}</span>
-                            <i class="fa-solid fa-crown cb-winner-crown"></i>
-                        </div>
-                        <div class="${p2Class}" ${p2OnClick}>
-                            <span class="cb-player-name num-font" dir="auto">${p2Display}</span>
-                            <i class="fa-solid fa-crown cb-winner-crown"></i>
-                        </div>
-                    `;
-                    col.appendChild(matchDiv);
-                }
-                container.appendChild(col);
-            }
-        }
-
-        function advanceBracket(r, m, pos) {
-            let pName = getPlayerNameForMatch(r, m, pos);
-            if(!pName) return;
-            
-            cbMatches[r][m] = pos;
-            
-            for(let i = r + 1; i < cbTotalRounds; i++) {
-                let checkM = m;
-                for(let step = r; step < i; step++) {
-                    checkM = Math.floor(checkM / 2);
-                }
-                cbMatches[i][checkM] = null;
-            }
-            renderActiveBracket();
-        }
-
-        function encodeBracketData() {
-            const data = { p: cbPlayers, m: cbMatches };
-            return btoa(encodeURIComponent(JSON.stringify(data)));
-        }
-
-        function decodeBracketData(hash) {
-            try {
-                return JSON.parse(decodeURIComponent(atob(hash)));
-            } catch(e) {
-                return null;
-            }
-        }
-
-        function shareBracket() {
-            const hash = encodeBracketData();
-            const baseUrl = window.location.href.split('?')[0];
-            const shareUrl = baseUrl + '?t=' + hash;
-            
-            navigator.clipboard.writeText(shareUrl).then(() => {
-                const isAr = document.documentElement.lang === 'ar';
-                const toast = document.getElementById("toast");
-                toast.innerHTML = isAr ? `<i class="fa-solid fa-check"></i> تم نسخ رابط البطولة` : `<i class="fa-solid fa-check"></i> Tournament Link Copied`;
-                toast.className = "show"; setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 2500);
-            });
-        }
-
         document.addEventListener("DOMContentLoaded", () => {
             document.documentElement.setAttribute('lang', savedLang);
             document.documentElement.setAttribute('dir', savedLang === 'ar' ? 'rtl' : 'ltr');
@@ -2390,57 +2151,31 @@
                 nSlider.addEventListener('mousemove', (e) => { if (!isDown) return; e.preventDefault(); const x = e.pageX - nSlider.offsetLeft; const walk = (x - startX) * 2; nSlider.scrollLeft = sLeft - walk; });
             }
 
-            const bSlider = document.getElementById('cb-bracket-view');
-            let bIsDown = false, bStartX, bSLeft;
-            if(bSlider) {
-                bSlider.addEventListener('mousedown', (e) => { bIsDown = true; bStartX = e.pageX - bSlider.offsetLeft; bSLeft = bSlider.scrollLeft; });
-                bSlider.addEventListener('mouseleave', () => bIsDown = false); bSlider.addEventListener('mouseup', () => bIsDown = false);
-                bSlider.addEventListener('mousemove', (e) => { if (!bIsDown) return; e.preventDefault(); const x = e.pageX - bSlider.offsetLeft; const walk = (x - bStartX) * 2; bSlider.scrollLeft = bSLeft - walk; });
-            }
-
             loadDynamicData();
 
             const pathSegments = window.location.pathname.split('/').filter(Boolean);
             
-            let initLang = 'en';
-            let initView = 'home';
+            let initLang, initView;
 
-            if (pathSegments.length > 0) {
+            if (pathSegments.length === 0) {
+                initLang = 'en';
+                initView = 'home';
+            } else {
                 initLang = pathSegments[0];
-                if (initLang !== 'en' && initLang !== 'ar') initLang = 'en';
-                
-                if (pathSegments.length > 1) {
-                    initView = pathSegments[1];
-                    if (initView !== 'home' && initView !== 'leaders' && initView !== 'explore') initView = 'home';
+                initView = pathSegments[1];
+
+                if (initLang !== 'en' && initLang !== 'ar') {
+                    initLang = 'en';
                 }
-            }
 
-            const urlParams = new URLSearchParams(window.location.search);
-            const tourDataHash = urlParams.get('t');
-
-            if (tourDataHash) {
-                const parsedTour = decodeBracketData(tourDataHash);
-                if (parsedTour && parsedTour.p && parsedTour.m) {
-                    initView = 'explore';
-                    cbPlayers = parsedTour.p;
-                    cbMatches = parsedTour.m;
-                    cbIsReadOnly = true;
-                    cbTotalRounds = Math.log2(cbPlayers.length);
-                    
-                    document.getElementById('bracket-step-1').style.display = 'none';
-                    document.getElementById('bracket-step-2').style.display = 'none';
-                    document.getElementById('bracket-step-3').style.display = 'block';
-                    document.getElementById('cb-share-box').style.display = 'none';
-                    document.getElementById('cb-readonly-title').style.display = 'block';
+                if (initView !== 'home' && initView !== 'leaders' && initView !== 'explore') {
+                    initView = 'home';
                 }
             }
 
             changeLang(initLang, false);
             switchView(initView, null, false);
-            
-            if (!tourDataHash) {
-                window.history.pushState({ view: initView, lang: initLang }, '', `/${initLang}/${initView}`);
-            }
+            window.history.pushState({ view: initView, lang: initLang }, '', `/${initLang}/${initView}`);
 
             window.addEventListener('popstate', (e) => {
                 if (e.state) {
