@@ -817,43 +817,67 @@
         <section id="custom-bracket">
             <h2 class="section-title" data-i18n="bracket_title">البطولات المصغرة</h2>
             
-            <div id="bracket-step-1" class="glass-panel" style="width: 100%; max-width: 650px; padding: 30px; border-radius: 16px; text-align: center;">
-                <i class="fa-solid fa-sitemap pro-icon-glow" style="font-size: 35px; margin-bottom: 15px;"></i>
-                <p class="glass-desc-text" style="font-weight: 600; margin-bottom: 20px;" data-i18n="bracket_intro_desc">أداة مبسطة لإنشاء وإدارة وتتبع البطولات الخاصة بك بسهولة وسرعة، مع إمكانية مشاركتها مع الآخرين.</p>
-                
-                <input type="text" id="bracket-group" class="bug-input num-font" style="margin-bottom:10px;" data-i18n-placeholder="bracket_group_placeholder" placeholder="اسم المجموعة (اختياري)">
-                <input type="text" id="bracket-host" class="bug-input num-font" style="margin-bottom:15px;" data-i18n-placeholder="bracket_host_placeholder" placeholder="اسم المنظم (اختياري)">
-
-                <textarea id="bracket-input" class="bug-input num-font" style="min-height: 120px; margin-bottom: 15px; resize: vertical;" dir="ltr" data-i18n-placeholder="bracket_textarea_placeholder" placeholder="اكتب يوزرات اللاعبين هنا (يوزر واحد في كل سطر)"></textarea>
-                
-                <button type="button" class="submit-btn" style="width: 100%;" onclick="prepareBracket()" data-i18n="bracket_btn_prepare">تجهيز البطولة</button>
+            <div id="bracket-step-0" class="glass-panel" style="width: 100%; max-width: 600px; padding: 25px 20px; border-radius: 16px; text-align: center;">
+                <i class="fa-solid fa-sitemap pro-icon-glow" style="font-size: 32px; margin-bottom: 12px;"></i>
+                <p class="glass-desc-text" style="font-weight: 600; margin-bottom: 18px;" data-i18n="bracket_intro_desc">أداة مبسطة لإنشاء وإدارة وتتبع البطولات الخاصة بك بسهولة وسرعة، مع إمكانية مشاركتها مع الآخرين.</p>
+                <button type="button" class="submit-btn" style="width: 100%; max-width: 280px; margin: 0 auto;" onclick="openBracketSetup()">
+                    <i class="fa-solid fa-plus"></i> <span data-i18n="bracket_btn_create">إنشاء بطولة جديدة</span>
+                </button>
             </div>
 
-            <div id="bracket-step-2" class="glass-panel" style="display: none; width: 100%; max-width: 650px; padding: 30px; border-radius: 16px;">
-                <h3 class="pro-title-glow" style="font-size: 18px; margin-bottom: 15px; text-align: center;"><span data-i18n="bracket_setup_title">ترتيب اللاعبين</span> (<span id="cb-players-count">0</span>)</h3>
+            <div id="bracket-step-1" class="glass-panel" style="display: none; width: 100%; max-width: 650px; padding: 25px 20px; border-radius: 16px;">
+                
+                <div style="margin-bottom: 15px;">
+                    <label style="display:block; margin-bottom: 8px; font-weight: 800; font-size: 13px; color: var(--text-muted);">حجم البطولة:</label>
+                    <div class="server-tabs" dir="ltr" style="margin-bottom: 0; max-width: 100%; gap: 6px;">
+                        <button type="button" class="server-tab size-btn" onclick="selectBracketSize(16, this)">16</button>
+                        <button type="button" class="server-tab size-btn" onclick="selectBracketSize(24, this)">24</button>
+                        <button type="button" class="server-tab size-btn" onclick="selectBracketSize(32, this)">32</button>
+                        <button type="button" class="server-tab size-btn" onclick="selectBracketSize(64, this)">64</button>
+                        <button type="button" class="server-tab size-btn active" onclick="selectBracketSize('manual', this)">يدوي</button>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap;">
+                    <input type="text" id="bracket-group" class="bug-input num-font" style="flex: 1; min-width: 140px;" data-i18n-placeholder="bracket_group_placeholder" placeholder="اسم المجموعة (اختياري)">
+                    <input type="text" id="bracket-host" class="bug-input num-font" style="flex: 1; min-width: 140px;" data-i18n-placeholder="bracket_host_placeholder" placeholder="اسم المنظم (اختياري)">
+                </div>
+
+                <div style="position: relative; margin-bottom: 15px;">
+                    <textarea id="bracket-input" class="bug-input num-font" style="min-height: 120px; resize: vertical;" dir="ltr" data-i18n-placeholder="bracket_textarea_placeholder" placeholder="اكتب يوزرات اللاعبين هنا (يوزر واحد في كل سطر)"></textarea>
+                    <div id="bracket-counter-hint" class="char-counter-badge num-font" style="font-size: 11px;">0 لاعبين</div>
+                </div>
+                
+                <div style="display: flex; gap: 10px;">
+                    <button type="button" class="submit-btn" onclick="prepareBracket()" data-i18n="bracket_btn_prepare">تجهيز البطولة</button>
+                    <button type="button" class="cancel-btn" onclick="closeBracketSetup()" data-i18n="bug_cancel">إلغاء</button>
+                </div>
+            </div>
+
+            <div id="bracket-step-2" class="glass-panel" style="display: none; width: 100%; max-width: 650px; padding: 25px 20px; border-radius: 16px;">
+                <h3 class="pro-title-glow" style="font-size: 16px; margin-bottom: 15px; text-align: center;"><span data-i18n="bracket_setup_title">ترتيب اللاعبين</span> (<span id="cb-players-count">0</span>)</h3>
                 <div id="cb-sortable-list" class="cb-sort-list"></div>
                 <div style="display: flex; gap: 10px;">
-                    <button type="button" class="cancel-btn" onclick="shuffleBracket()" data-i18n="bracket_btn_shuffle"><i class="fa-solid fa-shuffle"></i> خلط عشوائي</button>
+                    <button type="button" class="cancel-btn" onclick="shuffleBracket()" data-i18n="bracket_btn_shuffle"><i class="fa-solid fa-shuffle"></i> خلط متوازن</button>
                     <button type="button" class="submit-btn" onclick="startCustomTournament()" data-i18n="bracket_btn_start">بدء البطولة</button>
                 </div>
             </div>
 
             <div id="bracket-step-3" class="glass-panel" style="display: none; width: 100%; max-width: 900px; padding: 25px 15px; border-radius: 16px; position: relative;">
                 
-                <div id="cb-brand-header" style="display: none; text-align: center; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid var(--glass-border);">
-                    <img src="IMG_0586.png?v=3" alt="PlatoX" style="width: 50px; height: 50px; border-radius: 12px; margin-bottom: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
-                    <h2 class="num-font" style="font-size: 24px; font-weight: 900; margin:0; letter-spacing: 0.5px;">Plato<span style="color: var(--primary);">X</span></h2>
+                <div id="cb-brand-header" style="display: none; text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid var(--glass-border);">
+                    <img src="IMG_0586.png?v=3" alt="PlatoX" style="width: 44px; height: 44px; border-radius: 10px; margin-bottom: 6px;">
+                    <h2 class="num-font" style="font-size: 20px; font-weight: 900; margin:0;">Plato<span style="color: var(--primary);">X</span></h2>
                     
-                    <div id="cb-tour-info" style="margin-top: 10px; display: none; gap: 8px; justify-content: center; flex-wrap: wrap;"></div>
-
-                    <p style="color: var(--text-muted); font-size: 13px; font-weight: 700; margin-top: 10px;" data-i18n="bracket_brand_sub">بطولة مقدمة من مجتمع بلاتوكس</p>
+                    <div id="cb-tour-info" style="margin-top: 8px; display: none; gap: 8px; justify-content: center; flex-wrap: wrap;"></div>
+                    <p style="color: var(--text-muted); font-size: 12px; font-weight: 700; margin-top: 8px; letter-spacing: 0.5px;">Tournament hosted by PlatoX Community</p>
                 </div>
 
                 <div id="cb-bracket-view" class="cb-wrapper" dir="ltr"></div>
                 
                 <div id="cb-share-box" style="display: flex; justify-content: center; margin-top: 20px; gap: 10px; flex-wrap: wrap;">
-                    <button type="button" class="submit-btn" style="max-width: 300px;" onclick="shareBracket()" data-i18n="bracket_btn_share"><i class="fa-solid fa-share-nodes"></i> نسخ رابط البطولة</button>
-                    <button type="button" class="cancel-btn" style="max-width: 300px;" onclick="resetBracket()" data-i18n="bracket_btn_reset"><i class="fa-solid fa-rotate-right"></i> بطولة جديدة</button>
+                    <button type="button" class="submit-btn" style="max-width: 250px;" onclick="shareBracket()" data-i18n="bracket_btn_share"><i class="fa-solid fa-share-nodes"></i> نسخ رابط البطولة</button>
+                    <button type="button" class="cancel-btn" style="max-width: 250px;" onclick="resetBracket()" data-i18n="bracket_btn_reset"><i class="fa-solid fa-rotate-right"></i> بطولة جديدة</button>
                 </div>
             </div>
         </section>
@@ -1420,12 +1444,13 @@
 
                 bracket_title: "البطولات المصغرة",
                 bracket_intro_desc: "أداة مبسطة لإنشاء وإدارة وتتبع البطولات الخاصة بك بسهولة وسرعة، مع إمكانية مشاركتها مع الآخرين.",
+                bracket_btn_create: "إنشاء بطولة جديدة",
                 bracket_textarea_placeholder: "اكتب يوزرات اللاعبين هنا (يوزر واحد في كل سطر)",
                 bracket_group_placeholder: "اسم المجموعة (اختياري)",
                 bracket_host_placeholder: "اسم المنظم (اختياري)",
                 bracket_btn_prepare: "تجهيز البطولة",
                 bracket_setup_title: "ترتيب اللاعبين",
-                bracket_btn_shuffle: "خلط عشوائي",
+                bracket_btn_shuffle: "خلط متوازن",
                 bracket_btn_start: "بدء البطولة",
                 bracket_readonly_title: "عرض البطولة",
                 bracket_btn_share: "نسخ رابط البطولة",
@@ -1496,12 +1521,13 @@
 
                 bracket_title: "MINI TOURNAMENTS",
                 bracket_intro_desc: "A simple tool to create, manage, and track your custom tournaments easily, and share them with others.",
+                bracket_btn_create: "Create New Tournament",
                 bracket_textarea_placeholder: "Enter player usernames here (one per line)",
                 bracket_group_placeholder: "Group Name (Optional)",
                 bracket_host_placeholder: "Host Name (Optional)",
                 bracket_btn_prepare: "Prepare Bracket",
                 bracket_setup_title: "Arrange Players",
-                bracket_btn_shuffle: "Random Shuffle",
+                bracket_btn_shuffle: "Balanced Shuffle",
                 bracket_btn_start: "Start Tournament",
                 bracket_readonly_title: "Tournament View",
                 bracket_btn_share: "Copy Share Link",
@@ -2219,6 +2245,36 @@
             animateCalcValue(outVal, currentDisplay, targetValue, 400, isResultFloat, targetColor, targetShadow);
         }
 
+        let chosenBracketCap = 'manual';
+
+        function openBracketSetup() {
+            document.getElementById('bracket-step-0').style.display = 'none';
+            document.getElementById('bracket-step-1').style.display = 'block';
+        }
+
+        function closeBracketSetup() {
+            document.getElementById('bracket-step-1').style.display = 'none';
+            document.getElementById('bracket-step-0').style.display = 'block';
+        }
+
+        function selectBracketSize(val, btn) {
+            chosenBracketCap = val;
+            document.querySelectorAll('.size-btn').forEach(b => {
+                b.classList.remove('active');
+                b.style.backgroundColor = 'transparent';
+                b.style.color = '';
+            });
+            btn.classList.add('active');
+            btn.style.backgroundColor = 'var(--primary)';
+            btn.style.color = 'var(--bg-main)';
+        }
+
+        document.getElementById('bracket-input')?.addEventListener('input', function() {
+            const count = this.value.split('\n').filter(l => l.trim().length > 0).length;
+            const hint = document.getElementById('bracket-counter-hint');
+            if(hint) hint.innerText = `${count} لاعبين`;
+        });
+
         function prepareBracket() {
             cbGroup = document.getElementById('bracket-group').value.trim();
             cbHost = document.getElementById('bracket-host').value.trim();
@@ -2235,39 +2291,31 @@
             }
 
             let validPlayers = [];
-            let hasDuplicates = false;
-            let hasInvalid = false;
-            
+            let seen = new Set();
             for (let p of lines) {
-                if (!/^[a-zA-Z0-9_]{3,}$/.test(p)) {
-                    hasInvalid = true;
-                    continue;
+                if (/^[a-zA-Z0-9_]{3,}$/.test(p)) {
+                    let lower = p.toLowerCase();
+                    if (!seen.has(lower)) {
+                        seen.add(lower);
+                        validPlayers.push(p);
+                    }
                 }
-                if (validPlayers.findIndex(vp => vp.toLowerCase() === p.toLowerCase()) !== -1) {
-                    hasDuplicates = true;
-                    continue;
-                }
-                validPlayers.push(p);
             }
 
-            if (hasDuplicates || hasInvalid) {
-                textarea.value = validPlayers.join('\n');
-                let msg = isAr ? "تم إزالة يوزرات مكررة أو غير مطابقة للشروط (٣ حروف إنجليزية/أرقام فأكثر)." : "Duplicate or invalid IDs (min 3 chars) were removed.";
-                const toast = document.getElementById("toast");
-                toast.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> ${msg}`;
-                toast.className = "show"; setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 4000);
+            if (chosenBracketCap !== 'manual' && typeof chosenBracketCap === 'number') {
+                if (validPlayers.length > chosenBracketCap) {
+                    validPlayers = validPlayers.slice(0, chosenBracketCap);
+                }
             }
 
-            cbPlayers = validPlayers;
-            
-            if(cbPlayers.length < 2) {
-                let msg2 = isAr ? "تبقى أقل من لاعبين اثنين بعد الفلترة، يرجى إضافة المزيد." : "Less than 2 valid players remain. Please add more.";
+            if(validPlayers.length < 2) {
                 const toast = document.getElementById("toast");
-                toast.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> ${msg2}`;
-                toast.className = "show"; setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000);
+                toast.innerHTML = isAr ? `<i class="fa-solid fa-circle-exclamation"></i> عدد اللاعبين المؤهلين أقل من 2` : `<i class="fa-solid fa-circle-exclamation"></i> Less than 2 valid players`;
+                toast.className = "show"; setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 2500);
                 return;
             }
 
+            cbPlayers = validPlayers;
             document.getElementById('bracket-step-1').style.display = 'none';
             document.getElementById('bracket-step-2').style.display = 'block';
             document.getElementById('cb-players-count').innerText = cbPlayers.length;
@@ -2346,32 +2394,33 @@
             let nextPow2 = Math.pow(2, Math.ceil(Math.log2(n)));
             if(nextPow2 < 2) nextPow2 = 2;
             
-            let byesCount = nextPow2 - n;
-            let tempPlayers = [...cbPlayers];
-            let finalPlayers = [];
+            let totalByes = nextPow2 - n;
+            let slots = new Array(nextPow2).fill(null);
+            
+            let byeMatches = new Set();
+            let matchesTotal = nextPow2 / 2;
+            let step = matchesTotal / (totalByes || 1);
+            for(let b = 0; b < totalByes; b++) {
+                byeMatches.add(Math.floor(b * step));
+            }
 
-            for(let i = 0; i < nextPow2 / 2; i++) {
-                if (byesCount > 0) {
-                    finalPlayers.push(tempPlayers.shift());
-                    finalPlayers.push(byeText);
-                    byesCount--;
+            let pIdx = 0;
+            for(let m = 0; m < matchesTotal; m++) {
+                slots[m * 2] = cbPlayers[pIdx++];
+                if (byeMatches.has(m) && totalByes > 0) {
+                    slots[m * 2 + 1] = byeText;
                 } else {
-                    finalPlayers.push(tempPlayers.shift());
-                    finalPlayers.push(tempPlayers.shift());
+                    slots[m * 2 + 1] = cbPlayers[pIdx++];
                 }
             }
 
-            cbPlayers = finalPlayers;
+            cbPlayers = slots;
             cbTotalRounds = Math.log2(cbPlayers.length);
             cbMatches = [];
             
             for(let r = 0; r < cbTotalRounds; r++) {
                 let matchesInRound = Math.pow(2, cbTotalRounds - r - 1);
-                let roundArr = [];
-                for(let m = 0; m < matchesInRound; m++) {
-                    roundArr.push(null); 
-                }
-                cbMatches.push(roundArr);
+                cbMatches.push(new Array(matchesInRound).fill(null));
             }
             
             for(let m = 0; m < cbMatches[0].length; m++) {
@@ -2384,11 +2433,10 @@
             document.getElementById('bracket-step-2').style.display = 'none';
             document.getElementById('bracket-step-3').style.display = 'block';
             
-            updateTourInfoHeader();
-            document.getElementById('cb-brand-header').style.display = 'block';
+            document.getElementById('cb-brand-header').style.display = 'none';
+            document.getElementById('cb-share-box').style.display = 'flex';
             
             cbIsReadOnly = false;
-            
             renderActiveBracket();
         }
 
@@ -2478,21 +2526,49 @@
         }
 
         function encodeBracketData() {
-            const data = { p: cbPlayers, m: cbMatches, g: cbGroup, h: cbHost };
-            return btoa(encodeURIComponent(JSON.stringify(data)));
+            const flatMatches = cbMatches.map(round => round.map(v => (v === null ? 2 : v)).join('')).join('.');
+            const compactPayload = [
+                cbGroup || '',
+                cbHost || '',
+                cbPlayers.join(','),
+                flatMatches
+            ];
+            return encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify(compactPayload)))));
         }
 
         function decodeBracketData(hash) {
             try {
+                const raw = decodeURIComponent(escape(atob(decodeURIComponent(hash))));
+                const arr = JSON.parse(raw);
+                if (Array.isArray(arr) && arr.length >= 4) {
+                    const group = arr[0];
+                    const host = arr[1];
+                    const players = arr[2].split(',');
+                    const matchRounds = arr[3].split('.').map(rStr => rStr.split('').map(c => (c === '2' ? null : parseInt(c, 10))));
+                    return { p: players, m: matchRounds, g: group, h: host };
+                }
                 return JSON.parse(decodeURIComponent(atob(hash)));
             } catch(e) {
                 return null;
             }
         }
 
+        function shareBracket() {
+            const hash = encodeBracketData();
+            const baseUrl = window.location.origin + window.location.pathname;
+            const shareUrl = `${baseUrl}?t=${hash}`;
+            
+            navigator.clipboard.writeText(shareUrl).then(() => {
+                const isAr = document.documentElement.lang === 'ar';
+                const toast = document.getElementById("toast");
+                toast.innerHTML = isAr ? `<i class="fa-solid fa-check"></i> تم نسخ رابط البطولة المصغر!` : `<i class="fa-solid fa-check"></i> Short Link Copied!`;
+                toast.className = "show"; setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 2500);
+            });
+        }
+
         function resetBracket() {
             document.getElementById('bracket-step-3').style.display = 'none';
-            document.getElementById('bracket-step-1').style.display = 'block';
+            document.getElementById('bracket-step-0').style.display = 'block';
             document.getElementById('bracket-input').value = '';
             document.getElementById('bracket-group').value = '';
             document.getElementById('bracket-host').value = '';
@@ -2500,19 +2576,6 @@
             cbMatches = [];
             cbGroup = '';
             cbHost = '';
-        }
-
-        function shareBracket() {
-            const hash = encodeBracketData();
-            const baseUrl = window.location.href.split('?')[0];
-            const shareUrl = baseUrl + '?t=' + hash;
-            
-            navigator.clipboard.writeText(shareUrl).then(() => {
-                const isAr = document.documentElement.lang === 'ar';
-                const toast = document.getElementById("toast");
-                toast.innerHTML = isAr ? `<i class="fa-solid fa-check"></i> تم نسخ رابط البطولة` : `<i class="fa-solid fa-check"></i> Tournament Link Copied`;
-                toast.className = "show"; setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 2500);
-            });
         }
 
         document.addEventListener("DOMContentLoaded", () => {
@@ -2567,11 +2630,12 @@
                     cbIsReadOnly = true;
                     cbTotalRounds = Math.log2(cbPlayers.length);
                     
+                    const step0 = document.getElementById('bracket-step-0');
+                    if(step0) step0.style.display = 'none';
                     document.getElementById('bracket-step-1').style.display = 'none';
                     document.getElementById('bracket-step-2').style.display = 'none';
                     document.getElementById('bracket-step-3').style.display = 'block';
                     document.getElementById('cb-share-box').style.display = 'none';
-                    document.getElementById('cb-readonly-title').style.display = 'block';
                     
                     updateTourInfoHeader();
                     document.getElementById('cb-brand-header').style.display = 'block';
