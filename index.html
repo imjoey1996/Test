@@ -417,6 +417,19 @@
             .cb-round { min-width: 160px; }
             .cb-player-name { font-size: 14px; max-width: 100px; }
         }
+
+        .cb-tap-hint { font-size: 13px; margin: 0 8px; color: var(--primary); animation: pulse-hint 1.5s infinite; opacity: 0.6; }
+        html[dir="ltr"] .cb-tap-hint { margin: 0 8px; }
+        @keyframes pulse-hint { 
+            0% { transform: scale(1); opacity: 0.4; } 
+            50% { transform: scale(1.2); opacity: 0.9; text-shadow: 0 0 8px var(--btn-active-glow); } 
+            100% { transform: scale(1); opacity: 0.4; } 
+        }
+
+        .cb-branding { display: none; align-items: center; justify-content: center; gap: 8px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid var(--glass-border); }
+        .cb-branding img { width: 35px; height: 35px; border-radius: 8px; }
+        .cb-branding h2 { font-size: 22px; font-weight: 900; margin: 0; display: flex; align-items: baseline; color: var(--text-main); font-family: 'Rajdhani', sans-serif;}
+        .cb-branding h2 span { color: var(--primary); font-size: 1.2em; transform: translateY(2px); margin-left: 1px; }
     </style>
 </head>
 <body>
@@ -828,9 +841,16 @@
             </div>
 
             <div id="bracket-step-3" class="glass-panel" style="display: none; width: 100%; max-width: 900px; padding: 25px 15px; border-radius: 16px; position: relative;">
+                
+                <div id="cb-branding" class="cb-branding" dir="ltr">
+                    <img src="IMG_0586.png?v=3" alt="PlatoX">
+                    <h2>Plato<span>X</span></h2>
+                </div>
+
                 <h3 id="cb-readonly-title" class="pro-title-glow" style="display: none; font-size: 18px; margin-bottom: 20px; text-align: center;" data-i18n="bracket_readonly_title">عرض البطولة</h3>
                 <div id="cb-bracket-view" class="cb-wrapper" dir="ltr"></div>
-                <div id="cb-share-box" style="display: flex; justify-content: center; margin-top: 20px;">
+                <div id="cb-share-box" style="display: flex; justify-content: center; gap: 10px; margin-top: 20px; flex-wrap: wrap;">
+                    <button type="button" class="cancel-btn" style="max-width: 200px;" onclick="resetBracket()" data-i18n="bracket_btn_reset"><i class="fa-solid fa-rotate-right"></i> إعادة إنشاء</button>
                     <button type="button" class="submit-btn" style="max-width: 300px;" onclick="shareBracket()" data-i18n="bracket_btn_share"><i class="fa-solid fa-share-nodes"></i> نسخ رابط البطولة</button>
                 </div>
             </div>
@@ -1403,7 +1423,9 @@
                 bracket_btn_start: "بدء البطولة",
                 bracket_readonly_title: "عرض البطولة",
                 bracket_btn_share: "نسخ رابط البطولة",
-                bracket_bye: "تأهل تلقائي"
+                bracket_bye: "تأهل تلقائي",
+                bracket_btn_reset: "إعادة إنشاء",
+                bracket_btn_create_own: "إنشاء بطولة خاصة بك"
             },
             en: {
                 nav_home: "Home", nav_leaders: "About Leaders", nav_leaderboard: "Explore",
@@ -1475,7 +1497,9 @@
                 bracket_btn_start: "Start Tournament",
                 bracket_readonly_title: "Tournament View",
                 bracket_btn_share: "Copy Share Link",
-                bracket_bye: "Bye"
+                bracket_bye: "Bye",
+                bracket_btn_reset: "Reset Bracket",
+                bracket_btn_create_own: "Create Your Own Bracket"
             }
         };
 
@@ -2216,6 +2240,7 @@
                     <div class="cb-sort-btns">
                         <button type="button" class="cb-sort-btn" onclick="moveBracketPlayer(${index}, -1)" ${index === 0 ? 'style="opacity:0.2;pointer-events:none;"' : ''}><i class="fa-solid fa-caret-up"></i></button>
                         <button type="button" class="cb-sort-btn" onclick="moveBracketPlayer(${index}, 1)" ${index === cbPlayers.length - 1 ? 'style="opacity:0.2;pointer-events:none;"' : ''}><i class="fa-solid fa-caret-down"></i></button>
+                        <button type="button" class="cb-sort-btn" style="color: #ef4444;" onclick="removeBracketPlayer(${index})"><i class="fa-solid fa-trash"></i></button>
                     </div>
                 `;
                 list.appendChild(item);
@@ -2228,6 +2253,21 @@
             cbPlayers[index] = cbPlayers[index + dir];
             cbPlayers[index + dir] = temp;
             renderBracketSortList();
+        }
+
+        function removeBracketPlayer(index) {
+            cbPlayers.splice(index, 1);
+            if(cbPlayers.length < 2) {
+                document.getElementById('bracket-step-1').style.display = 'block';
+                document.getElementById('bracket-step-2').style.display = 'none';
+                document.getElementById('bracket-input').value = cbPlayers.join('\n');
+                const isAr = document.documentElement.lang === 'ar';
+                const toast = document.getElementById("toast");
+                toast.innerHTML = isAr ? `<i class="fa-solid fa-circle-exclamation"></i> يجب إدخال لاعبين اثنين على الأقل` : `<i class="fa-solid fa-circle-exclamation"></i> Enter at least 2 players`;
+                toast.className = "show"; setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 2500);
+            } else {
+                renderBracketSortList();
+            }
         }
 
         function shuffleBracket() {
@@ -2319,13 +2359,22 @@
                     const p1OnClick = (!cbIsReadOnly && p1Name && p1Name !== byeText) ? `onclick="advanceBracket(${r}, ${m}, 0)"` : '';
                     const p2OnClick = (!cbIsReadOnly && p2Name && p2Name !== byeText) ? `onclick="advanceBracket(${r}, ${m}, 1)"` : '';
 
+                    let p1Hint = (!cbIsReadOnly && winnerPos === null && p1Name && p1Name !== byeText) ? `<i class="fa-regular fa-hand-pointer cb-tap-hint"></i>` : '';
+                    let p2Hint = (!cbIsReadOnly && winnerPos === null && p2Name && p2Name !== byeText) ? `<i class="fa-regular fa-hand-pointer cb-tap-hint"></i>` : '';
+
                     matchDiv.innerHTML = `
                         <div class="${p1Class}" ${p1OnClick}>
-                            <span class="cb-player-name num-font" dir="auto">${p1Display}</span>
+                            <div style="display:flex; align-items:center;">
+                                <span class="cb-player-name num-font" dir="auto">${p1Display}</span>
+                                ${p1Hint}
+                            </div>
                             <i class="fa-solid fa-crown cb-winner-crown"></i>
                         </div>
                         <div class="${p2Class}" ${p2OnClick}>
-                            <span class="cb-player-name num-font" dir="auto">${p2Display}</span>
+                            <div style="display:flex; align-items:center;">
+                                <span class="cb-player-name num-font" dir="auto">${p2Display}</span>
+                                ${p2Hint}
+                            </div>
                             <i class="fa-solid fa-crown cb-winner-crown"></i>
                         </div>
                     `;
@@ -2362,6 +2411,16 @@
             } catch(e) {
                 return null;
             }
+        }
+
+        function resetBracket() {
+            cbPlayers = [];
+            cbMatches = [];
+            document.getElementById('bracket-input').value = '';
+            document.getElementById('bracket-step-1').style.display = 'block';
+            document.getElementById('bracket-step-2').style.display = 'none';
+            document.getElementById('bracket-step-3').style.display = 'none';
+            document.getElementById('cb-branding').style.display = 'none';
         }
 
         function shareBracket() {
@@ -2430,8 +2489,11 @@
                     document.getElementById('bracket-step-1').style.display = 'none';
                     document.getElementById('bracket-step-2').style.display = 'none';
                     document.getElementById('bracket-step-3').style.display = 'block';
-                    document.getElementById('cb-share-box').style.display = 'none';
+                    
+                    document.getElementById('cb-branding').style.display = 'flex';
                     document.getElementById('cb-readonly-title').style.display = 'block';
+                    
+                    document.getElementById('cb-share-box').innerHTML = `<button type="button" class="submit-btn" onclick="window.location.href=window.location.pathname" data-i18n="bracket_btn_create_own"><i class="fa-solid fa-plus"></i> إنشاء بطولة خاصة بك</button>`;
                 }
             }
 
