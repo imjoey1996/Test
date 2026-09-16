@@ -373,10 +373,12 @@
         .cb-sort-item { display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); padding: 10px 15px; border-radius: 8px; }
         [data-theme="light"] .cb-sort-item { background: rgba(255,255,255,0.5); }
         .cb-sort-btns { display: flex; gap: 10px; }
-        .cb-sort-btn { background: transparent; border: none; color: var(--text-muted); cursor: pointer; font-size: 18px; padding: 0 5px; }
+        .cb-sort-btn { background: transparent; border: none; color: var(--text-muted); cursor: pointer; font-size: 18px; padding: 0 5px; transition: 0.2s;}
         .cb-sort-btn:hover { color: var(--primary); }
         .cb-winner-crown { display: none; color: #fdd74e; text-shadow: 0 0 10px rgba(253,215,78,0.5); }
         .cb-match-inner.winner .cb-winner-crown { display: inline-block; }
+        .cb-tap-hint { font-size: 12px; margin: 0 6px; opacity: 0.5; color: var(--primary); transition: 0.2s; animation: pulse-ring 2s infinite; }
+        .cb-match-inner:hover .cb-tap-hint { opacity: 1; transform: scale(1.1); }
 
         @media (max-width: 600px) {
             .main-lang-switch { margin-top: calc(85px + env(safe-area-inset-top)); margin-bottom: 10px; } 
@@ -417,19 +419,6 @@
             .cb-round { min-width: 160px; }
             .cb-player-name { font-size: 14px; max-width: 100px; }
         }
-
-        .cb-tap-hint { font-size: 13px; margin: 0 8px; color: var(--primary); animation: pulse-hint 1.5s infinite; opacity: 0.6; }
-        html[dir="ltr"] .cb-tap-hint { margin: 0 8px; }
-        @keyframes pulse-hint { 
-            0% { transform: scale(1); opacity: 0.4; } 
-            50% { transform: scale(1.2); opacity: 0.9; text-shadow: 0 0 8px var(--btn-active-glow); } 
-            100% { transform: scale(1); opacity: 0.4; } 
-        }
-
-        .cb-branding { display: none; align-items: center; justify-content: center; gap: 8px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid var(--glass-border); }
-        .cb-branding img { width: 35px; height: 35px; border-radius: 8px; }
-        .cb-branding h2 { font-size: 22px; font-weight: 900; margin: 0; display: flex; align-items: baseline; color: var(--text-main); font-family: 'Rajdhani', sans-serif;}
-        .cb-branding h2 span { color: var(--primary); font-size: 1.2em; transform: translateY(2px); margin-left: 1px; }
     </style>
 </head>
 <body>
@@ -842,16 +831,19 @@
 
             <div id="bracket-step-3" class="glass-panel" style="display: none; width: 100%; max-width: 900px; padding: 25px 15px; border-radius: 16px; position: relative;">
                 
-                <div id="cb-branding" class="cb-branding" dir="ltr">
-                    <img src="IMG_0586.png?v=3" alt="PlatoX">
-                    <h2>Plato<span>X</span></h2>
+                <div id="cb-brand-header" style="display: none; text-align: center; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid var(--glass-border);">
+                    <img src="IMG_0586.png?v=3" alt="PlatoX" style="width: 50px; height: 50px; border-radius: 12px; margin-bottom: 10px;">
+                    <h2 class="num-font" style="font-size: 22px; font-weight: 900; margin:0; letter-spacing: 0.5px;">Plato<span style="color: var(--primary);">X</span></h2>
+                    <p style="color: var(--text-muted); font-size: 13px; font-weight: 700; margin-top: 5px;" data-i18n="bracket_brand_sub">بطولة مقدمة من مجتمع بلاتوكس</p>
                 </div>
 
                 <h3 id="cb-readonly-title" class="pro-title-glow" style="display: none; font-size: 18px; margin-bottom: 20px; text-align: center;" data-i18n="bracket_readonly_title">عرض البطولة</h3>
+                
                 <div id="cb-bracket-view" class="cb-wrapper" dir="ltr"></div>
-                <div id="cb-share-box" style="display: flex; justify-content: center; gap: 10px; margin-top: 20px; flex-wrap: wrap;">
-                    <button type="button" class="cancel-btn" style="max-width: 200px;" onclick="resetBracket()" data-i18n="bracket_btn_reset"><i class="fa-solid fa-rotate-right"></i> إعادة إنشاء</button>
+                
+                <div id="cb-share-box" style="display: flex; justify-content: center; margin-top: 20px; gap: 10px; flex-wrap: wrap;">
                     <button type="button" class="submit-btn" style="max-width: 300px;" onclick="shareBracket()" data-i18n="bracket_btn_share"><i class="fa-solid fa-share-nodes"></i> نسخ رابط البطولة</button>
+                    <button type="button" class="cancel-btn" style="max-width: 300px;" onclick="resetBracket()" data-i18n="bracket_btn_reset"><i class="fa-solid fa-rotate-right"></i> بطولة جديدة</button>
                 </div>
             </div>
         </section>
@@ -1423,9 +1415,9 @@
                 bracket_btn_start: "بدء البطولة",
                 bracket_readonly_title: "عرض البطولة",
                 bracket_btn_share: "نسخ رابط البطولة",
-                bracket_bye: "تأهل تلقائي",
-                bracket_btn_reset: "إعادة إنشاء",
-                bracket_btn_create_own: "إنشاء بطولة خاصة بك"
+                bracket_btn_reset: "بطولة جديدة",
+                bracket_brand_sub: "بطولة مقدمة من مجتمع بلاتوكس",
+                bracket_bye: "تأهل تلقائي"
             },
             en: {
                 nav_home: "Home", nav_leaders: "About Leaders", nav_leaderboard: "Explore",
@@ -1497,9 +1489,9 @@
                 bracket_btn_start: "Start Tournament",
                 bracket_readonly_title: "Tournament View",
                 bracket_btn_share: "Copy Share Link",
-                bracket_bye: "Bye",
-                bracket_btn_reset: "Reset Bracket",
-                bracket_btn_create_own: "Create Your Own Bracket"
+                bracket_btn_reset: "New Tournament",
+                bracket_brand_sub: "Tournament hosted by PlatoX Community",
+                bracket_bye: "Bye"
             }
         };
 
@@ -2214,16 +2206,49 @@
         function prepareBracket() {
             const textarea = document.getElementById('bracket-input');
             const lines = textarea.value.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+            const isAr = document.documentElement.lang === 'ar';
             
             if(lines.length < 2) {
-                const isAr = document.documentElement.lang === 'ar';
                 const toast = document.getElementById("toast");
                 toast.innerHTML = isAr ? `<i class="fa-solid fa-circle-exclamation"></i> يجب إدخال لاعبين اثنين على الأقل` : `<i class="fa-solid fa-circle-exclamation"></i> Enter at least 2 players`;
                 toast.className = "show"; setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 2500);
                 return;
             }
+
+            let validPlayers = [];
+            let hasDuplicates = false;
+            let hasInvalid = false;
             
-            cbPlayers = lines;
+            for (let p of lines) {
+                if (!/^[a-zA-Z0-9_]{3,}$/.test(p)) {
+                    hasInvalid = true;
+                    continue;
+                }
+                if (validPlayers.findIndex(vp => vp.toLowerCase() === p.toLowerCase()) !== -1) {
+                    hasDuplicates = true;
+                    continue;
+                }
+                validPlayers.push(p);
+            }
+
+            if (hasDuplicates || hasInvalid) {
+                textarea.value = validPlayers.join('\n');
+                let msg = isAr ? "تم إزالة يوزرات مكررة أو غير مطابقة للشروط (٣ حروف إنجليزية/أرقام فأكثر)." : "Duplicate or invalid IDs (min 3 chars) were removed.";
+                const toast = document.getElementById("toast");
+                toast.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> ${msg}`;
+                toast.className = "show"; setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 4000);
+            }
+
+            cbPlayers = validPlayers;
+            
+            if(cbPlayers.length < 2) {
+                let msg2 = isAr ? "تبقى أقل من لاعبين اثنين بعد الفلترة، يرجى إضافة المزيد." : "Less than 2 valid players remain. Please add more.";
+                const toast = document.getElementById("toast");
+                toast.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> ${msg2}`;
+                toast.className = "show"; setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000);
+                return;
+            }
+
             document.getElementById('bracket-step-1').style.display = 'none';
             document.getElementById('bracket-step-2').style.display = 'block';
             renderBracketSortList();
@@ -2240,7 +2265,7 @@
                     <div class="cb-sort-btns">
                         <button type="button" class="cb-sort-btn" onclick="moveBracketPlayer(${index}, -1)" ${index === 0 ? 'style="opacity:0.2;pointer-events:none;"' : ''}><i class="fa-solid fa-caret-up"></i></button>
                         <button type="button" class="cb-sort-btn" onclick="moveBracketPlayer(${index}, 1)" ${index === cbPlayers.length - 1 ? 'style="opacity:0.2;pointer-events:none;"' : ''}><i class="fa-solid fa-caret-down"></i></button>
-                        <button type="button" class="cb-sort-btn" style="color: #ef4444;" onclick="removeBracketPlayer(${index})"><i class="fa-solid fa-trash"></i></button>
+                        <button type="button" class="cb-sort-btn" onclick="removeBracketPlayer(${index})" style="color: var(--error-color);"><i class="fa-solid fa-trash"></i></button>
                     </div>
                 `;
                 list.appendChild(item);
@@ -2258,13 +2283,9 @@
         function removeBracketPlayer(index) {
             cbPlayers.splice(index, 1);
             if(cbPlayers.length < 2) {
-                document.getElementById('bracket-step-1').style.display = 'block';
                 document.getElementById('bracket-step-2').style.display = 'none';
+                document.getElementById('bracket-step-1').style.display = 'block';
                 document.getElementById('bracket-input').value = cbPlayers.join('\n');
-                const isAr = document.documentElement.lang === 'ar';
-                const toast = document.getElementById("toast");
-                toast.innerHTML = isAr ? `<i class="fa-solid fa-circle-exclamation"></i> يجب إدخال لاعبين اثنين على الأقل` : `<i class="fa-solid fa-circle-exclamation"></i> Enter at least 2 players`;
-                toast.className = "show"; setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 2500);
             } else {
                 renderBracketSortList();
             }
@@ -2359,8 +2380,8 @@
                     const p1OnClick = (!cbIsReadOnly && p1Name && p1Name !== byeText) ? `onclick="advanceBracket(${r}, ${m}, 0)"` : '';
                     const p2OnClick = (!cbIsReadOnly && p2Name && p2Name !== byeText) ? `onclick="advanceBracket(${r}, ${m}, 1)"` : '';
 
-                    let p1Hint = (!cbIsReadOnly && winnerPos === null && p1Name && p1Name !== byeText) ? `<i class="fa-regular fa-hand-pointer cb-tap-hint"></i>` : '';
-                    let p2Hint = (!cbIsReadOnly && winnerPos === null && p2Name && p2Name !== byeText) ? `<i class="fa-regular fa-hand-pointer cb-tap-hint"></i>` : '';
+                    const p1Hint = (!cbIsReadOnly && p1Name && p1Name !== byeText && winnerPos === null) ? `<i class="fa-solid fa-hand-pointer cb-tap-hint"></i>` : '';
+                    const p2Hint = (!cbIsReadOnly && p2Name && p2Name !== byeText && winnerPos === null) ? `<i class="fa-solid fa-hand-pointer cb-tap-hint"></i>` : '';
 
                     matchDiv.innerHTML = `
                         <div class="${p1Class}" ${p1OnClick}>
@@ -2414,13 +2435,11 @@
         }
 
         function resetBracket() {
+            document.getElementById('bracket-step-3').style.display = 'none';
+            document.getElementById('bracket-step-1').style.display = 'block';
+            document.getElementById('bracket-input').value = '';
             cbPlayers = [];
             cbMatches = [];
-            document.getElementById('bracket-input').value = '';
-            document.getElementById('bracket-step-1').style.display = 'block';
-            document.getElementById('bracket-step-2').style.display = 'none';
-            document.getElementById('bracket-step-3').style.display = 'none';
-            document.getElementById('cb-branding').style.display = 'none';
         }
 
         function shareBracket() {
@@ -2489,11 +2508,9 @@
                     document.getElementById('bracket-step-1').style.display = 'none';
                     document.getElementById('bracket-step-2').style.display = 'none';
                     document.getElementById('bracket-step-3').style.display = 'block';
-                    
-                    document.getElementById('cb-branding').style.display = 'flex';
+                    document.getElementById('cb-share-box').style.display = 'none';
                     document.getElementById('cb-readonly-title').style.display = 'block';
-                    
-                    document.getElementById('cb-share-box').innerHTML = `<button type="button" class="submit-btn" onclick="window.location.href=window.location.pathname" data-i18n="bracket_btn_create_own"><i class="fa-solid fa-plus"></i> إنشاء بطولة خاصة بك</button>`;
+                    document.getElementById('cb-brand-header').style.display = 'block';
                 }
             }
 
