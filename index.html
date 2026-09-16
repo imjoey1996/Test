@@ -858,6 +858,7 @@
                 <h3 class="pro-title-glow" style="font-size: 16px; margin-bottom: 15px; text-align: center;"><span data-i18n="bracket_setup_title">ترتيب اللاعبين</span> (<span id="cb-players-count">0</span>)</h3>
                 <div id="cb-sortable-list" class="cb-sort-list"></div>
                 <div style="display: flex; gap: 10px;">
+                    <button type="button" class="cancel-btn" onclick="goBackToStep1()" data-i18n="bracket_btn_back">رجوع</button>
                     <button type="button" class="cancel-btn" onclick="shuffleBracket()" data-i18n="bracket_btn_shuffle"><i class="fa-solid fa-shuffle"></i> خلط متوازن</button>
                     <button type="button" class="submit-btn" onclick="startCustomTournament()" data-i18n="bracket_btn_start">بدء البطولة</button>
                 </div>
@@ -1452,6 +1453,7 @@
                 bracket_host_placeholder: "اسم المنظم (اختياري)",
                 bracket_btn_prepare: "تجهيز البطولة",
                 bracket_setup_title: "ترتيب اللاعبين",
+                bracket_btn_back: "رجوع",
                 bracket_btn_shuffle: "خلط متوازن",
                 bracket_btn_start: "بدء البطولة",
                 bracket_readonly_title: "عرض البطولة",
@@ -1531,6 +1533,7 @@
                 bracket_host_placeholder: "Host Name (Optional)",
                 bracket_btn_prepare: "Prepare Bracket",
                 bracket_setup_title: "Arrange Players",
+                bracket_btn_back: "Back",
                 bracket_btn_shuffle: "Balanced Shuffle",
                 bracket_btn_start: "Start Tournament",
                 bracket_readonly_title: "Tournament View",
@@ -2383,6 +2386,16 @@
                 [cbPlayers[i], cbPlayers[j]] = [cbPlayers[j], cbPlayers[i]];
             }
             renderBracketSortList();
+        }
+
+        function goBackToStep1() {
+            document.getElementById('bracket-step-2').style.display = 'none';
+            document.getElementById('bracket-step-1').style.display = 'block';
+            document.getElementById('bracket-input').value = cbPlayers.join('\n');
+            const count = cbPlayers.length;
+            const hint = document.getElementById('bracket-counter-hint');
+            const isAr = document.documentElement.lang === 'ar';
+            if(hint) hint.innerText = isAr ? `${count} لاعبين` : `${count} Players`;
         }
         
         function updateTourInfoHeader() {
