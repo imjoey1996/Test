@@ -828,13 +828,13 @@
             <div id="bracket-step-1" class="glass-panel" style="display: none; width: 100%; max-width: 650px; padding: 25px 20px; border-radius: 16px;">
                 
                 <div style="margin-bottom: 15px;">
-                    <label style="display:block; margin-bottom: 8px; font-weight: 800; font-size: 13px; color: var(--text-muted);">حجم البطولة:</label>
+                    <label style="display:block; margin-bottom: 8px; font-weight: 800; font-size: 13px; color: var(--text-muted);" data-i18n="bracket_size_label">حجم البطولة:</label>
                     <div class="server-tabs" dir="ltr" style="margin-bottom: 0; max-width: 100%; gap: 6px;">
                         <button type="button" class="server-tab size-btn" onclick="selectBracketSize(16, this)">16</button>
                         <button type="button" class="server-tab size-btn" onclick="selectBracketSize(24, this)">24</button>
                         <button type="button" class="server-tab size-btn" onclick="selectBracketSize(32, this)">32</button>
                         <button type="button" class="server-tab size-btn" onclick="selectBracketSize(64, this)">64</button>
-                        <button type="button" class="server-tab size-btn active" onclick="selectBracketSize('manual', this)">يدوي</button>
+                        <button type="button" class="server-tab size-btn active" onclick="selectBracketSize('manual', this)" data-i18n="bracket_size_manual">يدوي</button>
                     </div>
                 </div>
 
@@ -1445,6 +1445,8 @@
                 bracket_title: "البطولات المصغرة",
                 bracket_intro_desc: "أداة مبسطة لإنشاء وإدارة وتتبع البطولات الخاصة بك بسهولة وسرعة، مع إمكانية مشاركتها مع الآخرين.",
                 bracket_btn_create: "إنشاء بطولة جديدة",
+                bracket_size_label: "حجم البطولة:",
+                bracket_size_manual: "يدوي",
                 bracket_textarea_placeholder: "اكتب يوزرات اللاعبين هنا (يوزر واحد في كل سطر)",
                 bracket_group_placeholder: "اسم المجموعة (اختياري)",
                 bracket_host_placeholder: "اسم المنظم (اختياري)",
@@ -1522,6 +1524,8 @@
                 bracket_title: "MINI TOURNAMENTS",
                 bracket_intro_desc: "A simple tool to create, manage, and track your custom tournaments easily, and share them with others.",
                 bracket_btn_create: "Create New Tournament",
+                bracket_size_label: "Bracket Size:",
+                bracket_size_manual: "Manually",
                 bracket_textarea_placeholder: "Enter player usernames here (one per line)",
                 bracket_group_placeholder: "Group Name (Optional)",
                 bracket_host_placeholder: "Host Name (Optional)",
@@ -1563,6 +1567,13 @@
             if (calcInput) {
                 calcInput.placeholder = calcMode === 'coins' ? translations[lang].placeholderCoins : translations[lang].placeholderPips;
                 document.getElementById('calcResultCurrency').innerText = calcMode === 'coins' ? translations[lang].currPips : translations[lang].currCoins;
+            }
+
+            const bracketHint = document.getElementById('bracket-counter-hint');
+            if (bracketHint) {
+                const bracketInput = document.getElementById('bracket-input');
+                const count = bracketInput ? bracketInput.value.split('\n').filter(l => l.trim().length > 0).length : 0;
+                bracketHint.innerText = lang === 'ar' ? `${count} لاعبين` : `${count} Players`;
             }
 
             clearInputError('plato-id'); clearInputError('bug-desc');
@@ -2272,7 +2283,8 @@
         document.getElementById('bracket-input')?.addEventListener('input', function() {
             const count = this.value.split('\n').filter(l => l.trim().length > 0).length;
             const hint = document.getElementById('bracket-counter-hint');
-            if(hint) hint.innerText = `${count} لاعبين`;
+            const isAr = document.documentElement.lang === 'ar';
+            if(hint) hint.innerText = isAr ? `${count} لاعبين` : `${count} Players`;
         });
 
         function prepareBracket() {
@@ -2303,8 +2315,13 @@
             }
 
             if (chosenBracketCap !== 'manual' && typeof chosenBracketCap === 'number') {
-                if (validPlayers.length > chosenBracketCap) {
-                    validPlayers = validPlayers.slice(0, chosenBracketCap);
+                if (validPlayers.length !== chosenBracketCap) {
+                    const toast = document.getElementById("toast");
+                    toast.innerHTML = isAr 
+                        ? `<i class="fa-solid fa-circle-exclamation"></i> يجب إدخال ${chosenBracketCap} لاعب بالضبط، أو اختر يدوي` 
+                        : `<i class="fa-solid fa-circle-exclamation"></i> Enter exactly ${chosenBracketCap} players, or select Manually`;
+                    toast.className = "show"; setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3500);
+                    return;
                 }
             }
 
@@ -2576,6 +2593,23 @@
             cbMatches = [];
             cbGroup = '';
             cbHost = '';
+            
+            chosenBracketCap = 'manual';
+            document.querySelectorAll('.size-btn').forEach(b => {
+                b.classList.remove('active');
+                b.style.backgroundColor = 'transparent';
+                b.style.color = '';
+            });
+            const manualBtn = document.querySelector('.size-btn[onclick*="manual"]');
+            if(manualBtn) {
+                manualBtn.classList.add('active');
+                manualBtn.style.backgroundColor = 'var(--primary)';
+                manualBtn.style.color = 'var(--bg-main)';
+            }
+            
+            const isAr = document.documentElement.lang === 'ar';
+            const hint = document.getElementById('bracket-counter-hint');
+            if(hint) hint.innerText = isAr ? '0 لاعبين' : '0 Players';
         }
 
         document.addEventListener("DOMContentLoaded", () => {
