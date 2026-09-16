@@ -377,8 +377,14 @@
         .cb-sort-btn:hover { color: var(--primary); }
         .cb-winner-crown { display: none; color: #fdd74e; text-shadow: 0 0 10px rgba(253,215,78,0.5); }
         .cb-match-inner.winner .cb-winner-crown { display: inline-block; }
-        .cb-tap-hint { font-size: 12px; margin: 0 6px; opacity: 0.5; color: var(--primary); transition: 0.2s; animation: pulse-ring 2s infinite; }
-        .cb-match-inner:hover .cb-tap-hint { opacity: 1; transform: scale(1.1); }
+        
+        @keyframes pulse-hint {
+            0% { transform: scale(1); opacity: 0.4; }
+            50% { transform: scale(1.15); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 0.4; }
+        }
+        .cb-tap-hint { font-size: 12px; margin: 0 8px; opacity: 0.4; color: var(--primary); transition: all 0.2s ease; animation: pulse-hint 2s infinite; text-shadow: 0 0 5px var(--btn-active-glow); }
+        .cb-match-inner:hover .cb-tap-hint { opacity: 1; transform: scale(1.2); color: #fdd74e; text-shadow: 0 0 10px rgba(253,215,78,0.5); animation: none; }
 
         @media (max-width: 600px) {
             .main-lang-switch { margin-top: calc(85px + env(safe-area-inset-top)); margin-bottom: 10px; } 
@@ -815,13 +821,16 @@
                 <i class="fa-solid fa-sitemap pro-icon-glow" style="font-size: 35px; margin-bottom: 15px;"></i>
                 <p class="glass-desc-text" style="font-weight: 600; margin-bottom: 20px;" data-i18n="bracket_intro_desc">أداة مبسطة لإنشاء وإدارة وتتبع البطولات الخاصة بك بسهولة وسرعة، مع إمكانية مشاركتها مع الآخرين.</p>
                 
+                <input type="text" id="bracket-group" class="bug-input num-font" style="margin-bottom:10px;" data-i18n-placeholder="bracket_group_placeholder" placeholder="اسم المجموعة (اختياري)">
+                <input type="text" id="bracket-host" class="bug-input num-font" style="margin-bottom:15px;" data-i18n-placeholder="bracket_host_placeholder" placeholder="اسم المنظم (اختياري)">
+
                 <textarea id="bracket-input" class="bug-input num-font" style="min-height: 120px; margin-bottom: 15px; resize: vertical;" dir="ltr" data-i18n-placeholder="bracket_textarea_placeholder" placeholder="اكتب يوزرات اللاعبين هنا (يوزر واحد في كل سطر)"></textarea>
                 
                 <button type="button" class="submit-btn" style="width: 100%;" onclick="prepareBracket()" data-i18n="bracket_btn_prepare">تجهيز البطولة</button>
             </div>
 
             <div id="bracket-step-2" class="glass-panel" style="display: none; width: 100%; max-width: 650px; padding: 30px; border-radius: 16px;">
-                <h3 class="pro-title-glow" style="font-size: 18px; margin-bottom: 15px; text-align: center;" data-i18n="bracket_setup_title">ترتيب اللاعبين</h3>
+                <h3 class="pro-title-glow" style="font-size: 18px; margin-bottom: 15px; text-align: center;"><span data-i18n="bracket_setup_title">ترتيب اللاعبين</span> (<span id="cb-players-count">0</span>)</h3>
                 <div id="cb-sortable-list" class="cb-sort-list"></div>
                 <div style="display: flex; gap: 10px;">
                     <button type="button" class="cancel-btn" onclick="shuffleBracket()" data-i18n="bracket_btn_shuffle"><i class="fa-solid fa-shuffle"></i> خلط عشوائي</button>
@@ -832,13 +841,14 @@
             <div id="bracket-step-3" class="glass-panel" style="display: none; width: 100%; max-width: 900px; padding: 25px 15px; border-radius: 16px; position: relative;">
                 
                 <div id="cb-brand-header" style="display: none; text-align: center; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid var(--glass-border);">
-                    <img src="IMG_0586.png?v=3" alt="PlatoX" style="width: 50px; height: 50px; border-radius: 12px; margin-bottom: 10px;">
-                    <h2 class="num-font" style="font-size: 22px; font-weight: 900; margin:0; letter-spacing: 0.5px;">Plato<span style="color: var(--primary);">X</span></h2>
-                    <p style="color: var(--text-muted); font-size: 13px; font-weight: 700; margin-top: 5px;" data-i18n="bracket_brand_sub">بطولة مقدمة من مجتمع بلاتوكس</p>
+                    <img src="IMG_0586.png?v=3" alt="PlatoX" style="width: 50px; height: 50px; border-radius: 12px; margin-bottom: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+                    <h2 class="num-font" style="font-size: 24px; font-weight: 900; margin:0; letter-spacing: 0.5px;">Plato<span style="color: var(--primary);">X</span></h2>
+                    
+                    <div id="cb-tour-info" style="margin-top: 10px; display: none; gap: 8px; justify-content: center; flex-wrap: wrap;"></div>
+
+                    <p style="color: var(--text-muted); font-size: 13px; font-weight: 700; margin-top: 10px;" data-i18n="bracket_brand_sub">بطولة مقدمة من مجتمع بلاتوكس</p>
                 </div>
 
-                <h3 id="cb-readonly-title" class="pro-title-glow" style="display: none; font-size: 18px; margin-bottom: 20px; text-align: center;" data-i18n="bracket_readonly_title">عرض البطولة</h3>
-                
                 <div id="cb-bracket-view" class="cb-wrapper" dir="ltr"></div>
                 
                 <div id="cb-share-box" style="display: flex; justify-content: center; margin-top: 20px; gap: 10px; flex-wrap: wrap;">
@@ -924,6 +934,8 @@
         let cbMatches = [];
         let cbIsReadOnly = false;
         let cbTotalRounds = 0;
+        let cbGroup = '';
+        let cbHost = '';
 
         const tourSheetURL = "https://docs.google.com/spreadsheets/d/10Iuz3frTKBQaR2SZ2_GzSe7Sn5GzaefJ6szTebK91vE/gviz/tq?tqx=out:csv"; 
 
@@ -1409,6 +1421,8 @@
                 bracket_title: "البطولات المصغرة",
                 bracket_intro_desc: "أداة مبسطة لإنشاء وإدارة وتتبع البطولات الخاصة بك بسهولة وسرعة، مع إمكانية مشاركتها مع الآخرين.",
                 bracket_textarea_placeholder: "اكتب يوزرات اللاعبين هنا (يوزر واحد في كل سطر)",
+                bracket_group_placeholder: "اسم المجموعة (اختياري)",
+                bracket_host_placeholder: "اسم المنظم (اختياري)",
                 bracket_btn_prepare: "تجهيز البطولة",
                 bracket_setup_title: "ترتيب اللاعبين",
                 bracket_btn_shuffle: "خلط عشوائي",
@@ -1483,6 +1497,8 @@
                 bracket_title: "MINI TOURNAMENTS",
                 bracket_intro_desc: "A simple tool to create, manage, and track your custom tournaments easily, and share them with others.",
                 bracket_textarea_placeholder: "Enter player usernames here (one per line)",
+                bracket_group_placeholder: "Group Name (Optional)",
+                bracket_host_placeholder: "Host Name (Optional)",
                 bracket_btn_prepare: "Prepare Bracket",
                 bracket_setup_title: "Arrange Players",
                 bracket_btn_shuffle: "Random Shuffle",
@@ -2204,6 +2220,9 @@
         }
 
         function prepareBracket() {
+            cbGroup = document.getElementById('bracket-group').value.trim();
+            cbHost = document.getElementById('bracket-host').value.trim();
+            
             const textarea = document.getElementById('bracket-input');
             const lines = textarea.value.split('\n').map(l => l.trim()).filter(l => l.length > 0);
             const isAr = document.documentElement.lang === 'ar';
@@ -2251,6 +2270,7 @@
 
             document.getElementById('bracket-step-1').style.display = 'none';
             document.getElementById('bracket-step-2').style.display = 'block';
+            document.getElementById('cb-players-count').innerText = cbPlayers.length;
             renderBracketSortList();
         }
 
@@ -2287,6 +2307,7 @@
                 document.getElementById('bracket-step-1').style.display = 'block';
                 document.getElementById('bracket-input').value = cbPlayers.join('\n');
             } else {
+                document.getElementById('cb-players-count').innerText = cbPlayers.length;
                 renderBracketSortList();
             }
         }
@@ -2298,6 +2319,24 @@
             }
             renderBracketSortList();
         }
+        
+        function updateTourInfoHeader() {
+            const infoDiv = document.getElementById('cb-tour-info');
+            let html = '';
+            if(cbGroup) {
+                html += `<span class="info-badge" style="font-size:12px; padding:4px 10px;"><i class="fa-solid fa-users"></i> ${escapeHTML(cbGroup)}</span>`;
+            }
+            if(cbHost) {
+                html += `<span class="info-badge prize-badge" style="font-size:12px; padding:4px 10px;"><i class="fa-solid fa-user-shield"></i> ${escapeHTML(cbHost)}</span>`;
+            }
+            
+            if(html) {
+                infoDiv.innerHTML = html;
+                infoDiv.style.display = 'flex';
+            } else {
+                infoDiv.style.display = 'none';
+            }
+        }
 
         function startCustomTournament() {
             const isAr = document.documentElement.lang === 'ar';
@@ -2307,10 +2346,22 @@
             let nextPow2 = Math.pow(2, Math.ceil(Math.log2(n)));
             if(nextPow2 < 2) nextPow2 = 2;
             
-            while(cbPlayers.length < nextPow2) {
-                cbPlayers.push(byeText);
+            let byesCount = nextPow2 - n;
+            let tempPlayers = [...cbPlayers];
+            let finalPlayers = [];
+
+            for(let i = 0; i < nextPow2 / 2; i++) {
+                if (byesCount > 0) {
+                    finalPlayers.push(tempPlayers.shift());
+                    finalPlayers.push(byeText);
+                    byesCount--;
+                } else {
+                    finalPlayers.push(tempPlayers.shift());
+                    finalPlayers.push(tempPlayers.shift());
+                }
             }
-            
+
+            cbPlayers = finalPlayers;
             cbTotalRounds = Math.log2(cbPlayers.length);
             cbMatches = [];
             
@@ -2328,11 +2379,14 @@
                 let p2 = cbPlayers[m * 2 + 1];
                 if(p1 === byeText && p2 !== byeText) cbMatches[0][m] = 1;
                 else if(p2 === byeText && p1 !== byeText) cbMatches[0][m] = 0;
-                else if(p1 === byeText && p2 === byeText) cbMatches[0][m] = 0;
             }
             
             document.getElementById('bracket-step-2').style.display = 'none';
             document.getElementById('bracket-step-3').style.display = 'block';
+            
+            updateTourInfoHeader();
+            document.getElementById('cb-brand-header').style.display = 'block';
+            
             cbIsReadOnly = false;
             
             renderActiveBracket();
@@ -2380,8 +2434,8 @@
                     const p1OnClick = (!cbIsReadOnly && p1Name && p1Name !== byeText) ? `onclick="advanceBracket(${r}, ${m}, 0)"` : '';
                     const p2OnClick = (!cbIsReadOnly && p2Name && p2Name !== byeText) ? `onclick="advanceBracket(${r}, ${m}, 1)"` : '';
 
-                    const p1Hint = (!cbIsReadOnly && p1Name && p1Name !== byeText && winnerPos === null) ? `<i class="fa-solid fa-hand-pointer cb-tap-hint"></i>` : '';
-                    const p2Hint = (!cbIsReadOnly && p2Name && p2Name !== byeText && winnerPos === null) ? `<i class="fa-solid fa-hand-pointer cb-tap-hint"></i>` : '';
+                    const p1Hint = (!cbIsReadOnly && p1Name && p1Name !== byeText && winnerPos === null) ? `<i class="fa-solid fa-crown cb-tap-hint"></i>` : '';
+                    const p2Hint = (!cbIsReadOnly && p2Name && p2Name !== byeText && winnerPos === null) ? `<i class="fa-solid fa-crown cb-tap-hint"></i>` : '';
 
                     matchDiv.innerHTML = `
                         <div class="${p1Class}" ${p1OnClick}>
@@ -2407,7 +2461,9 @@
 
         function advanceBracket(r, m, pos) {
             let pName = getPlayerNameForMatch(r, m, pos);
-            if(!pName) return;
+            const isAr = document.documentElement.lang === 'ar';
+            const byeText = isAr ? 'تأهل تلقائي' : 'Bye';
+            if(!pName || pName === byeText) return;
             
             cbMatches[r][m] = pos;
             
@@ -2422,7 +2478,7 @@
         }
 
         function encodeBracketData() {
-            const data = { p: cbPlayers, m: cbMatches };
+            const data = { p: cbPlayers, m: cbMatches, g: cbGroup, h: cbHost };
             return btoa(encodeURIComponent(JSON.stringify(data)));
         }
 
@@ -2438,8 +2494,12 @@
             document.getElementById('bracket-step-3').style.display = 'none';
             document.getElementById('bracket-step-1').style.display = 'block';
             document.getElementById('bracket-input').value = '';
+            document.getElementById('bracket-group').value = '';
+            document.getElementById('bracket-host').value = '';
             cbPlayers = [];
             cbMatches = [];
+            cbGroup = '';
+            cbHost = '';
         }
 
         function shareBracket() {
@@ -2502,6 +2562,8 @@
                     initView = 'explore';
                     cbPlayers = parsedTour.p;
                     cbMatches = parsedTour.m;
+                    cbGroup = parsedTour.g || '';
+                    cbHost = parsedTour.h || '';
                     cbIsReadOnly = true;
                     cbTotalRounds = Math.log2(cbPlayers.length);
                     
@@ -2510,6 +2572,8 @@
                     document.getElementById('bracket-step-3').style.display = 'block';
                     document.getElementById('cb-share-box').style.display = 'none';
                     document.getElementById('cb-readonly-title').style.display = 'block';
+                    
+                    updateTourInfoHeader();
                     document.getElementById('cb-brand-header').style.display = 'block';
                 }
             }
