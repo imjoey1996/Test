@@ -5,14 +5,14 @@
     <base href="/">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://worldtimeapi.org https://timeapi.io https://docs.google.com https://script.google.com https://script.googleusercontent.com https://api.ipify.org; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; img-src 'self' data: blob: https:; media-src https: 'self';">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://worldtimeapi.org https://timeapi.io https://docs.google.com https://script.google.com https://script.googleusercontent.com https://api.ipify.org; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; script-src 'self' 'unsafe-inline'; img-src 'self' data: https:; media-src https: 'self';">
     
     <title>PlatoX | مجتمع اللاعبين العرب</title>
     
-    <link rel="icon" type="image/png" href="IMG_2335.png?v=6">
-    <link rel="apple-touch-icon" href="IMG_2335.png?v=6">
-    <link rel="icon" sizes="192x192" href="IMG_2335.png?v=6">
-    <link rel="icon" sizes="512x512" href="IMG_2335.png?v=6">
+    <link rel="icon" type="image/png" href="https://i.postimg.cc/QMQvLxwQ/IMG-2335.png">
+    <link rel="apple-touch-icon" href="https://i.postimg.cc/QMQvLxwQ/IMG-2335.png">
+    <link rel="icon" sizes="192x192" href="https://i.postimg.cc/QMQvLxwQ/IMG-2335.png">
+    <link rel="icon" sizes="512x512" href="https://i.postimg.cc/QMQvLxwQ/IMG-2335.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="PlatoX">
@@ -39,7 +39,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Rajdhani:wght@600;700;900&display=block" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
     <style>
         :root {
             --bg-main: #2a1b38; 
@@ -437,11 +437,12 @@
         </div>
     </div>
 
-    <div class="static-gaming-bg"></div>
+    <!-- إضافة خاصية dir="ltr" لتثبيت اتجاه الخلفية ومنعها من الانعكاس -->
+    <div class="static-gaming-bg" dir="ltr"></div>
 
     <nav class="navbar" dir="ltr">
-                                                                        <div class="brand-header" onclick="window.scrollTo({top:0, behavior:'smooth'})" style="display: flex; align-items: center; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none;">
-            <img src="IMG_2335.png?v=6" alt="Plato Logo" class="nav-main-logo" style="width: 48px; height: 48px; border-radius: 0; transform: scale(1.35); transform-origin: left center; position: relative; z-index: 2;">
+        <div class="brand-header" onclick="window.scrollTo({top:0, behavior:'smooth'})" style="display: flex; align-items: center; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none;">
+            <img src="https://i.postimg.cc/QMQvLxwQ/IMG-2335.png" alt="Plato Logo" class="nav-main-logo" style="width: 48px; height: 48px; border-radius: 0; transform: scale(1.35); transform-origin: left center; position: relative; z-index: 2;">
             <h1 class="num-font" style="font-size: 17px; letter-spacing: 8px; font-weight: 500; margin-left: 10px; margin-bottom: 0; padding-top: 0; position: relative; z-index: 1; color: var(--text-main); opacity: 0.85; pointer-events: none;">PLATO</h1>
         </div>
         
@@ -466,7 +467,7 @@
     </div>
 
     <main id="view-home" class="tab-view active-view">
-                                        <section class="hero" id="hero" style="flex-direction: column; gap: 12px; padding-top: 40px;">
+        <section class="hero" id="hero" style="flex-direction: column; gap: 12px; padding-top: 40px;">
             <h2 class="num-font" dir="ltr" style="text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 0 20px var(--text-glow-x);"><span class="pro-title-glow">SPOOKY HUB 🎃</span></h2>
             <span class="num-font" dir="ltr" style="font-size: 13px; letter-spacing: 4px; color: var(--text-muted); text-transform: uppercase;">NEWS &bull; RESOURCES &bull; SUPPORT</span>
             <div style="width: 180px; height: 1.5px; background: linear-gradient(90deg, transparent, var(--primary), transparent); margin-top: 8px; box-shadow: 0 0 12px var(--btn-active-glow); opacity: 0.7; border-radius: 10px;"></div>
@@ -612,6 +613,38 @@
                     <span data-i18n="guide_warning">قد يؤدي انتهاك هذه الإرشادات إلى تقييد الدردشة لمدة 4 ساعات أو اتخاذ إجراءات إشرافية إضافية (حظر دائم).</span>
                 </div>
             </div>
+            
+            <!-- إضافة قسم Profile Picture Guidelines -->
+            <div class="glass-panel" style="width: 100%; max-width: 650px; padding: 30px; border-radius: 16px; margin-top: 25px;">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid var(--glass-border);">
+                    <i class="fa-solid fa-image-portrait pro-icon-glow" style="font-size: 26px;"></i>
+                    <h3 class="pro-title-glow" style="font-size: 22px; margin: 0;" data-i18n="pfp_guide_title">إرشادات الصورة الشخصية</h3>
+                </div>
+
+                <div>
+                    <div class="guideline-item">
+                        <i class="fa-solid fa-ban guideline-icon"></i>
+                        <div class="guideline-text" data-i18n="pfp_guide_1">يُمنع نشر محتوى جنسي، إباحي، أو خادش للحياء.</div>
+                    </div>
+                    <div class="guideline-item">
+                        <i class="fa-solid fa-skull guideline-icon"></i>
+                        <div class="guideline-text" data-i18n="pfp_guide_2">يُمنع نشر مشاهد دموية أو عنف شديد.</div>
+                    </div>
+                    <div class="guideline-item">
+                        <i class="fa-solid fa-comment-slash guideline-icon"></i>
+                        <div class="guideline-text" data-i18n="pfp_guide_3">يُمنع نشر رموز أو خطابات الكراهية.</div>
+                    </div>
+                    <div class="guideline-item">
+                        <i class="fa-solid fa-user-slash guideline-icon"></i>
+                        <div class="guideline-text" data-i18n="pfp_guide_4">يُمنع المضايقة، التشهير، أو انتحال الشخصية.</div>
+                    </div>
+                    <div class="guideline-item">
+                        <i class="fa-solid fa-triangle-exclamation guideline-icon"></i>
+                        <div class="guideline-text" data-i18n="pfp_guide_5">يُمنع نشر محتوى يشجع على إيذاء النفس أو محتوى غير قانوني.</div>
+                    </div>
+                </div>
+            </div>
+            
         </section>
 
         <div class="cyber-divider"><div class="center-node"></div></div>
@@ -620,28 +653,28 @@
             <h2 class="section-title" data-i18n="links_title">مواقع ذات صلة</h2>
             <div class="links-grid">
                 <a href="https://platoapp.com/en" target="_blank" rel="noopener noreferrer" class="link-card glass-panel">
-                    <img src="IMG_0195.png" alt="Plato Web" class="link-brand-icon">
+                    <img src="https://i.postimg.cc/7PfX0Z91/IMG-4517.png" alt="Plato Web" class="link-brand-icon">
                     <div class="link-info">
                         <span class="link-title num-font">Plato Web</span>
                         <span class="link-sub" data-i18n="link_plato_desc">الموقع الرسمي والأساسي للعبة بلاتو، ويضم المعلومات والخدمات الرئيسية المتعلقة باللعبة.</span>
                     </div>
                 </a>
                 <a href="https://platopedia.com/profilebuilder" target="_blank" rel="noopener noreferrer" class="link-card glass-panel">
-                    <img src="IMG_0196.png" alt="Platopedia" class="link-brand-icon">
+                    <img src="https://i.postimg.cc/W4GxRbCr/IMG-8300.png" alt="Platopedia" class="link-brand-icon">
                     <div class="link-info">
                         <span class="link-title num-font" data-i18n="link_platopedia">Platopedia</span>
                         <span class="link-sub" data-i18n="link_platopedia_desc">موسوعة متخصصة في بلاتو، توفر معلومات شاملة حول العناصر المتاحة، إلى جانب خيارات تخصيص الملفات الشخصية ومتابعة تفاصيلها.</span>
                     </div>
                 </a>
                 <a href="https://werepedia.com/en" target="_blank" rel="noopener noreferrer" class="link-card glass-panel">
-                    <img src="IMG_0188.webp" alt="Werepedia" class="link-brand-icon">
+                    <img src="https://i.postimg.cc/dQLnrV6B/IMG-4515.webp" alt="Werepedia" class="link-brand-icon">
                     <div class="link-info">
                         <span class="link-title num-font" data-i18n="link_werepedia">Werepedia</span>
                         <span class="link-sub" data-i18n="link_werepedia_desc">موقع متخصص في لعبة الذئب، يقدّم شرحًا مفصلًا للبطاقات والأدوار، بالإضافة إلى استراتيجيات ونصائح تساعد على تطوير أسلوب اللعب.</span>
                     </div>
                 </a>
                 <a href="https://platoapp.com/en/in-app/how-to-play/match3battle/monsterpedia" target="_blank" rel="noopener noreferrer" class="link-card glass-panel">
-                    <img src="IMG_0193.png" alt="Monsterpedia" class="link-brand-icon">
+                    <img src="https://i.postimg.cc/44mwVxPb/IMG-4516.png" alt="Monsterpedia" class="link-brand-icon">
                     <div class="link-info">
                         <span class="link-title num-font" data-i18n="link_monsterpedia">Monsterpedia</span>
                         <span class="link-sub" data-i18n="link_monsterpedia_desc">موسوعة متخصصة في لعبة الوحوش، تشرح محتوى اللعبة بالتفصيل.</span>
@@ -795,16 +828,16 @@
                 
                 <div class="calc-toggle" style="display: flex; background: rgba(0,0,0,0.3); border-radius: 12px; border: 1px solid var(--glass-border); padding: 4px;">
                     <button class="calc-mode-btn active" id="btnModeCoins" onclick="setCalcMode('coins')" style="flex: 1; padding: 10px; border: none; background: rgba(255,255,255,0.1); border-radius: 8px; color: var(--primary); font-weight: 900; font-family: inherit; cursor: pointer; transition: 0.3s; display: flex; justify-content: center; align-items: center; gap: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
-                        <img src="IMG_0571.png" alt="Coins" class="custom-calc-icon"> <span data-i18n="tabCoins">كوينز</span>
+                        <img src="https://i.postimg.cc/BvWmQBsP/IMG-0571.png" alt="Coins" class="custom-calc-icon"> <span data-i18n="tabCoins">كوينز</span>
                     </button>
                     <button class="calc-mode-btn" id="btnModePips" onclick="setCalcMode('pips')" style="flex: 1; padding: 10px; border: none; background: transparent; border-radius: 8px; color: var(--text-muted); font-weight: 900; font-family: inherit; cursor: pointer; transition: 0.3s; display: flex; justify-content: center; align-items: center; gap: 8px;">
-                        <img src="IMG_0569.png" alt="Pips" class="custom-calc-icon"> <span data-i18n="tabPips">بيبس</span>
+                        <img src="https://i.postimg.cc/d0847Zt7/IMG-0569.png" alt="Pips" class="custom-calc-icon"> <span data-i18n="tabPips">بيبس</span>
                     </button>
                 </div>
 
                 <div class="calc-input-wrapper">
                     <input type="text" inputmode="numeric" id="calcInput" class="num-font" placeholder="أدخل عدد الكوينز..." oninput="handleCalcInput(event)">
-                    <img src="IMG_0571.png" id="calcInputIcon" class="custom-input-icon" alt="icon">
+                     <img src="https://i.postimg.cc/BvWmQBsP/IMG-0571.png" id="calcInputIcon" class="custom-input-icon" alt="icon">
                 </div>
 
                 <div class="calc-display" style="background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01)); border: 1px solid var(--glass-border); border-radius: 14px; padding: 25px 15px; text-align: center; box-shadow: inset 0 0 10px rgba(0,0,0,0.2); min-height: 130px; display: flex; flex-direction: column; justify-content: center;">
@@ -1223,8 +1256,7 @@
                             </svg>
                         </div>
                     </div>
-                    ${descHTML}
-                    ${bdayHTML}
+                    ${descHTML}${bdayHTML}
                 </div>`;
             });
             
@@ -1266,7 +1298,7 @@
                 if (leader.server === 'english') {
                     cardGlowStyle = 'border-top: 2px solid #000000; border-bottom: 2px solid #000000; box-shadow: 0 -8px 20px rgba(0,0,0,0.9), 0 8px 20px rgba(0,0,0,0.9);';
                 } else {
-                    cardGlowStyle = `border-top: 2px solid ${sTheme.nameColor}99; border-bottom: 2px solid ${sTheme.nameColor}99; box-shadow: 0 -6px 18px ${sTheme.nameColor}30, 0 6px 18px ${sTheme.nameColor}30;`;
+                    cardGlowStyle = `border-top: 2px solid ${sTheme.nameColor}99; border-bottom: 2px solid${sTheme.nameColor}99; box-shadow: 0 -6px 18px ${sTheme.nameColor}30, 0 6px 18px${sTheme.nameColor}30;`;
                 }
 
                 htmlStr += `
@@ -1275,12 +1307,11 @@
                         <div class="leader-name-box copy-admin-btn" data-id="${escapeHTML(leader.name)}" title="انسخ اليوزر">
                             <i class="fa-regular fa-copy leader-copy-icon"></i>
                             <h3 class="leader-username num-font">${escapeHTML(leader.name)}</h3>
-                            <div class="server-badge" style="background: ${sTheme.bg}; ${badgeGlowStyle} ${badgeBorder}">
+                            <div class="server-badge" style="background: ${sTheme.bg}; ${badgeGlowStyle}${badgeBorder}">
                                 ${badgeSvg}
                             </div>
                         </div>
-                        ${descHTML}
-                        ${bdayHTML}
+                        ${descHTML}${bdayHTML}
                     </div>
                 `;
             });
@@ -1354,6 +1385,15 @@
                 guide_4: "يُمنع التشجيع على العنف، إيذاء النفس، الانتحار، أو الكراهية ضد أي مجموعة.",
                 guide_5: "استخدم فقط لغة الخادم الذي تم اختياره.",
                 guide_warning: "قد يؤدي انتهاك هذه الإرشادات إلى تقييد الدردشة لمدة 4 ساعات أو اتخاذ إجراءات إشرافية إضافية (حظر دائم).",
+                
+                // إضافة نصوص إرشادات الصورة الشخصية
+                pfp_guide_title: "إرشادات الصورة الشخصية",
+                pfp_guide_1: "يُمنع نشر محتوى جنسي، إباحي، أو خادش للحياء.",
+                pfp_guide_2: "يُمنع نشر مشاهد دموية أو عنف شديد.",
+                pfp_guide_3: "يُمنع نشر رموز أو خطابات الكراهية.",
+                pfp_guide_4: "يُمنع المضايقة، التشهير، أو انتحال الشخصية.",
+                pfp_guide_5: "يُمنع نشر محتوى يشجع على إيذاء النفس أو محتوى غير قانوني.",
+                
                 links_title: "مواقع ذات صلة", link_platopedia: "Platopedia", link_werepedia: "Werepedia", link_monsterpedia: "Monsterpedia",
                 link_plato_desc: "الموقع الرسمي والأساسي للعبة بلاتو، ويضم المعلومات والخدمات الرئيسية المتعلقة باللعبة.",
                 link_platopedia_desc: "موسوعة متخصصة في بلاتو، توفر معلومات شاملة حول العناصر المتاحة، إلى جانب خيارات تخصيص الملفات الشخصية ومتابعة تفاصيلها.",
@@ -1415,6 +1455,15 @@
                 guide_4: "Do not encourage violence, self-harm, suicide, or hate against any group.",
                 guide_5: "Use only the language of the selected server.",
                 guide_warning: "Breaking these guidelines may result in a 4 hour chat restriction or further moderation action (permanent ban).",
+                
+                // English Profile Picture Guidelines translations
+                pfp_guide_title: "Profile Picture Guidelines",
+                pfp_guide_1: "No sexual, pornographic, or explicit content.",
+                pfp_guide_2: "No gore or extreme violence.",
+                pfp_guide_3: "No hate speech or symbols.",
+                pfp_guide_4: "No harassment, doxxing, or impersonation.",
+                pfp_guide_5: "No self-harm or illegal content.",
+                
                 links_title: "RELATED SITES", link_platopedia: "Platopedia", link_werepedia: "Werepedia", link_monsterpedia: "Monsterpedia",
                 link_plato_desc: "The official website for Plato, featuring the game's main services and information.",
                 link_platopedia_desc: "A Plato encyclopedia covering items and profile customization.",
@@ -1594,66 +1643,6 @@
             }
         }
 
-        async function shareNewsAsImage(btn) {
-            const isAr = document.documentElement.lang === 'ar';
-            const originalIcon = btn.innerHTML;
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
-            btn.disabled = true;
-
-            const card = btn.closest('.news-slide-card');
-            
-            try {
-                const actionRow = card.querySelector('div[style*="justify-content:flex-end"]');
-                if (actionRow) actionRow.style.display = 'none';
-
-                const currentTheme = document.documentElement.getAttribute('data-theme');
-                const bgColor = currentTheme === 'light' ? '#eaddf7' : '#2a1b38';
-
-                const canvas = await html2canvas(card, {
-                    backgroundColor: bgColor,
-                    scale: 2, 
-                    useCORS: true
-                });
-
-                if (actionRow) actionRow.style.display = 'flex';
-
-                canvas.toBlob(async (blob) => {
-                    const file = new File([blob], 'PlatoX-News.png', { type: 'image/png' });
-                    
-                    if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
-                        await navigator.share({
-                            title: 'PlatoX News',
-                            text: isAr ? 'أخبار مجتمع PlatoX\n\n' + window.location.href : 'PlatoX Community News\n\n' + window.location.href,
-                            files: [file]
-                        });
-                    } else {
-                        const link = document.createElement('a');
-                        link.download = 'PlatoX-News.png';
-                        link.href = URL.createObjectURL(blob);
-                        link.click();
-                        
-                        const toast = document.getElementById("toast");
-                        toast.innerHTML = `<i class="fa-solid fa-check"></i> ${isAr ? 'تم حفظ صورة الخبر!' : 'News image saved!'}`;
-                        toast.className = "show"; 
-                        setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 2500);
-                    }
-                    
-                    btn.innerHTML = originalIcon;
-                    btn.disabled = false;
-                }, 'image/png');
-                
-            } catch (error) {
-                console.error("Error generating image:", error);
-                btn.innerHTML = originalIcon;
-                btn.disabled = false;
-                
-                const toast = document.getElementById("toast");
-                toast.innerHTML = `<i class="fa-solid fa-xmark"></i> ${isAr ? 'حدث خطأ أثناء التجهيز' : 'Error generating image'}`;
-                toast.className = "show"; 
-                setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 2500);
-            }
-        }
-
         function shareVideo() {
             const pageUrl = window.location.href; 
             if (navigator.share) {
@@ -1717,7 +1706,7 @@
                         <p class="news-body">${displayBody}</p>
                         
                         <div style="display:flex; justify-content:flex-end; margin-top: auto; padding-top: 15px; border-top: 1px solid var(--glass-border);">
-                            <button class="nav-btn share-btn" style="padding: 6px 15px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius:8px;" onclick="shareNewsAsImage(this)"><i class="fa-solid fa-share-nodes"></i></button>
+                            <button class="nav-btn share-btn" style="padding: 6px 15px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius:8px;" onclick="shareNews('${displayTitle.replace(/'/g, "\\'")}')"><i class="fa-solid fa-share-nodes"></i></button>
                         </div>
                     </div>`;
                 dotsHTML += `<div class="dot ${index === 0 ? 'active' : ''}"></div>`;
@@ -1905,7 +1894,7 @@
                 const imgTag = player.img ? `<img src="${player.img}" class="list-img" alt="${player.user}" onerror="this.style.display='none'">` : ``;
 
                 playersHTML += `
-                    <div class="list-row glass-panel ${rankClass} ${hiddenClass}">
+                    <div class="list-row glass-panel ${rankClass}${hiddenClass}">
                         <div class="rank-num num-font">${rank}</div>
                         <div class="list-info">
                             ${imgTag}
@@ -2082,7 +2071,7 @@
                 btnPips.style.color = 'var(--text-muted)';
                 
                 input.placeholder = t.placeholderCoins;
-                icon.src = 'IMG_0571.png';
+                icon.src = 'https://i.postimg.cc/BvWmQBsP/IMG-0571.png';
                 resultCurr.innerText = t.currPips;
             } else {
                 btnPips.classList.add('active');
@@ -2093,7 +2082,7 @@
                 btnCoins.style.color = 'var(--text-muted)';
                 
                 input.placeholder = t.placeholderPips;
-                icon.src = 'IMG_0569.png';
+                icon.src = 'https://i.postimg.cc/d0847Zt7/IMG-0569.png';
                 resultCurr.innerText = t.currCoins;
             }
             
