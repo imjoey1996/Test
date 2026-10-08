@@ -93,30 +93,29 @@
         body { color: var(--text-main); font-family: 'Cairo', sans-serif; overflow-x: clip; width: 100%; background-color: transparent; position: relative; padding-bottom: calc(115px + env(safe-area-inset-bottom)); padding-top: env(safe-area-inset-top); -webkit-font-smoothing: antialiased; }
         html[dir="ltr"] body, .num-font, .navbar h1 { font-family: 'Rajdhani', sans-serif; }
 
+        /* تعديل الخلفية الثابتة لتقليل استهلاك الذاكرة */
         .static-gaming-bg {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100dvh; z-index: -3; pointer-events: none;
             background-color: var(--bg-main);
             background-image: 
                 radial-gradient(circle at 10% 10%, rgba(200, 0, 0, 0.08), transparent 40%),
-                radial-gradient(circle at 90% 90%, rgba(150, 0, 0, 0.12), transparent 50%),
-                linear-gradient(rgba(200, 0, 0, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(200, 0, 0, 0.03) 1px, transparent 1px);
-            background-size: 100% 100%, 100% 100%, 30px 30px, 30px 30px;
+                radial-gradient(circle at 90% 90%, rgba(150, 0, 0, 0.12), transparent 50%);
+            /* تم إزالة التدرج الخطي المزدوج لتخفيف الحمل */
         }
 
         [data-theme="light"] .static-gaming-bg {
             background-image: 
                 radial-gradient(circle at 10% 10%, rgba(255, 50, 50, 0.1), transparent 40%),
-                radial-gradient(circle at 90% 90%, rgba(200, 20, 20, 0.15), transparent 50%),
-                linear-gradient(rgba(255, 50, 50, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 50, 50, 0.05) 1px, transparent 1px);
+                radial-gradient(circle at 90% 90%, rgba(200, 20, 20, 0.15), transparent 50%);
         }
 
+        /* تعديل تأثير الوميض ليعتمد على الشفافية بدلاً من الظلال (أسرع بكثير) */
         @keyframes neon-flicker {
-            0%, 18%, 22%, 25%, 53%, 57%, 100% { text-shadow: 0 0 15px var(--btn-active-glow), 0 0 30px var(--btn-active-glow); opacity: 1; }
-            20%, 24%, 55% { text-shadow: none; opacity: 0.7; }
+            0%, 18%, 22%, 25%, 53%, 57%, 100% { opacity: 1; }
+            20%, 24%, 55% { opacity: 0.6; }
         }
 
+        /* لا تغيير على الأرجحة، ولكنها الآن محمولة على GPU */
         @keyframes swing { 0% { transform: rotate(-5deg); color: var(--primary); } 100% { transform: rotate(5deg); color: var(--error-color); } }
         
         @keyframes fly-bat {
@@ -126,9 +125,12 @@
             100% { top: 110%; transform: scale(0.5) translateY(110vh); opacity: 0; }
         }
 
+        /* تحسينات أداء العناصر المتحركة */
         .bat {
-            position: fixed; font-size: 20px; opacity: 0.6; z-index: -2; pointer-events: none; filter: drop-shadow(0 0 5px var(--primary)); color: var(--primary);
+            position: fixed; font-size: 20px; opacity: 0.6; z-index: -2; pointer-events: none; color: var(--primary);
             animation: fly-bat 8s ease-in infinite;
+            will-change: transform, opacity; /* يطلب من المتصفح استخدام GPU */
+            /* filter: drop-shadow(0 0 5px var(--primary)); تم إزالته لتخفيف الثقل */
         }
         .bat:nth-child(1) { left: 15%; animation-duration: 4s; animation-delay: 0s; font-size: 16px; }
         .bat:nth-child(2) { left: 50%; animation-duration: 5s; animation-delay: 2s; font-size: 24px; }
@@ -136,18 +138,21 @@
 
         .hanging-spider {
             position: fixed; top: -50px; left: 5%; font-size: 30px; color: var(--primary); opacity: 0.4; z-index: -1;
-            display: flex; flex-direction: column; align-items: center; animation: swing 4s ease-in-out infinite alternate; transform-origin: top center; pointer-events: none; filter: drop-shadow(0 0 10px var(--primary));
+            display: flex; flex-direction: column; align-items: center; animation: swing 4s ease-in-out infinite alternate; transform-origin: top center; pointer-events: none; 
+            will-change: transform, color; /* يطلب من المتصفح استخدام GPU */
+            /* filter: drop-shadow(0 0 10px var(--primary)); تم إزالته */
         }
         .hanging-spider::before { content: ''; width: 2px; height: 120px; background: linear-gradient(var(--bg-main), var(--primary)); }
 
-        .glass-panel { background: var(--bg-card); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid var(--glass-border); border-top: 1px solid rgba(255, 100, 100, 0.15); border-left: 1px solid rgba(255, 100, 100, 0.1); box-shadow: 0 8px 30px 0 rgba(150, 0, 0, 0.25); border-radius: 16px; contain: paint; }
+        /* تقليل التمويه للأجهزة الضعيفة (تعديل 16px إلى 8px) */
+        .glass-panel { background: var(--bg-card); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid var(--glass-border); border-top: 1px solid rgba(255, 100, 100, 0.15); border-left: 1px solid rgba(255, 100, 100, 0.1); box-shadow: 0 8px 30px 0 rgba(150, 0, 0, 0.25); border-radius: 16px; contain: paint; }
         html[dir="ltr"] .glass-panel { border-left: 1px solid var(--glass-border); border-right: 1px solid rgba(255, 100, 100, 0.1); }
         [data-theme="light"] .glass-panel { box-shadow: 0 8px 30px 0 rgba(200, 0, 0, 0.2); border-top: 1px solid rgba(255, 50, 50, 0.15); }
 
         .pro-title-glow, .pro-icon-glow { color: var(--primary); font-weight: 900; animation: neon-flicker 4s infinite alternate; }
         .custom-warning-glow { color: #EE6B6E !important; text-shadow: 0 0 15px #EE6B6E, 0 0 30px #EE6B6E !important; }
 
-        .navbar { position: fixed; top: 0; left: 0; width: 100%; padding: calc(12px + env(safe-area-inset-top)) 25px 12px; display: flex; justify-content: space-between; align-items: center; background: rgba(10, 0, 0, 0.85); backdrop-filter: blur(25px); border-bottom: 1px solid var(--glass-border); z-index: 1000; direction: ltr; }
+        .navbar { position: fixed; top: 0; left: 0; width: 100%; padding: calc(12px + env(safe-area-inset-top)) 25px 12px; display: flex; justify-content: space-between; align-items: center; background: rgba(10, 0, 0, 0.85); backdrop-filter: blur(15px); border-bottom: 1px solid var(--glass-border); z-index: 1000; direction: ltr; }
         [data-theme="light"] .navbar { background: rgba(40, 0, 0, 0.9); }
         
         .brand-header { display: flex; align-items: center; gap: 4px; cursor: pointer; transition: transform 0.2s ease; }
@@ -191,7 +196,7 @@
         .tab-view { display: none; width: 100%; }
         .tab-view.active-view { display: block; }
 
-        .bottom-nav-bar { position: fixed; bottom: calc(20px + env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%); width: 90%; max-width: 440px; height: 65px; background: rgba(10, 0, 0, 0.85); backdrop-filter: blur(25px); border: 1px solid var(--glass-border); border-top: 1px solid rgba(255, 100, 100, 0.15); border-radius: 40px; display: flex; justify-content: space-around; align-items: center; padding: 0 10px; z-index: 1000; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6); }
+        .bottom-nav-bar { position: fixed; bottom: calc(20px + env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%); width: 90%; max-width: 440px; height: 65px; background: rgba(10, 0, 0, 0.85); backdrop-filter: blur(15px); border: 1px solid var(--glass-border); border-top: 1px solid rgba(255, 100, 100, 0.15); border-radius: 40px; display: flex; justify-content: space-around; align-items: center; padding: 0 10px; z-index: 1000; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6); }
         [data-theme="light"] .bottom-nav-bar { background: rgba(40, 0, 0, 0.9); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); border-top: 1px solid rgba(255, 50, 50, 0.15); }
         
         .bottom-nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; color: var(--text-muted); cursor: pointer; height: 100%; transition: color 0.2s; position: relative; }
@@ -385,6 +390,13 @@
         [data-theme="light"] .calc-input-wrapper input { background: rgba(255,255,255,0.1); color: var(--text-main); box-shadow: inset 0 0 5px rgba(0,0,0,0.2); border-color: rgba(255,255,255,0.2); }
         [data-theme="light"] .calc-input-wrapper input:focus { background: rgba(255,255,255,0.2); border-color: var(--primary); }
         [data-theme="light"] .calc-input-wrapper input::placeholder { color: rgba(255,255,255,0.5); }
+
+        /* تفعيل خيار إيقاف الحركة للمستخدمين الذين لا يفضلونها */
+        @media (prefers-reduced-motion: reduce) {
+            .bat, .hanging-spider, .pro-title-glow, .pro-icon-glow {
+                animation: none !important;
+            }
+        }
 
         @media (max-width: 600px) {
             .main-lang-switch { margin-top: calc(85px + env(safe-area-inset-top)); margin-bottom: 10px; } 
