@@ -110,7 +110,6 @@
                 linear-gradient(90deg, rgba(69, 27, 117, 0.03) 1px, transparent 1px);
         }
 
-        /* مؤثرات الهالوين الحركية */
         @keyframes neon-flicker {
             0%, 18%, 22%, 25%, 53%, 57%, 100% { text-shadow: 0 0 15px var(--btn-active-glow), 0 0 30px var(--btn-active-glow); opacity: 1; }
             20%, 24%, 55% { text-shadow: none; opacity: 0.7; }
@@ -139,7 +138,6 @@
             display: flex; flex-direction: column; align-items: center; animation: swing 6s ease-in-out infinite alternate; transform-origin: top center; pointer-events: none;
         }
         .hanging-spider::before { content: ''; width: 1px; height: 120px; background: var(--text-muted); }
-        html[dir="rtl"] .hanging-spider { left: auto; right: 5%; }
 
         .glass-panel { background: var(--bg-card); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid var(--glass-border); border-top: 1px solid rgba(255, 255, 255, 0.12); border-left: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 8px 30px 0 rgba(0, 0, 0, 0.35); border-radius: 16px; contain: paint; }
         html[dir="ltr"] .glass-panel { border-left: 1px solid var(--glass-border); border-right: 1px solid rgba(255, 255, 255, 0.05); }
@@ -321,7 +319,7 @@
         .tour-card { padding: 20px; overflow: hidden; position: relative;}
         .tour-card::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--primary); box-shadow: 0 0 15px var(--btn-active-glow); }
         html[dir="ltr"] .tour-card::before { left: auto; right: 0; }
-        .tour-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;}
+        .tour-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; flex-wrap: gap: 10px;}
         .tour-title-box { display: flex; align-items: center; gap: 10px; }
         .tour-title { font-size: 1.15rem; font-weight: 900; color: var(--text-main); }
         .countdown-box { background: rgba(220, 38, 38, 0.1); border: 1px solid rgba(220, 38, 38, 0.3); color: #ef4444; padding: 4px 10px; border-radius: 4px; font-weight: bold; font-size: 14px; display: flex; align-items: center; gap: 6px; }
@@ -437,7 +435,6 @@
         </div>
     </div>
 
-    <!-- إضافة خاصية dir="ltr" لتثبيت اتجاه الخلفية ومنعها من الانعكاس -->
     <div class="static-gaming-bg" dir="ltr"></div>
 
     <nav class="navbar" dir="ltr">
@@ -614,7 +611,6 @@
                 </div>
             </div>
             
-            <!-- إضافة قسم Profile Picture Guidelines -->
             <div class="glass-panel" style="width: 100%; max-width: 650px; padding: 30px; border-radius: 16px; margin-top: 25px;">
                 <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid var(--glass-border);">
                     <i class="fa-solid fa-image-portrait pro-icon-glow" style="font-size: 26px;"></i>
@@ -1386,7 +1382,6 @@
                 guide_5: "استخدم فقط لغة الخادم الذي تم اختياره.",
                 guide_warning: "قد يؤدي انتهاك هذه الإرشادات إلى تقييد الدردشة لمدة 4 ساعات أو اتخاذ إجراءات إشرافية إضافية (حظر دائم).",
                 
-                // إضافة نصوص إرشادات الصورة الشخصية
                 pfp_guide_title: "إرشادات الصورة الشخصية",
                 pfp_guide_1: "يُمنع نشر محتوى جنسي، إباحي، أو خادش للحياء.",
                 pfp_guide_2: "يُمنع نشر مشاهد دموية أو عنف شديد.",
@@ -1456,7 +1451,6 @@
                 guide_5: "Use only the language of the selected server.",
                 guide_warning: "Breaking these guidelines may result in a 4 hour chat restriction or further moderation action (permanent ban).",
                 
-                // English Profile Picture Guidelines translations
                 pfp_guide_title: "Profile Picture Guidelines",
                 pfp_guide_1: "No sexual, pornographic, or explicit content.",
                 pfp_guide_2: "No gore or extreme violence.",
