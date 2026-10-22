@@ -276,7 +276,7 @@
         .global-leader { width: 100%; padding: 20px 15px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 8px; transition: transform 0.2s; height: 100%; }
         .global-leader img { width: 70px; height: 70px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255,255,255,0.2); margin-bottom: 2px; }
         
-        .leader-name-box { display: flex; flex-direction: row; justify-content: center; align-items: center; gap: 8px; cursor: pointer; margin-bottom: 4px; width: 100%; white-space: nowrap; flex-wrap: nowrap;}
+        .leader-name-box { display: flex; flex-direction: row; justify-content: center; align-items: center; gap: 4px !important; cursor: pointer; margin-bottom: 4px; width: 100%; white-space: nowrap; flex-wrap: nowrap;}
         .leader-copy-icon { font-size: 12px; color: var(--text-muted); flex-shrink: 0;}
         
         .leader-username { color: var(--primary) !important; font-family: 'Rajdhani', 'Cairo', sans-serif !important; font-weight: 900 !important; margin: 0; flex-shrink: 1; overflow: hidden; text-overflow: ellipsis; text-shadow: none !important; -webkit-text-stroke: 0 !important; }
@@ -1121,10 +1121,7 @@
         };
 
         function renderArabicLeaders() {
-          if (!cachedSheetRows) return;
-          const container = document.getElementById('arabic-leaders-grid');
-          let htmlStr = '';
-
+            if (!cachedSheetRows) return;
             const container = document.getElementById('arabic-leaders-grid');
             let htmlStr = '';
             const currentLang = document.documentElement.getAttribute('lang') || 'en';
@@ -1165,10 +1162,7 @@
         }
 
         function renderGlobalLeaders() {
-            if (!cachedSheetRows) return; // أضف هذا السطر هنا
-            const container = document.getElementById('global-leaders-grid');
-            let htmlStr = '';
-
+            if (!cachedSheetRows) return;
             const container = document.getElementById('global-leaders-grid');
             let htmlStr = '';
             const currentLang = document.documentElement.getAttribute('lang') || 'en';
