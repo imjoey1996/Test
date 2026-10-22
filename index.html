@@ -1121,6 +1121,10 @@
         };
 
         function renderArabicLeaders() {
+          if (!cachedSheetRows) return;
+          const container = document.getElementById('arabic-leaders-grid');
+          let htmlStr = '';
+
             const container = document.getElementById('arabic-leaders-grid');
             let htmlStr = '';
             const currentLang = document.documentElement.getAttribute('lang') || 'en';
@@ -1161,6 +1165,10 @@
         }
 
         function renderGlobalLeaders() {
+            if (!cachedSheetRows) return; // أضف هذا السطر هنا
+            const container = document.getElementById('global-leaders-grid');
+            let htmlStr = '';
+
             const container = document.getElementById('global-leaders-grid');
             let htmlStr = '';
             const currentLang = document.documentElement.getAttribute('lang') || 'en';
@@ -2077,9 +2085,8 @@
                 nSlider.addEventListener('mousemove', (e) => { if (!isDown) return; e.preventDefault(); const x = e.pageX - nSlider.offsetLeft; const walk = (x - startX) * 2; nSlider.scrollLeft = sLeft - walk; });
             }
             const currentLang = document.documentElement.getAttribute('lang') || 'en';
-            const loadMsg = currentLang === 'ar' ? 'جاري تحميل البيانات...' : 'Loading data...';
-            const loaderHTML = `<div style="width:100%; text-align:center; padding: 40px 20px; color: var(--primary);"><i class="fa-solid fa-circle-notch fa-spin" style="font-size:32px; margin-bottom:12px; filter: drop-shadow(0 0 10px var(--btn-active-glow));"></i><br><span style="font-weight:900; font-size:15px; font-family: 'Cairo', 'Rajdhani', sans-serif; opacity: 0.8; animation: neon-flicker 2s infinite alternate;">${loadMsg}</span></div>`;
-
+            const loadMsg = currentLang === 'ar' ? 'جاري التحديث...' : 'Updating...';
+            const loaderHTML = `<div style="width:100%; text-align:center; padding: 40px 20px; color: var(--primary);"><i class="fa-solid fa-circle-notch fa-spin" style="font-size:32px; margin-bottom:12px; filter: drop-shadow(0 0 10px var(--btn-active-glow));"></i><br><span data-i18n="pull_refresh" style="font-weight:900; font-size:15px; font-family: 'Cairo', 'Rajdhani', sans-serif; opacity: 0.8; animation: neon-flicker 2s infinite alternate;">${loadMsg}</span></div>`;
             document.getElementById('newsSlider').innerHTML = loaderHTML;
             document.getElementById('arabic-leaders-grid').innerHTML = loaderHTML;
             document.getElementById('global-leaders-grid').innerHTML = loaderHTML;
