@@ -282,9 +282,24 @@
         .leader-username { color: var(--primary) !important; font-family: 'Rajdhani', 'Cairo', sans-serif !important; font-weight: 900 !important; margin: 0; flex-shrink: 1; overflow: hidden; text-overflow: ellipsis; text-shadow: none !important; -webkit-text-stroke: 0 !important; }
         
         /* Updated Server Badge CSS for Images */
-        .server-badge { flex-shrink: 0; width: 44px; height: 24px; margin: 0; display: inline-flex; align-items: center; justify-content: center; }
-        .server-badge img { width: 100%; height: 100%; object-fit: contain; pointer-events: none; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
-
+.server-badge { 
+    flex-shrink: 0; 
+    height: 22px;
+    margin: 0 5px; 
+    display: inline-flex; 
+    align-items: center; 
+    justify-content: center; 
+}
+.server-badge img { 
+    width: auto !important; 
+    height: 100% !important; 
+    border-radius: 0 !important; 
+    border: none !important; 
+    margin: 0 !important; 
+    object-fit: contain !important; 
+    pointer-events: none; 
+    filter: drop-shadow(0 2px 3px rgba(0,0,0,0.3)); 
+}
         .premium-list { width: 100%; max-width: 700px; display: flex; flex-direction: column; gap: 10px; position: relative; z-index: 2;}
         .list-row { padding: 15px; display: flex; align-items: center; gap: 15px; }
         .rank-num { font-size: 1.3rem; font-weight: 900; color: rgba(255,255,255,0.3); width: 30px; text-align: center; }
