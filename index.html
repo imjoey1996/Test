@@ -93,26 +93,23 @@
         body { color: var(--text-main); font-family: 'Cairo', sans-serif; overflow-x: clip; width: 100%; background-color: transparent; position: relative; padding-bottom: calc(115px + env(safe-area-inset-bottom)); padding-top: env(safe-area-inset-top); -webkit-font-smoothing: antialiased; }
         html[dir="ltr"] body, .num-font, .navbar h1 { font-family: 'Rajdhani', sans-serif; }
 
-        /* خلفية ثابتة بسيطة وأنيقة */
+        /* خلفية ثابتة بتدرج لوني أنيق وبسيط */
         .static-gaming-bg {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100dvh; z-index: -3; pointer-events: none;
-            background-color: var(--bg-main);
-            background-image: 
-                radial-gradient(circle at 15% 20%, rgba(255, 255, 255, 0.04) 0%, transparent 40%),
-                radial-gradient(circle at 85% 80%, rgba(255, 255, 255, 0.02) 0%, transparent 40%);
+            background: linear-gradient(135deg, #121212 0%, #050505 50%, #0a0a0a 100%);
         }
 
         [data-theme="light"] .static-gaming-bg {
-            background-image: 
-                radial-gradient(circle at 15% 20%, rgba(0, 0, 0, 0.05) 0%, transparent 40%),
-                radial-gradient(circle at 85% 80%, rgba(0, 0, 0, 0.03) 0%, transparent 40%);
+            background: linear-gradient(135deg, #ffffff 0%, #f4f4f4 50%, #eaeaea 100%);
         }
 
         .glass-panel { background: var(--bg-card); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid var(--glass-border); box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border-radius: 16px; contain: paint; }
         [data-theme="light"] .glass-panel { box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08); border: 1px solid rgba(0, 0, 0, 0.1); }
 
         .pro-title-glow, .pro-icon-glow { color: var(--primary); font-weight: 900; text-shadow: 0 0 15px var(--text-glow-x); }
-        .custom-warning-glow { color: var(--text-main) !important; text-shadow: 0 0 15px var(--text-glow-x) !important; }
+        
+        /* تأثير التوهج الأحمر لأيقونات الملاحظات */
+        .custom-warning-glow { color: #ff3333 !important; text-shadow: 0 0 15px rgba(255, 51, 51, 0.7) !important; }
 
         .navbar { position: fixed; top: 0; left: 0; width: 100%; padding: calc(12px + env(safe-area-inset-top)) 25px 12px; display: flex; justify-content: space-between; align-items: center; background: rgba(5, 5, 5, 0.85); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--glass-border); z-index: 1000; direction: ltr; }
         [data-theme="light"] .navbar { background: rgba(255, 255, 255, 0.9); }
@@ -127,7 +124,6 @@
         .nav-actions i { font-size: 22px; cursor: pointer; color: var(--text-main); transition: 0.2s; }
         .nav-actions i:hover { color: var(--primary); text-shadow: 0 0 15px var(--btn-active-glow); }
 
-        /* النقطة الحمراء للإشعارات */
         @keyframes pulse-ring {
             0% { transform: scale(0.85); box-shadow: 0 0 0 0 rgba(255, 51, 51, 0.7); }
             70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(255, 51, 51, 0); }
@@ -169,7 +165,6 @@
         .bottom-nav-item.active i { transform: translateY(-2px) scale(1.1); color: var(--primary); text-shadow: 0 0 15px var(--btn-active-glow); }
         .bottom-nav-item.active span { color: var(--text-main); font-weight: 900; }
         
-        /* نقطة الإشعارات السفلية بلون أحمر */
         .nav-dot { position: absolute; top: 6px; right: calc(50% - 16px); width: 8px; height: 8px; background: #ff3333; border-radius: 50%; display: none; box-shadow: 0 0 10px #ff3333; pointer-events: none; }
         .nav-dot.active-dot { display: block; animation: pulse-ring 1.5s infinite; }
 
@@ -179,13 +174,14 @@
         .hero h2 { font-size: 3.2rem; font-weight: 900; margin: 0; color: var(--text-main); display: flex; align-items: center; justify-content: center; flex-wrap: wrap;}
         .hero h2 span.hero-x { color: var(--primary); font-size: 1.5em; margin: 0 10px; transform: translateY(2px); text-shadow: 0 0 25px var(--text-glow-x), 0 0 10px var(--text-glow-x); }
 
-        /* حركة حرف الـ X وتصميمه */
+        /* تعديل حرف X ليكون بخط فخم كلاسيكي */
         .animated-x {
-            font-family: 'Arial Black', Impact, sans-serif;
-            font-size: 1.35em;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-style: italic;
+            font-weight: bold;
+            font-size: 1.4em;
             display: inline-block;
             animation: glowPulseX 1.5s infinite alternate ease-in-out;
-            margin-left: 2px;
         }
 
         @keyframes glowPulseX {
@@ -456,7 +452,7 @@
     <main id="view-home" class="tab-view active-view">
         <section class="hero" id="hero" style="flex-direction: column; gap: 12px; padding-top: 40px;">
             <h2 class="num-font" dir="ltr" style="text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 0 20px var(--text-glow-x);">
-                <span class="pro-title-glow">Plato<span class="animated-x">X</span></span>
+                <span class="pro-title-glow">Plato <span class="animated-x">X</span></span>
             </h2>
             <span class="num-font" dir="ltr" style="font-size: 13px; letter-spacing: 4px; color: var(--text-muted); text-transform: uppercase;">NEWS &bull; RESOURCES &bull; SUPPORT</span>
             <div style="width: 180px; height: 1.5px; background: linear-gradient(90deg, transparent, var(--primary), transparent); margin-top: 8px; box-shadow: 0 0 12px var(--btn-active-glow); opacity: 0.7; border-radius: 10px;"></div>
