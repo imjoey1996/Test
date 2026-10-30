@@ -139,7 +139,7 @@
         [data-theme="light"] .notif-item { background: rgba(0,0,0,0.05); }
         .notif-item:hover { background: rgba(255,255,255,0.1); border-color: var(--glass-border); transform: translateY(-2px); }
         [data-theme="light"] .notif-item:hover { background: rgba(0,0,0,0.08); }
-        .notif-item i { font-size: 20px; color: var(--primary); flex-shrink: 0; }
+        .notif-item i { font-size: 20px; flex-shrink: 0; }
         .notif-text-box { display: flex; flex-direction: column; gap: 4px; overflow: hidden; width: 100%; }
         .notif-sub { font-size: 11px; font-weight: 900; letter-spacing: 0.5px; opacity: 0.9; }
         .notif-title { font-size: 13.5px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
@@ -266,7 +266,6 @@
     background: transparent !important;
     object-fit: contain !important; 
     pointer-events: none; 
-    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3)) !important; 
 }
 
 .server-badge img[alt="desi Badge"] {
@@ -325,10 +324,6 @@
         #toast.show { visibility: visible; bottom: calc(95px + env(safe-area-inset-bottom)); opacity: 1; }
 
         .hidden-player { display: none !important; }
-
-        .custom-calc-icon {
-            width: 22px; height: 22px; object-fit: contain;
-        }
         
         .calc-input-wrapper { position: relative; width: 100%; }
         .calc-input-wrapper input {
@@ -350,6 +345,7 @@
         .calc-input-wrapper img.custom-input-icon {
             width: 24px; height: 24px; object-fit: contain;
         }
+        .custom-calc-icon { width: 22px; height: 22px; object-fit: contain; }
         
         html[dir="rtl"] .calc-input-wrapper i, html[dir="rtl"] .calc-input-wrapper img.custom-input-icon { left: 15px; right: auto; }
         html[dir="ltr"] .calc-input-wrapper i, html[dir="ltr"] .calc-input-wrapper img.custom-input-icon { right: 15px; left: auto; }
@@ -959,9 +955,9 @@
                 hasNewHome = true;
                 html += `
                 <div class="notif-item" onclick="markSeenAndGo('news', '${currentLatestNews.id}', 'home', 'news')">
-                    <i class="fa-solid fa-newspaper"></i> 
+                    <i class="fa-solid fa-newspaper" style="color:#3b82f6;"></i> 
                     <div class="notif-text-box">
-                        <span class="notif-sub" style="color:var(--primary);">${isAr ? 'تحديث جديد' : 'New Update'}</span>
+                        <span class="notif-sub" style="color:#3b82f6;">${isAr ? 'تحديث جديد' : 'New Update'}</span>
                         <span class="notif-title">${isAr ? 'تم تحديث لوحة الأخبار' : 'News board updated'}</span>
                     </div>
                 </div>`;
@@ -971,9 +967,9 @@
                 hasNewExplore = true;
                 html += `
                 <div class="notif-item" onclick="markSeenAndGo('tour', '${currentLatestTour.id}', 'explore', 'tournaments')">
-                    <i class="fa-solid fa-trophy"></i> 
+                    <i class="fa-solid fa-trophy" style="color:#eab308;"></i> 
                     <div class="notif-text-box">
-                        <span class="notif-sub" style="color:var(--primary);">${isAr ? 'تحديث البطولات' : 'Tournaments Update'}</span>
+                        <span class="notif-sub" style="color:#eab308;">${isAr ? 'تحديث البطولات' : 'Tournaments Update'}</span>
                         <span class="notif-title">${isAr ? 'تم تعديل أو إضافة بطولات جديدة' : 'Tournaments list updated'}</span>
                     </div>
                 </div>`;
@@ -985,9 +981,9 @@
                 const safeTitle = escapeHTML(currentLatestWeekly.display || defaultWeeklyTitle);
                 html += `
                 <div class="notif-item" onclick="markSeenAndGo('weekly', '${currentLatestWeekly.id}', 'explore', 'weekly-showcase')">
-                    <i class="fa-solid fa-gift" style="color:var(--primary);"></i> 
+                    <i class="fa-solid fa-gift" style="color:#a855f7;"></i> 
                     <div class="notif-text-box">
-                        <span class="notif-sub" style="color:var(--primary);">${isAr ? 'عناصر أسبوعية جديدة' : 'New Weekly Items'}</span>
+                        <span class="notif-sub" style="color:#a855f7;">${isAr ? 'عناصر أسبوعية جديدة' : 'New Weekly Items'}</span>
                         <span class="notif-title">${safeTitle}</span>
                     </div>
                 </div>`;
@@ -1023,6 +1019,10 @@
             // Re-render to update global leaders borders depending on theme mode
             renderArabicLeaders();
             renderGlobalLeaders();
+            
+            // Re-render tabs if active
+            const activeTab = document.querySelector('.server-tab.active');
+            if(activeTab) filterServer(activeTab.dataset.target);
         }
 
         function copyAdminID(id) {
@@ -1049,7 +1049,7 @@
         }
 
         const serverThemes = {
-            'arabic':  { bg: '#00a859', text: '#ffffff', nameColor: '#00a859', shadow: 'none', badgeGlow: '0 2px 5px rgba(0,0,0,0.5)', badgeBorder: 'none', profileBorder: '2px solid rgba(255,255,255,0.2)' },
+            'arabic':  { bg: 'var(--primary)', text: 'var(--bg-main)', nameColor: 'var(--primary)', shadow: 'none', badgeGlow: '0 2px 5px var(--btn-active-glow)', badgeBorder: 'none', profileBorder: '2px solid var(--primary)' },
             'english': { bg: 'var(--eng-bg)', text: 'var(--eng-text)', nameColor: 'var(--eng-name)', shadow: 'none', badgeGlow: 'var(--eng-badge-glow)', profileBorder: '2px solid #555555' },
             'persian': { bg: '#C92C23', text: '#ffffff', nameColor: '#C92C23', shadow: 'none', badgeGlow: '0 2px 5px rgba(0,0,0,0.5)', profileBorder: '2px solid rgba(255,255,255,0.2)' },
             'french':  { bg: '#CBA276', text: '#ffffff', nameColor: '#CBA276', shadow: 'none', badgeGlow: '0 2px 5px rgba(0,0,0,0.5)', profileBorder: '2px solid rgba(255,255,255,0.2)' },
@@ -1096,7 +1096,9 @@
                 const safeName = escapeHTML(leader.name);
                 const cleanImg = leader.img ? escapeHTML(leader.img) : `https://ui-avatars.com/api/?name=${encodeURIComponent(leader.name)}&background=ffffff&color=000&bold=true`;
 
-                let cardGlowStyle = `border-top: 2px solid ${sTheme.nameColor}99; border-bottom: 2px solid ${sTheme.nameColor}99; box-shadow: 0 -6px 18px ${sTheme.nameColor}30, 0 6px 18px ${sTheme.nameColor}30;`;
+                let cardGlowStyle = document.documentElement.getAttribute('data-theme') === 'light' 
+                    ? `border-top: 2px solid var(--primary); border-bottom: 2px solid var(--primary); box-shadow: 0 -6px 18px rgba(0,0,0,0.1), 0 6px 18px rgba(0,0,0,0.1);` 
+                    : `border-top: 2px solid var(--primary); border-bottom: 2px solid var(--primary); box-shadow: 0 -6px 18px rgba(255,255,255,0.15), 0 6px 18px rgba(255,255,255,0.15);`;
 
                 htmlStr += `
                 <div class="card glass-panel card-${safeName.toLowerCase()}" style="${cardGlowStyle}">
@@ -1175,11 +1177,16 @@
             document.querySelectorAll('.server-tab').forEach(tab => {
                 if(tab.dataset.target === serverName) {
                     tab.classList.add('active');
-                    tab.style.backgroundColor = document.documentElement.getAttribute('data-theme') === 'light' ? '#eeeeee' : '#222222';
-                    tab.style.borderColor = 'var(--text-main)';
-                    tab.style.color = 'var(--text-main)';
+                    tab.style.backgroundColor = theme.bg;
+                    tab.style.borderColor = theme.bg;
+                    tab.style.color = theme.text;
+                    tab.style.boxShadow = theme.badgeGlow || 'none';
                 } else {
-                    tab.classList.remove('active'); tab.style.backgroundColor = 'transparent'; tab.style.borderColor = 'var(--glass-border)'; tab.style.color = 'var(--text-muted)'; tab.style.boxShadow = 'none';
+                    tab.classList.remove('active'); 
+                    tab.style.backgroundColor = 'transparent'; 
+                    tab.style.borderColor = 'var(--glass-border)'; 
+                    tab.style.color = 'var(--text-muted)'; 
+                    tab.style.boxShadow = 'none';
                 }
             });
             
@@ -1521,17 +1528,17 @@
                 const tagLower = tagType.toLowerCase();
 
                 if (!isAr) {
-                    if (tagLower.includes('إعلان') || tagLower.includes('announcement')) { displayTag = 'Announcement'; icon = 'fa-bullhorn'; }
-                    else if (tagLower.includes('إشعار') || tagLower.includes('notice')) { displayTag = 'Notice'; icon = 'fa-bell'; }
-                    else if (tagLower.includes('تذكير') || tagLower.includes('reminder')) { displayTag = 'Reminder'; icon = 'fa-clock'; }
-                    else if (tagLower.includes('تحديث') || tagLower.includes('update')) { displayTag = 'Update'; icon = 'fa-wrench'; }
-                    else if (tagLower.includes('مهم') || tagLower.includes('important')) { displayTag = 'Important'; icon = 'fa-circle-exclamation'; }
+                    if (tagLower.includes('إعلان') || tagLower.includes('announcement')) { displayTag = 'Announcement'; tagColor = '#3b82f6'; tagBg = 'rgba(59, 130, 246, 0.15)'; icon = 'fa-bullhorn'; }
+                    else if (tagLower.includes('إشعار') || tagLower.includes('notice')) { displayTag = 'Notice'; tagColor = '#eab308'; tagBg = 'rgba(234, 179, 8, 0.15)'; icon = 'fa-bell'; }
+                    else if (tagLower.includes('تذكير') || tagLower.includes('reminder')) { displayTag = 'Reminder'; tagColor = '#f97316'; tagBg = 'rgba(249, 115, 22, 0.15)'; icon = 'fa-clock'; }
+                    else if (tagLower.includes('تحديث') || tagLower.includes('update')) { displayTag = 'Update'; tagColor = '#10b981'; tagBg = 'rgba(16, 185, 129, 0.15)'; icon = 'fa-wrench'; }
+                    else if (tagLower.includes('مهم') || tagLower.includes('important')) { displayTag = 'Important'; tagColor = '#ef4444'; tagBg = 'rgba(239, 68, 68, 0.15)'; icon = 'fa-circle-exclamation'; }
                 } else {
-                    if (tagLower.includes('إعلان') || tagLower.includes('announcement')) { displayTag = 'إعلان'; icon = 'fa-bullhorn'; }
-                    else if (tagLower.includes('إشعار') || tagLower.includes('notice')) { displayTag = 'إشعار'; icon = 'fa-bell'; }
-                    else if (tagLower.includes('تذكير') || tagLower.includes('reminder')) { displayTag = 'تذكير'; icon = 'fa-clock'; }
-                    else if (tagLower.includes('تحديث') || tagLower.includes('update')) { displayTag = 'تحديث'; icon = 'fa-wrench'; }
-                    else if (tagLower.includes('مهم') || tagLower.includes('important')) { displayTag = 'مهم'; icon = 'fa-circle-exclamation'; }
+                    if (tagLower.includes('إعلان') || tagLower.includes('announcement')) { displayTag = 'إعلان'; tagColor = '#3b82f6'; tagBg = 'rgba(59, 130, 246, 0.15)'; icon = 'fa-bullhorn'; }
+                    else if (tagLower.includes('إشعار') || tagLower.includes('notice')) { displayTag = 'إشعار'; tagColor = '#eab308'; tagBg = 'rgba(234, 179, 8, 0.15)'; icon = 'fa-bell'; }
+                    else if (tagLower.includes('تذكير') || tagLower.includes('reminder')) { displayTag = 'تذكير'; tagColor = '#f97316'; tagBg = 'rgba(249, 115, 22, 0.15)'; icon = 'fa-clock'; }
+                    else if (tagLower.includes('تحديث') || tagLower.includes('update')) { displayTag = 'تحديث'; tagColor = '#10b981'; tagBg = 'rgba(16, 185, 129, 0.15)'; icon = 'fa-wrench'; }
+                    else if (tagLower.includes('مهم') || tagLower.includes('important')) { displayTag = 'مهم'; tagColor = '#ef4444'; tagBg = 'rgba(239, 68, 68, 0.15)'; icon = 'fa-circle-exclamation'; }
                 }
 
                 sliderHTML += `
@@ -2000,18 +2007,24 @@
             let currentActualRate = 0;
             let targetValue = 0;
             let isResultFloat = false;
-            let targetColor = document.documentElement.getAttribute('data-theme') === 'light' ? '#000000' : '#ffffff';
-            let targetShadow = '0 0 25px var(--text-glow-x)';
+            let targetColor = '';
+            let targetShadow = '';
 
             if (calcMode === 'coins') {
+                // Input is Coins, Output is Pips -> Blue color
                 let estimatedPips = val / 450; 
                 currentActualRate = getDynamicRate(estimatedPips);
                 targetValue = val / currentActualRate;
                 isResultFloat = true;
+                targetColor = '#3b82f6';
+                targetShadow = '0 0 25px rgba(59, 130, 246, 0.4)';
             } else {
+                // Input is Pips, Output is Coins -> Yellow color
                 currentActualRate = getDynamicRate(val);
                 targetValue = Math.round(val * currentActualRate);
                 isResultFloat = false;
+                targetColor = '#fdd74e';
+                targetShadow = '0 0 25px rgba(253, 215, 78, 0.4)';
             }
 
             let currentDisplay = parseFloat(outVal.innerText.replace(/,/g, '')) || 0;
