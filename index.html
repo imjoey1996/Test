@@ -114,7 +114,7 @@
         
         .brand-header { display: flex; align-items: center; gap: 4px; cursor: pointer; transition: transform 0.2s ease; }
         .brand-header:active { transform: scale(0.95); }
-        .nav-main-logo { width: 48px; height: 48px; object-fit: contain; border-radius: 10px; filter: grayscale(100%); }
+        .nav-main-logo { width: 48px; height: 48px; object-fit: contain; border-radius: 10px; }
         .navbar h1 { font-size: 26px; font-weight: 900; letter-spacing: 0.5px; display: flex; align-items: baseline; margin: 0; padding-top: 4px; }
         .navbar h1 span { color: var(--primary); font-size: 1.4em; transform: translateY(2px); margin-left: 1px; text-shadow: 0 0 25px var(--text-glow-x), 0 0 10px var(--text-glow-x); }
 
@@ -226,7 +226,7 @@
 
         .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; width: 100%; max-width: 900px; justify-items: center; }
         .card { width: 100%; padding: 35px 20px; text-align: center; transition: transform 0.2s; position: relative; overflow: hidden; border-radius: 16px; display: flex; flex-direction: column; align-items: center; height: 100%; }
-        .card img { width: 85px; height: 85px; border-radius: 50%; object-fit: cover; margin-bottom: 10px; border: 2px solid var(--glass-border); filter: grayscale(100%); }
+        .card img { width: 85px; height: 85px; border-radius: 50%; object-fit: cover; margin-bottom: 10px; border: 2px solid var(--glass-border); }
         
         .leader-desc { color: rgba(255,255,255,0.6); line-height: 1.6; font-weight: 600; text-align: center; width: 100%; word-break: break-word; font-size: 0.9rem;}
         [data-theme="light"] .leader-desc { color: var(--text-muted); }
@@ -237,7 +237,7 @@
         
         .global-leaders-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; width: 100%; max-width: 950px; justify-items: center; }
         .global-leader { width: 100%; padding: 20px 15px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 8px; transition: transform 0.2s; height: 100%; }
-        .global-leader img { width: 70px; height: 70px; border-radius: 50%; object-fit: cover; border: 2px solid var(--glass-border); margin-bottom: 2px; filter: grayscale(100%); }
+        .global-leader img { width: 70px; height: 70px; border-radius: 50%; object-fit: cover; border: 2px solid var(--glass-border); margin-bottom: 2px; }
         
         .leader-name-box { display: flex; flex-direction: row; justify-content: center; align-items: center; gap: 4px !important; cursor: pointer; margin-bottom: 4px; width: 100%; white-space: nowrap; flex-wrap: nowrap;}
         .leader-copy-icon { font-size: 12px; color: var(--text-muted); flex-shrink: 0;}
@@ -266,7 +266,7 @@
     background: transparent !important;
     object-fit: contain !important; 
     pointer-events: none; 
-    filter: grayscale(100%) opacity(0.8) !important; 
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3)) !important; 
 }
 
 .server-badge img[alt="desi Badge"] {
@@ -279,7 +279,7 @@
         [data-theme="light"] .rank-num { color: rgba(0,0,0,0.3); }
         .rank-1 .rank-num { color: #d4af37; text-shadow: 0 0 10px rgba(227, 179, 65, 0.5);} .rank-2 .rank-num { color: #cbd5e1; } .rank-3 .rank-num { color: #cd7f32; }
         .list-info { display: flex; align-items: center; gap: 12px; flex: 1; overflow: hidden; }
-        .list-img { width: 35px; height: 35px; border-radius: 50%; object-fit: cover; border: 2px solid var(--glass-border); filter: grayscale(100%); }
+        .list-img { width: 35px; height: 35px; border-radius: 50%; object-fit: cover; border: 2px solid var(--glass-border); }
         .group-img { border-radius: 6px; }
         .list-name { font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 1rem; }
         .progress-container { flex: 1.5; display: flex; flex-direction: column; gap: 5px; justify-content: center;}
@@ -306,7 +306,7 @@
 
         .links-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; width: 100%; max-width: 850px; }
         .link-card { display: flex; align-items: center; gap: 15px; padding: 20px; text-decoration: none; color: var(--text-main); border-radius: 16px; position: relative; overflow: hidden; }
-        .link-brand-icon { width: 44px; height: 44px; border-radius: 10px; object-fit: contain; flex-shrink: 0; filter: grayscale(100%); }
+        .link-brand-icon { width: 44px; height: 44px; border-radius: 10px; object-fit: contain; flex-shrink: 0; }
         .link-info { display: flex; flex-direction: column; gap: 4px; }
         .link-title { font-weight: 900; font-size: 1.1rem; }
         .link-sub { color: var(--text-muted); font-weight: bold; line-height: 1.4; font-size: 0.85rem;}
@@ -316,7 +316,7 @@
 
         .video-glow-box { position: relative; width: 100%; max-width: 320px; border-radius: 16px; padding: 4px; background: rgba(255,255,255,0.05); margin: 0 auto;}
         [data-theme="light"] .video-glow-box { background: rgba(0,0,0,0.05); }
-        .video-glow-box video { width: 100%; display: block; border-radius: 12px; max-height: 70vh; object-fit: cover; background: #000; filter: grayscale(80%); }
+        .video-glow-box video { width: 100%; display: block; border-radius: 12px; max-height: 70vh; object-fit: cover; background: #000; }
 
         .feedback-btn-wrapper { width: 100%; display: flex; justify-content: center; } 
 
@@ -328,7 +328,6 @@
 
         .custom-calc-icon {
             width: 22px; height: 22px; object-fit: contain;
-            filter: grayscale(100%);
         }
         
         .calc-input-wrapper { position: relative; width: 100%; }
@@ -346,7 +345,7 @@
         
         .calc-input-wrapper i, .calc-input-wrapper img.custom-input-icon {
             position: absolute; top: 50%; transform: translateY(-50%);
-            transition: 0.3s; filter: grayscale(100%);
+            transition: 0.3s;
         }
         .calc-input-wrapper img.custom-input-icon {
             width: 24px; height: 24px; object-fit: contain;
@@ -433,7 +432,7 @@
 
     <main id="view-home" class="tab-view active-view">
         <section class="hero" id="hero" style="flex-direction: column; gap: 12px; padding-top: 40px;">
-            <h2 class="num-font" dir="ltr" style="text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 0 20px var(--text-glow-x);"><span class="pro-title-glow">PLATO HUB ✦</span></h2>
+            <h2 class="num-font" dir="ltr" style="text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 0 20px var(--text-glow-x);"><span class="pro-title-glow">PlatoX</span></h2>
             <span class="num-font" dir="ltr" style="font-size: 13px; letter-spacing: 4px; color: var(--text-muted); text-transform: uppercase;">NEWS &bull; RESOURCES &bull; SUPPORT</span>
             <div style="width: 180px; height: 1.5px; background: linear-gradient(90deg, transparent, var(--primary), transparent); margin-top: 8px; box-shadow: 0 0 12px var(--btn-active-glow); opacity: 0.7; border-radius: 10px;"></div>
         </section>
@@ -1020,6 +1019,10 @@
             document.documentElement.setAttribute('data-theme', newTheme);
             safeSetStorage('theme', newTheme);
             document.getElementById('theme-icon').className = newTheme === 'light' ? 'fa-solid fa-sun theme-toggle' : 'fa-solid fa-moon theme-toggle';
+            
+            // Re-render to update global leaders borders depending on theme mode
+            renderArabicLeaders();
+            renderGlobalLeaders();
         }
 
         function copyAdminID(id) {
@@ -1046,15 +1049,16 @@
         }
 
         const serverThemes = {
-            'english': { bg: 'var(--eng-bg)', text: 'var(--eng-text)', nameColor: 'var(--eng-name)', shadow: 'none', textStroke: 'var(--eng-text-stroke)', badgeGlow: 'var(--eng-badge-glow)', badgeBorder: '1px solid #ffffff', profileBorder: '2px solid #555555', profileGlow: 'var(--eng-profile-glow)' },
-            'persian': { bg: '#333333', text: '#ffffff', nameColor: '#333333', shadow: 'none', badgeGlow: '0 2px 5px rgba(0,0,0,0.5)', badgeBorder: 'none', profileBorder: '2px solid rgba(255,255,255,0.2)', profileGlow: '0 0 15px #ffffff' },
-            'french':  { bg: '#333333', text: '#ffffff', nameColor: '#333333', shadow: 'none', badgeGlow: '0 2px 5px rgba(0,0,0,0.5)', badgeBorder: 'none', profileBorder: '2px solid rgba(255,255,255,0.2)', profileGlow: '0 0 15px #ffffff' },
-            'turkish': { bg: '#333333', text: '#ffffff', nameColor: '#333333', shadow: 'none', badgeGlow: '0 2px 5px rgba(0,0,0,0.5)', badgeBorder: 'none', profileBorder: '2px solid rgba(255,255,255,0.2)', profileGlow: '0 0 15px #ffffff' },
-            'melayu':  { bg: '#333333', text: '#ffffff', nameColor: '#333333', shadow: 'none', badgeGlow: '0 2px 5px rgba(0,0,0,0.5)', badgeBorder: 'none', profileBorder: '2px solid rgba(255,255,255,0.2)', profileGlow: '0 0 15px #ffffff' },
-            'brazil':  { bg: '#333333', text: '#ffffff', nameColor: '#333333', shadow: 'none', badgeGlow: '0 2px 5px rgba(0,0,0,0.5)', badgeBorder: 'none', profileBorder: '2px solid rgba(255,255,255,0.2)', profileGlow: '0 0 15px #ffffff' },
-            'spanish': { bg: '#333333', text: '#ffffff', nameColor: '#333333', shadow: 'none', badgeGlow: '0 2px 5px rgba(0,0,0,0.5)', badgeBorder: 'none', profileBorder: '2px solid rgba(255,255,255,0.2)', profileGlow: '0 0 15px #ffffff' },
-            'thai':    { bg: '#333333', text: '#ffffff', nameColor: '#333333', shadow: 'none', badgeGlow: '0 2px 5px rgba(0,0,0,0.5)', badgeBorder: 'none', profileBorder: '2px solid rgba(255,255,255,0.2)', profileGlow: '0 0 15px #ffffff' },
-            'desi':    { bg: '#333333', text: '#ffffff', nameColor: '#333333', shadow: 'none', badgeGlow: '0 2px 5px rgba(0,0,0,0.5)', badgeBorder: 'none', profileBorder: '2px solid rgba(255,255,255,0.2)', profileGlow: '0 0 15px #ffffff' }
+            'arabic':  { bg: '#00a859', text: '#ffffff', nameColor: '#00a859', shadow: 'none', badgeGlow: '0 2px 5px rgba(0,0,0,0.5)', badgeBorder: 'none', profileBorder: '2px solid rgba(255,255,255,0.2)' },
+            'english': { bg: 'var(--eng-bg)', text: 'var(--eng-text)', nameColor: 'var(--eng-name)', shadow: 'none', badgeGlow: 'var(--eng-badge-glow)', profileBorder: '2px solid #555555' },
+            'persian': { bg: '#C92C23', text: '#ffffff', nameColor: '#C92C23', shadow: 'none', badgeGlow: '0 2px 5px rgba(0,0,0,0.5)', profileBorder: '2px solid rgba(255,255,255,0.2)' },
+            'french':  { bg: '#CBA276', text: '#ffffff', nameColor: '#CBA276', shadow: 'none', badgeGlow: '0 2px 5px rgba(0,0,0,0.5)', profileBorder: '2px solid rgba(255,255,255,0.2)' },
+            'turkish': { bg: '#1A2F66', text: '#ffffff', nameColor: '#1A2F66', shadow: 'none', badgeGlow: '0 2px 5px rgba(0,0,0,0.5)', profileBorder: '2px solid rgba(255,255,255,0.2)' },
+            'melayu':  { bg: '#F197A9', text: '#ffffff', nameColor: '#F197A9', shadow: 'none', badgeGlow: '0 2px 5px rgba(0,0,0,0.5)', profileBorder: '2px solid rgba(255,255,255,0.2)' },
+            'brazil':  { bg: '#D8B4F8', text: '#ffffff', nameColor: '#D8B4F8', shadow: 'none', badgeGlow: '0 2px 5px rgba(0,0,0,0.5)', profileBorder: '2px solid rgba(255,255,255,0.2)' },
+            'spanish': { bg: '#4A6076', text: '#ffffff', nameColor: '#4A6076', shadow: 'none', badgeGlow: '0 2px 5px rgba(0,0,0,0.5)', profileBorder: '2px solid rgba(255,255,255,0.2)' },
+            'thai':    { bg: '#8FBEF5', text: '#ffffff', nameColor: '#8FBEF5', shadow: 'none', badgeGlow: '0 2px 5px rgba(0,0,0,0.5)', profileBorder: '2px solid rgba(255,255,255,0.2)' },
+            'desi':    { bg: '#8CC84B', text: '#ffffff', nameColor: '#8CC84B', shadow: 'none', badgeGlow: '0 2px 5px rgba(0,0,0,0.5)', profileBorder: '2px solid rgba(255,255,255,0.2)' }
         };
 
         const serverBadgesImages = {
@@ -1075,6 +1079,7 @@
             const container = document.getElementById('arabic-leaders-grid');
             let htmlStr = '';
             const currentLang = document.documentElement.getAttribute('lang') || 'en';
+            const sTheme = serverThemes['arabic'];
 
             arabicLeadersData.forEach(leader => {
                 let bdayText = "";
@@ -1091,8 +1096,10 @@
                 const safeName = escapeHTML(leader.name);
                 const cleanImg = leader.img ? escapeHTML(leader.img) : `https://ui-avatars.com/api/?name=${encodeURIComponent(leader.name)}&background=ffffff&color=000&bold=true`;
 
+                let cardGlowStyle = `border-top: 2px solid ${sTheme.nameColor}99; border-bottom: 2px solid ${sTheme.nameColor}99; box-shadow: 0 -6px 18px ${sTheme.nameColor}30, 0 6px 18px ${sTheme.nameColor}30;`;
+
                 htmlStr += `
-                <div class="card glass-panel card-${safeName.toLowerCase()}" style="border-top: 2px solid rgba(255,255,255,0.5); border-bottom: 2px solid rgba(255,255,255,0.5); box-shadow: 0 -8px 20px rgba(255,255,255,0.1), 0 8px 20px rgba(255,255,255,0.1);">
+                <div class="card glass-panel card-${safeName.toLowerCase()}" style="${cardGlowStyle}">
                     <img src="${cleanImg}" alt="${safeName}" loading="lazy">
                     <div class="leader-name-box copy-admin-btn" data-id="${safeName}" title="${currentLang === 'ar' ? 'انسخ اليوزر' : 'Copy ID'}">
                         <i class="fa-regular fa-copy leader-copy-icon"></i>
@@ -1122,7 +1129,7 @@
                 if (!sTheme) return;
                 const safeName = escapeHTML(leader.name);
                 const cleanImg = leader.img ? escapeHTML(leader.img) : '';
-                const imageSource = cleanImg ? cleanImg : `https://ui-avatars.com/api/?name=${encodeURIComponent(leader.name)}&background=333333&color=fff&bold=true`;
+                const imageSource = cleanImg ? cleanImg : `https://ui-avatars.com/api/?name=${encodeURIComponent(leader.name)}&background=${sTheme.nameColor.replace('#', '')}&color=fff&bold=true`;
                 
                 let bdayText = "";
                 if (leader.birthday && (leader.birthday.en || leader.birthday.ar)) {
@@ -1138,7 +1145,14 @@
                 const profBorder = sTheme.profileBorder ? `border: ${sTheme.profileBorder};` : `border: 2px solid var(--glass-border);`;
                 const badgeImage = serverBadgesImages[leader.server] || '';
 
-                let cardGlowStyle = 'border-top: 2px solid #555555; border-bottom: 2px solid #555555; box-shadow: 0 -6px 18px rgba(255,255,255,0.05), 0 6px 18px rgba(255,255,255,0.05);';
+                let cardGlowStyle = '';
+                if (leader.server === 'english') {
+                    cardGlowStyle = document.documentElement.getAttribute('data-theme') === 'light' 
+                        ? 'border-top: 2px solid #555555; border-bottom: 2px solid #555555; box-shadow: 0 -6px 18px rgba(0,0,0,0.1), 0 6px 18px rgba(0,0,0,0.1);' 
+                        : 'border-top: 2px solid #ffffff; border-bottom: 2px solid #ffffff; box-shadow: 0 -6px 18px rgba(255,255,255,0.15), 0 6px 18px rgba(255,255,255,0.15);';
+                } else {
+                    cardGlowStyle = `border-top: 2px solid ${sTheme.nameColor}99; border-bottom: 2px solid ${sTheme.nameColor}99; box-shadow: 0 -6px 18px ${sTheme.nameColor}30, 0 6px 18px ${sTheme.nameColor}30;`;
+                }
 
                 htmlStr += `
                     <div class="global-leader glass-panel" data-server="${escapeHTML(leader.server)}" style="${cardGlowStyle}">
@@ -1761,7 +1775,7 @@
             sortedTournaments.forEach(tour => {
                 const displayName = currentLang === 'ar' ? tour.nameAr : (tour.nameEn || tour.nameAr);
                 const borderStyle = isLtr ? `border-left-color: var(--text-muted);` : `border-right-color: var(--text-muted);`;
-                const imgTag = tour.image ? `<img src="${tour.image}" class="entity-img" style="border-radius:8px; width:35px; height:35px; object-fit:cover; filter: grayscale(100%);" loading="lazy" onerror="this.style.display='none'">` : ``;
+                const imgTag = tour.image ? `<img src="${tour.image}" class="entity-img" style="border-radius:8px; width:35px; height:35px; object-fit:cover;" loading="lazy" onerror="this.style.display='none'">` : ``;
 
                 tourHTML += `
                     <div class="tour-card glass-panel" style="${borderStyle}">
@@ -1792,7 +1806,7 @@
                 else if (rankNum === '3') { rankClass = 'rank-3'; color = '#cd7f32'; barBg = '#cd7f32'; }
 
                 let displayScore = group.total >= 1000000 ? (group.total / 1000000) + 'M' : (group.total >= 1000 ? (group.total / 1000) + 'K' : group.total);
-                const imgTag = group.image ? `<img src="${group.image}" class="list-img group-img" style="object-fit:cover; filter: grayscale(100%);" loading="lazy" onerror="this.style.display='none'">` : ``;
+                const imgTag = group.image ? `<img src="${group.image}" class="list-img group-img" style="object-fit:cover;" loading="lazy" onerror="this.style.display='none'">` : ``;
 
                 spendHTML += `
                     <div class="list-row glass-panel ${rankClass}">
