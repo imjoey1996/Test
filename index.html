@@ -93,14 +93,14 @@
         body { color: var(--text-main); font-family: 'Cairo', sans-serif; overflow-x: clip; width: 100%; background-color: transparent; position: relative; padding-bottom: calc(115px + env(safe-area-inset-bottom)); padding-top: env(safe-area-inset-top); -webkit-font-smoothing: antialiased; }
         html[dir="ltr"] body, .num-font, .navbar h1 { font-family: 'Rajdhani', sans-serif; }
 
-        /* خلفية ثابتة بتدرج لوني أنيق وبسيط */
+        /* خلفية ثابتة بتدرج لوني أنيق وبارز */
         .static-gaming-bg {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100dvh; z-index: -3; pointer-events: none;
-            background: linear-gradient(135deg, #121212 0%, #050505 50%, #0a0a0a 100%);
+            background: linear-gradient(145deg, #2a2a2a 0%, #050505 45%, #1a1a1a 100%);
         }
 
         [data-theme="light"] .static-gaming-bg {
-            background: linear-gradient(135deg, #ffffff 0%, #f4f4f4 50%, #eaeaea 100%);
+            background: linear-gradient(145deg, #ffffff 0%, #e0e0e0 45%, #f5f5f5 100%);
         }
 
         .glass-panel { background: var(--bg-card); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid var(--glass-border); box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border-radius: 16px; contain: paint; }
@@ -108,7 +108,6 @@
 
         .pro-title-glow, .pro-icon-glow { color: var(--primary); font-weight: 900; text-shadow: 0 0 15px var(--text-glow-x); }
         
-        /* تأثير التوهج الأحمر لأيقونات الملاحظات */
         .custom-warning-glow { color: #ff3333 !important; text-shadow: 0 0 15px rgba(255, 51, 51, 0.7) !important; }
 
         .navbar { position: fixed; top: 0; left: 0; width: 100%; padding: calc(12px + env(safe-area-inset-top)) 25px 12px; display: flex; justify-content: space-between; align-items: center; background: rgba(5, 5, 5, 0.85); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--glass-border); z-index: 1000; direction: ltr; }
@@ -173,27 +172,6 @@
         .hero { height: auto; min-height: 180px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 20px 15px;}
         .hero h2 { font-size: 3.2rem; font-weight: 900; margin: 0; color: var(--text-main); display: flex; align-items: center; justify-content: center; flex-wrap: wrap;}
         .hero h2 span.hero-x { color: var(--primary); font-size: 1.5em; margin: 0 10px; transform: translateY(2px); text-shadow: 0 0 25px var(--text-glow-x), 0 0 10px var(--text-glow-x); }
-
-        /* تعديل حرف X ليكون بخط فخم كلاسيكي */
-        .animated-x {
-            font-family: 'Georgia', 'Times New Roman', serif;
-            font-style: italic;
-            font-weight: bold;
-            font-size: 1.4em;
-            display: inline-block;
-            animation: glowPulseX 1.5s infinite alternate ease-in-out;
-        }
-
-        @keyframes glowPulseX {
-            0% { 
-                text-shadow: 0 0 10px var(--text-glow-x); 
-                transform: scale(1) translateY(0); 
-            }
-            100% { 
-                text-shadow: 0 0 30px var(--primary), 0 0 15px var(--text-glow-x); 
-                transform: scale(1.1) translateY(-2px); 
-            }
-        }
 
         .cyber-divider { display: flex; align-items: center; justify-content: center; width: 100%; max-width: 600px; margin: 15px auto; opacity: 0.3; }
         .cyber-divider::before, .cyber-divider::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--primary), transparent); }
@@ -452,7 +430,7 @@
     <main id="view-home" class="tab-view active-view">
         <section class="hero" id="hero" style="flex-direction: column; gap: 12px; padding-top: 40px;">
             <h2 class="num-font" dir="ltr" style="text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 0 20px var(--text-glow-x);">
-                <span class="pro-title-glow">Plato <span class="animated-x">X</span></span>
+                <span class="pro-title-glow">PLATOX HUB</span>
             </h2>
             <span class="num-font" dir="ltr" style="font-size: 13px; letter-spacing: 4px; color: var(--text-muted); text-transform: uppercase;">NEWS &bull; RESOURCES &bull; SUPPORT</span>
             <div style="width: 180px; height: 1.5px; background: linear-gradient(90deg, transparent, var(--primary), transparent); margin-top: 8px; box-shadow: 0 0 12px var(--btn-active-glow); opacity: 0.7; border-radius: 10px;"></div>
