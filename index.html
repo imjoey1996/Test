@@ -93,14 +93,19 @@
         body { color: var(--text-main); font-family: 'Cairo', sans-serif; overflow-x: clip; width: 100%; background-color: transparent; position: relative; padding-bottom: calc(115px + env(safe-area-inset-bottom)); padding-top: env(safe-area-inset-top); -webkit-font-smoothing: antialiased; }
         html[dir="ltr"] body, .num-font, .navbar h1 { font-family: 'Rajdhani', sans-serif; }
 
+        /* خلفية ثابتة بسيطة وأنيقة */
         .static-gaming-bg {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100dvh; z-index: -3; pointer-events: none;
             background-color: var(--bg-main);
-            background-image: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.03), transparent 70%);
+            background-image: 
+                radial-gradient(circle at 15% 20%, rgba(255, 255, 255, 0.04) 0%, transparent 40%),
+                radial-gradient(circle at 85% 80%, rgba(255, 255, 255, 0.02) 0%, transparent 40%);
         }
 
         [data-theme="light"] .static-gaming-bg {
-            background-image: radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.04), transparent 70%);
+            background-image: 
+                radial-gradient(circle at 15% 20%, rgba(0, 0, 0, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 85% 80%, rgba(0, 0, 0, 0.03) 0%, transparent 40%);
         }
 
         .glass-panel { background: var(--bg-card); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid var(--glass-border); box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); border-radius: 16px; contain: paint; }
@@ -122,14 +127,15 @@
         .nav-actions i { font-size: 22px; cursor: pointer; color: var(--text-main); transition: 0.2s; }
         .nav-actions i:hover { color: var(--primary); text-shadow: 0 0 15px var(--btn-active-glow); }
 
+        /* النقطة الحمراء للإشعارات */
         @keyframes pulse-ring {
-            0% { transform: scale(0.85); box-shadow: 0 0 0 0 rgba(150, 150, 150, 0.6); }
-            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(150, 150, 150, 0); }
-            100% { transform: scale(0.85); box-shadow: 0 0 0 0 rgba(150, 150, 150, 0); }
+            0% { transform: scale(0.85); box-shadow: 0 0 0 0 rgba(255, 51, 51, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(255, 51, 51, 0); }
+            100% { transform: scale(0.85); box-shadow: 0 0 0 0 rgba(255, 51, 51, 0); }
         }
 
         .notif-wrapper { position: relative; display: flex; align-items: center; }
-        .notif-dot { position: absolute; top: -2px; right: -2px; width: 10px; height: 10px; background: var(--primary); border-radius: 50%; display: none; box-shadow: 0 0 10px var(--primary); border: 2px solid var(--bg-card); }
+        .notif-dot { position: absolute; top: -2px; right: -2px; width: 10px; height: 10px; background: #ff3333; border-radius: 50%; display: none; box-shadow: 0 0 10px #ff3333; border: 2px solid var(--bg-card); }
         .notif-dot.active-dot { display: block !important; animation: pulse-ring 1.5s infinite; }
         
         .notif-dropdown { position: absolute; top: 45px; right: -10px; width: 250px; background: var(--bg-card); backdrop-filter: blur(10px); border: 1px solid var(--glass-border); border-radius: 12px; padding: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); opacity: 0; visibility: hidden; transform: translateY(-10px); transition: all 0.3s ease; display: flex; flex-direction: column; gap: 8px; z-index: 1001; }
@@ -163,7 +169,8 @@
         .bottom-nav-item.active i { transform: translateY(-2px) scale(1.1); color: var(--primary); text-shadow: 0 0 15px var(--btn-active-glow); }
         .bottom-nav-item.active span { color: var(--text-main); font-weight: 900; }
         
-        .nav-dot { position: absolute; top: 6px; right: calc(50% - 16px); width: 8px; height: 8px; background: var(--primary); border-radius: 50%; display: none; box-shadow: 0 0 10px var(--primary); pointer-events: none; }
+        /* نقطة الإشعارات السفلية بلون أحمر */
+        .nav-dot { position: absolute; top: 6px; right: calc(50% - 16px); width: 8px; height: 8px; background: #ff3333; border-radius: 50%; display: none; box-shadow: 0 0 10px #ff3333; pointer-events: none; }
         .nav-dot.active-dot { display: block; animation: pulse-ring 1.5s infinite; }
 
         section { padding: 45px 15px 25px; display: flex; flex-direction: column; align-items: center; position: relative; z-index: 1; }
@@ -171,6 +178,26 @@
         .hero { height: auto; min-height: 180px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 20px 15px;}
         .hero h2 { font-size: 3.2rem; font-weight: 900; margin: 0; color: var(--text-main); display: flex; align-items: center; justify-content: center; flex-wrap: wrap;}
         .hero h2 span.hero-x { color: var(--primary); font-size: 1.5em; margin: 0 10px; transform: translateY(2px); text-shadow: 0 0 25px var(--text-glow-x), 0 0 10px var(--text-glow-x); }
+
+        /* حركة حرف الـ X وتصميمه */
+        .animated-x {
+            font-family: 'Arial Black', Impact, sans-serif;
+            font-size: 1.35em;
+            display: inline-block;
+            animation: glowPulseX 1.5s infinite alternate ease-in-out;
+            margin-left: 2px;
+        }
+
+        @keyframes glowPulseX {
+            0% { 
+                text-shadow: 0 0 10px var(--text-glow-x); 
+                transform: scale(1) translateY(0); 
+            }
+            100% { 
+                text-shadow: 0 0 30px var(--primary), 0 0 15px var(--text-glow-x); 
+                transform: scale(1.1) translateY(-2px); 
+            }
+        }
 
         .cyber-divider { display: flex; align-items: center; justify-content: center; width: 100%; max-width: 600px; margin: 15px auto; opacity: 0.3; }
         .cyber-divider::before, .cyber-divider::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--primary), transparent); }
@@ -428,7 +455,9 @@
 
     <main id="view-home" class="tab-view active-view">
         <section class="hero" id="hero" style="flex-direction: column; gap: 12px; padding-top: 40px;">
-            <h2 class="num-font" dir="ltr" style="text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 0 20px var(--text-glow-x);"><span class="pro-title-glow">PlatoX</span></h2>
+            <h2 class="num-font" dir="ltr" style="text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 0 20px var(--text-glow-x);">
+                <span class="pro-title-glow">Plato<span class="animated-x">X</span></span>
+            </h2>
             <span class="num-font" dir="ltr" style="font-size: 13px; letter-spacing: 4px; color: var(--text-muted); text-transform: uppercase;">NEWS &bull; RESOURCES &bull; SUPPORT</span>
             <div style="width: 180px; height: 1.5px; background: linear-gradient(90deg, transparent, var(--primary), transparent); margin-top: 8px; box-shadow: 0 0 12px var(--btn-active-glow); opacity: 0.7; border-radius: 10px;"></div>
         </section>
