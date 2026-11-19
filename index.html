@@ -249,7 +249,7 @@
         .card .server-badge img, .global-leader .server-badge img, .server-badge img { width: auto !important; height: 16px !important; max-height: 16px !important; border-radius: 0 !important; border: none !important; margin: 0 !important; padding: 0 !important; background: transparent !important; object-fit: contain !important; pointer-events: none; }
         .server-badge img[alt="desi Badge"] { transform: scale(2.0) !important; margin: 0 6px !important; }
 
-        /* PlatoX Staff on Discord */
+        /* PlatoX Team on Discord */
         @keyframes staffFadeIn {
             from { opacity: 0; transform: translateY(8px); }
             to { opacity: 1; transform: translateY(0); }
@@ -260,7 +260,7 @@
             justify-content: center;
             gap: 6px;
             width: 100%;
-            max-width: 400px;
+            max-width: 380px;
             padding: 5px;
             margin-bottom: 25px;
             border-radius: 14px;
@@ -271,48 +271,24 @@
         }
         .staff-tab-btn {
             flex: 1;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
             border: none;
             background: transparent;
             color: var(--text-muted);
-            padding: 9px 10px;
+            padding: 9px 14px;
             border-radius: 10px;
             font-family: 'Rajdhani', 'Cairo', sans-serif;
             font-size: 14.5px;
             font-weight: 700;
-            letter-spacing: 0.4px;
+            letter-spacing: 0.5px;
             cursor: pointer;
             transition: all 0.25s ease;
             white-space: nowrap;
-        }
-        .staff-tab-count {
-            font-size: 11.5px;
-            font-weight: 900;
-            padding: 1px 6px;
-            border-radius: 6px;
-            background: rgba(255, 255, 255, 0.08);
-            color: var(--text-muted);
-            transition: all 0.25s ease;
-        }
-        [data-theme="light"] .staff-tab-count {
-            background: rgba(0, 0, 0, 0.07);
         }
         .staff-tab-btn.active {
             background: var(--primary);
             color: var(--bg-main);
             font-weight: 900;
             box-shadow: 0 0 16px var(--btn-active-glow);
-        }
-        .staff-tab-btn.active .staff-tab-count {
-            background: rgba(0, 0, 0, 0.18);
-            color: var(--bg-main);
-        }
-        [data-theme="light"] .staff-tab-btn.active .staff-tab-count {
-            background: rgba(255, 255, 255, 0.22);
-            color: var(--bg-main);
         }
         .staff-grid {
             display: grid;
@@ -887,20 +863,11 @@
         <div class="cyber-divider" id="weekly-divider" style="display: none;"><div class="center-node"></div></div>
 
         <section id="discord-staff">
-            <h2 class="section-title" data-i18n="staff_title">طاقم PlatoX على ديسكورد</h2>
+            <h2 class="section-title" data-i18n="staff_title">فريق PlatoX على ديسكورد</h2>
             <div class="staff-tabs" dir="ltr">
-                <button type="button" class="staff-tab-btn active" data-role="owners" onclick="filterStaff('owners')">
-                    <span>Owners</span>
-                    <span class="staff-tab-count num-font" id="count-owners">0</span>
-                </button>
-                <button type="button" class="staff-tab-btn" data-role="admins" onclick="filterStaff('admins')">
-                    <span>Admins</span>
-                    <span class="staff-tab-count num-font" id="count-admins">0</span>
-                </button>
-                <button type="button" class="staff-tab-btn" data-role="trusted" onclick="filterStaff('trusted')">
-                    <span>Trusted</span>
-                    <span class="staff-tab-count num-font" id="count-trusted">0</span>
-                </button>
+                <button type="button" class="staff-tab-btn active" data-role="owners" onclick="filterStaff('owners')">Owners</button>
+                <button type="button" class="staff-tab-btn" data-role="admins" onclick="filterStaff('admins')">Admins</button>
+                <button type="button" class="staff-tab-btn" data-role="trusted" onclick="filterStaff('trusted')">Trusted</button>
             </div>
             <div class="staff-grid" id="discord-staff-grid"></div>
             <div class="staff-help-wrapper">
@@ -1205,19 +1172,6 @@
             'desi': 'https://i.postimg.cc/HWtKCfJW/IMG-8711.png'
         };
 
-        function updateStaffCounts() {
-            const counts = { owners: 0, admins: 0, trusted: 0 };
-            discordStaffData.forEach(m => {
-                if (counts[m.role] !== undefined) counts[m.role]++;
-            });
-            const elOwners = document.getElementById('count-owners');
-            const elAdmins = document.getElementById('count-admins');
-            const elTrusted = document.getElementById('count-trusted');
-            if (elOwners) elOwners.innerText = counts.owners;
-            if (elAdmins) elAdmins.innerText = counts.admins;
-            if (elTrusted) elTrusted.innerText = counts.trusted;
-        }
-
         function filterStaff(role) {
             currentStaffRole = role;
             document.querySelectorAll('.staff-tab-btn').forEach(btn => {
@@ -1411,7 +1365,7 @@
                 about_site_title: "نبذة عن الموقع",
                 about_site_desc: "مجتمع موثوق يُبقي اللاعبين على اطلاع وتواصل، ويوفر لهم الدعم من خلال أحدث أخبار بلاتو، الإرشادات المفيدة، موارد الإبلاغ، وكل ما يهم المجتمع.",
                 leaders_title: "القادة العرب", global_leaders_title: "قادة السيرفرات العالمية", news_board_title: "لوحة أخبار المجتمع", players_title: "اللاعبين الاقدم",
-                staff_title: "طاقم PlatoX على ديسكورد",
+                staff_title: "فريق PlatoX على ديسكورد",
                 staff_help_btn: "تحتاج مساعدة؟ تواصل مع الطاقم في الديسكورد",
                 bug_title: "تقديم بلاغ", bug_email_heading: "الإبلاغ المباشر عبر البريد", bug_email_desc: "إذا واجهتك أي ثغرة أو مشكلة تقنية، يمكنك مراسلتنا مباشرة عبر البريد الإلكتروني أدناه مع ذكر يوزرك ووصف المشكلة.", copy_btn: "نسخ", send_email_btn: "إرسال بريد إلكتروني",
                 who_are_leaders: "من هم القادة؟",
@@ -1475,7 +1429,7 @@
                 about_site_title: "About the Website",
                 about_site_desc: "A trusted community that keeps players informed, connected, and supported through the latest Plato news, helpful guidelines, reporting resources, and everything that matters to the community.",
                 leaders_title: "ARABIC LEADERS", global_leaders_title: "GLOBAL SERVERS LEADERS", news_board_title: "COMMUNITY NEWS BOARD", players_title: "OLDEST PLAYERS",
-                staff_title: "PLATOX STAFF ON DISCORD",
+                staff_title: "PLATOX TEAM ON DISCORD",
                 staff_help_btn: "Need help? Contact the staff on Discord",
                 bug_title: "Bug Reporting", bug_email_heading: "Direct Email Support", bug_email_desc: "If you encounter any bug or technical issue, you can reach out to us directly via the email below with your ID and issue description.", copy_btn: "Copy", send_email_btn: "Send Email",
                 who_are_leaders: "Who are the Leaders?",
@@ -1842,7 +1796,7 @@
             discordStaffData = [];
 
             cachedSheetRows.forEach((cols) => {
-                // PlatoX Staff on Discord (Columns A-F)
+                // PlatoX Team on Discord (Columns A-F)
                 if (cols.length >= 2) {
                     const sRoleRaw = cols[0] ? cols[0].trim().toLowerCase() : "";
                     const sName = cols[1] ? cols[1].trim() : "";
@@ -1907,7 +1861,6 @@
                 }
             });
 
-            updateStaffCounts();
             renderDiscordStaff(currentStaffRole);
             renderArabicLeaders();
             renderGlobalLeaders();
