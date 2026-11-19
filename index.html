@@ -401,7 +401,7 @@
         .staff-help-wrapper {
             width: 100%;
             max-width: 400px;
-            margin-top: 22px;
+            margin-top: 20px;
         }
 
         .premium-list { width: 100%; max-width: 700px; display: flex; flex-direction: column; gap: 10px; position: relative; z-index: 2;}
@@ -434,7 +434,7 @@
         [data-theme="light"] #toast { background: rgba(255, 255, 255, 0.95); color: #000; }
         #toast.show { visibility: visible; bottom: calc(95px + env(safe-area-inset-bottom)); opacity: 1; }
 
-        .hidden-player { display: none !important; }
+        .hidden-player, .hidden-staff { display: none !important; }
         
         .calc-input-wrapper { position: relative; width: 100%; }
         .calc-input-wrapper input {
@@ -862,24 +862,6 @@
 
         <div class="cyber-divider" id="weekly-divider" style="display: none;"><div class="center-node"></div></div>
 
-        <section id="discord-staff">
-            <h2 class="section-title" data-i18n="staff_title">فريق PlatoX على ديسكورد</h2>
-            <div class="staff-tabs" dir="ltr">
-                <button type="button" class="staff-tab-btn active" data-role="owners" onclick="filterStaff('owners')">Owners</button>
-                <button type="button" class="staff-tab-btn" data-role="admins" onclick="filterStaff('admins')">Admins</button>
-                <button type="button" class="staff-tab-btn" data-role="trusted" onclick="filterStaff('trusted')">Trusted</button>
-            </div>
-            <div class="staff-grid" id="discord-staff-grid"></div>
-            <div class="staff-help-wrapper">
-                <a href="https://discord.com/channels/1476420629698711778/1476603091095916738" target="_blank" rel="noopener noreferrer" class="more-news-link">
-                    <i class="fa-brands fa-discord" style="color: var(--text-main);"></i>
-                    <span data-i18n="staff_help_btn">تحتاج مساعدة؟ تواصل مع الطاقم في الديسكورد</span>
-                </a>
-            </div>
-        </section>
-
-        <div class="cyber-divider"><div class="center-node"></div></div>
-
         <section id="plato-calculator">
             <h2 class="section-title" data-i18n="calc_title">الحاسبة الذكية</h2>
             <div class="glass-panel calc-wrapper" style="width: 100%; max-width: 550px; padding: 25px; border-radius: 16px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px;">
@@ -909,10 +891,31 @@
 
         <div class="cyber-divider"><div class="center-node"></div></div>
 
+        <section id="discord-staff">
+            <h2 class="section-title" data-i18n="staff_title">فريق PlatoX على ديسكورد</h2>
+            <div class="staff-tabs" dir="ltr">
+                <button type="button" class="staff-tab-btn active" data-role="owners" onclick="filterStaff('owners')">Owners</button>
+                <button type="button" class="staff-tab-btn" data-role="admins" onclick="filterStaff('admins')">Admins</button>
+                <button type="button" class="staff-tab-btn" data-role="trusted" onclick="filterStaff('trusted')">Trusted</button>
+            </div>
+            <div class="staff-grid" id="discord-staff-grid"></div>
+            <button type="button" class="cancel-btn" id="show-more-staff" onclick="toggleStaffList()" style="margin-top: 15px; display: none; width: auto; padding: 8px 20px;">
+                <span data-i18n="show_more">عرض المزيد</span> <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="staff-help-wrapper">
+                <a href="https://discord.com/channels/1476420629698711778/1476603091095916738" target="_blank" rel="noopener noreferrer" class="more-news-link">
+                    <i class="fa-brands fa-discord" style="color: var(--text-main);"></i>
+                    <span data-i18n="staff_help_btn">تحتاج مساعدة؟ اضغط هنا للتواصل مع الطاقم</span>
+                </a>
+            </div>
+        </section>
+
+        <div class="cyber-divider"><div class="center-node"></div></div>
+
         <section id="accounts">
             <h2 class="section-title" data-i18n="players_title">اللاعبين الاقدم</h2>
             <div class="premium-list" id="oldest-players-container"></div>
-            <button type="button" class="cancel-btn" id="show-more-players" onclick="showMorePlayers()" style="margin-top: 15px; display: none; width: auto; padding: 8px 20px;">
+            <button type="button" class="cancel-btn" id="show-more-players" onclick="togglePlayersList()" style="margin-top: 15px; display: none; width: auto; padding: 8px 20px;">
                 <span data-i18n="show_more">عرض المزيد</span> <i class="fa-solid fa-chevron-down"></i>
             </button>
         </section>
@@ -956,6 +959,8 @@
         let arabicLeadersData = []; 
         let discordStaffData = [];
         let currentStaffRole = 'owners';
+        let isStaffExpanded = false;
+        let isPlayersExpanded = false;
         let randomTipIndex = -1;
 
         let currentLatestNews = null;
@@ -1174,14 +1179,38 @@
 
         function filterStaff(role) {
             currentStaffRole = role;
+            isStaffExpanded = false;
             document.querySelectorAll('.staff-tab-btn').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.role === role);
             });
             renderDiscordStaff(role);
         }
 
+        function updateStaffToggleBtn() {
+            const btn = document.getElementById('show-more-staff');
+            if (!btn) return;
+            const isAr = document.documentElement.getAttribute('lang') === 'ar';
+            if (isStaffExpanded) {
+                btn.innerHTML = `<span data-i18n="show_less">${isAr ? 'إخفاء' : 'Show Less'}</span> <i class="fa-solid fa-chevron-up"></i>`;
+            } else {
+                btn.innerHTML = `<span data-i18n="show_more">${isAr ? 'عرض المزيد' : 'Show More'}</span> <i class="fa-solid fa-chevron-down"></i>`;
+            }
+        }
+
+        function toggleStaffList() {
+            isStaffExpanded = !isStaffExpanded;
+            const cards = document.querySelectorAll('#discord-staff-grid .staff-card');
+            cards.forEach((card, idx) => {
+                if (idx >= 5) {
+                    card.classList.toggle('hidden-staff', !isStaffExpanded);
+                }
+            });
+            updateStaffToggleBtn();
+        }
+
         function renderDiscordStaff(role = currentStaffRole) {
             const container = document.getElementById('discord-staff-grid');
+            const toggleBtn = document.getElementById('show-more-staff');
             if (!container) return;
 
             const currentLang = document.documentElement.getAttribute('lang') || 'en';
@@ -1195,6 +1224,7 @@
 
             if (filtered.length === 0) {
                 container.innerHTML = `<p style="grid-column: 1 / -1; text-align:center; width:100%; color: var(--text-muted); padding: 20px 0;">${currentLang === 'ar' ? 'لا يوجد أعضاء مضافين في هذا القسم حالياً.' : 'No staff members listed in this category yet.'}</p>`;
+                if (toggleBtn) toggleBtn.style.display = 'none';
                 return;
             }
 
@@ -1219,9 +1249,10 @@
                        </div>`
                     : '';
 
-                const delay = Math.min(idx * 40, 240);
+                const hiddenClass = (idx >= 5 && !isStaffExpanded) ? ' hidden-staff' : '';
+                const delay = Math.min(idx * 40, 200);
                 htmlStr += `
-                    <div class="staff-card glass-panel role-${member.role}" style="animation-delay: ${delay}ms;">
+                    <div class="staff-card glass-panel role-${member.role}${hiddenClass}" style="animation-delay: ${delay}ms;">
                         <img src="${avatarSrc}" alt="${safeName}" class="staff-avatar" loading="lazy">
                         <div class="staff-info">
                             <div class="staff-top-row">
@@ -1236,6 +1267,14 @@
             });
 
             container.innerHTML = htmlStr;
+            if (toggleBtn) {
+                if (filtered.length > 5) {
+                    toggleBtn.style.display = 'inline-flex';
+                    updateStaffToggleBtn();
+                } else {
+                    toggleBtn.style.display = 'none';
+                }
+            }
         }
 
         function renderArabicLeaders() {
@@ -1366,7 +1405,7 @@
                 about_site_desc: "مجتمع موثوق يُبقي اللاعبين على اطلاع وتواصل، ويوفر لهم الدعم من خلال أحدث أخبار بلاتو، الإرشادات المفيدة، موارد الإبلاغ، وكل ما يهم المجتمع.",
                 leaders_title: "القادة العرب", global_leaders_title: "قادة السيرفرات العالمية", news_board_title: "لوحة أخبار المجتمع", players_title: "اللاعبين الاقدم",
                 staff_title: "فريق PlatoX على ديسكورد",
-                staff_help_btn: "تحتاج مساعدة؟ تواصل مع الطاقم في الديسكورد",
+                staff_help_btn: "تحتاج مساعدة؟ اضغط هنا للتواصل مع الطاقم",
                 bug_title: "تقديم بلاغ", bug_email_heading: "الإبلاغ المباشر عبر البريد", bug_email_desc: "إذا واجهتك أي ثغرة أو مشكلة تقنية، يمكنك مراسلتنا مباشرة عبر البريد الإلكتروني أدناه مع ذكر يوزرك ووصف المشكلة.", copy_btn: "نسخ", send_email_btn: "إرسال بريد إلكتروني",
                 who_are_leaders: "من هم القادة؟",
                 who_are_leaders_desc: "القادة هم الممثلون الرسميون للمجتمع ويعملون كحلقة وصل بين اللاعبين وفريق التطوير، للمساعدة في بناء بيئة ممتعة، آمنة، وعادلة للجميع.",
@@ -1389,7 +1428,7 @@
                 weekly_showcase_desc: "استكشف احدث العناصر المتوفرة لهذا الاسبوع.",
                 news_newer: "الأحدث", news_older: "الأقدم",
                 discord_more: "للمزيد من الأخبار انضموا إلى الديسكورد",
-                th_player: "اللاعب", th_days: "يوم", show_more: "عرض المزيد",
+                th_player: "اللاعب", th_days: "يوم", show_more: "عرض المزيد", show_less: "إخفاء",
                 community_guide_title: "إرشادات المجتمع",
                 community_guide_sub: "لا يمكنك القيام بما يلي على بلاتو:",
                 comm_guide_1: "استغلال تطبيق بلاتو أو التشويش على تجربة مستخدم آخر.",
@@ -1430,7 +1469,7 @@
                 about_site_desc: "A trusted community that keeps players informed, connected, and supported through the latest Plato news, helpful guidelines, reporting resources, and everything that matters to the community.",
                 leaders_title: "ARABIC LEADERS", global_leaders_title: "GLOBAL SERVERS LEADERS", news_board_title: "COMMUNITY NEWS BOARD", players_title: "OLDEST PLAYERS",
                 staff_title: "PLATOX TEAM ON DISCORD",
-                staff_help_btn: "Need help? Contact the staff on Discord",
+                staff_help_btn: "Need help? Click here to contact staff",
                 bug_title: "Bug Reporting", bug_email_heading: "Direct Email Support", bug_email_desc: "If you encounter any bug or technical issue, you can reach out to us directly via the email below with your ID and issue description.", copy_btn: "Copy", send_email_btn: "Send Email",
                 who_are_leaders: "Who are the Leaders?",
                 who_are_leaders_desc: "Leaders are official community representatives who act as a bridge between players and the development team, helping build a fun, safe, and fair environment for everyone.",
@@ -1453,7 +1492,7 @@
                 weekly_showcase_desc: "Explore the latest items available this week.",
                 news_newer: "NEWER", news_older: "OLDER",
                 discord_more: "For more news, join our Discord server",
-                th_player: "PLAYER", th_days: "DAYS", show_more: "Show More",
+                th_player: "PLAYER", th_days: "DAYS", show_more: "Show More", show_less: "Show Less",
                 community_guide_title: "Community Guidelines",
                 community_guide_sub: "You can't do the following on Plato:",
                 comm_guide_1: "Exploit Plato app or interfere with another user's experience.",
@@ -1589,6 +1628,7 @@
                 } else {
                     const isLtr = document.documentElement.getAttribute('lang') === 'en';
                     document.getElementById('discord-staff-grid').innerHTML = `<p style="grid-column: 1 / -1; text-align:center; width:100%; color: var(--text-muted);">${isLtr ? "Staff data not available at the moment." : "بيانات الطاقم غير متوفرة حالياً."}</p>`;
+                    document.getElementById('show-more-staff').style.display = 'none';
                     document.getElementById('newsSlider').innerHTML = `<p style="text-align:center; width:100%; color: var(--text-muted);">${isLtr ? "Network connection failed." : "تعذر الاتصال بالشبكة."}</p>`;
                     document.getElementById('tip-content').innerText = isLtr ? "No tips available at the moment." : "لا توجد نصائح متوفرة حالياً.";
                     document.getElementById('oldest-players-container').innerHTML = `<p style="text-align:center; width:100%; color: var(--text-muted);">${isLtr ? "Data not available at the moment." : "بيانات اللاعبين غير متوفرة حالياً."}</p>`;
@@ -1753,11 +1793,26 @@
             scrollTimeout = window.requestAnimationFrame(updateCarouselButtons);
         });
 
-        function showMorePlayers() {
-            document.querySelectorAll('.hidden-player').forEach(el => {
-                el.classList.remove('hidden-player');
+        function updatePlayersToggleBtn() {
+            const btn = document.getElementById('show-more-players');
+            if (!btn) return;
+            const isAr = document.documentElement.getAttribute('lang') === 'ar';
+            if (isPlayersExpanded) {
+                btn.innerHTML = `<span data-i18n="show_less">${isAr ? 'إخفاء' : 'Show Less'}</span> <i class="fa-solid fa-chevron-up"></i>`;
+            } else {
+                btn.innerHTML = `<span data-i18n="show_more">${isAr ? 'عرض المزيد' : 'Show More'}</span> <i class="fa-solid fa-chevron-down"></i>`;
+            }
+        }
+
+        function togglePlayersList() {
+            isPlayersExpanded = !isPlayersExpanded;
+            const rows = document.querySelectorAll('#oldest-players-container .list-row');
+            rows.forEach((row, idx) => {
+                if (idx >= 3) {
+                    row.classList.toggle('hidden-player', !isPlayersExpanded);
+                }
             });
-            document.getElementById('show-more-players').style.display = 'none';
+            updatePlayersToggleBtn();
         }
 
         function renderDynamicData() {
@@ -1878,7 +1933,7 @@
                 else if (rankNum === '2') rankClass = 'rank-2';
                 else if (rankNum === '3') rankClass = 'rank-3';
 
-                const hiddenClass = index >= 3 ? ' hidden-player' : '';
+                const hiddenClass = (index >= 3 && !isPlayersExpanded) ? ' hidden-player' : '';
                 const imgTag = player.img ? `<img src="${player.img}" class="list-img" alt="${player.user}" loading="lazy" onerror="this.style.display='none'">` : ``;
 
                 playersHTML += `
@@ -1902,7 +1957,7 @@
                 playersContainer.innerHTML = playersHTML;
                 if (oldestPlayersList.length > 3) {
                     showMoreBtn.style.display = 'inline-flex';
-                    showMoreBtn.innerHTML = `<span data-i18n="show_more">${isLtr ? 'Show More' : 'عرض المزيد'}</span> <i class="fa-solid fa-chevron-down"></i>`;
+                    updatePlayersToggleBtn();
                 } else {
                     showMoreBtn.style.display = 'none';
                 }
